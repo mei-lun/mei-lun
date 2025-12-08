@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>brpc框架的学习与使用 | My Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="简介百度开源的高性能，跨平台的RPC框架，主要目的是简化分布式系统中间服务间通信。brpc提供了一个简单高效的方式来构建和管理微服务架构中的服务调用。支持同步与异步两种RPC调用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="brpc框架的学习与使用">
+<meta property="og:url" content="https://mei-lun.github.io/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/brpc%E6%A1%86%E6%9E%B6%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%B8%8E%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="简介百度开源的高性能，跨平台的RPC框架，主要目的是简化分布式系统中间服务间通信。brpc提供了一个简单高效的方式来构建和管理微服务架构中的服务调用。支持同步与异步两种RPC调用。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-12-04T02:01:41.000Z">
+<meta property="article:modified_time" content="2025-12-08T19:52:55.732Z">
+<meta property="article:author" content="LUN-MEI">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/mei-lun/atom.xml" title="My Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/mei-lun/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/mei-lun/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/mei-lun/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/mei-lun/" id="logo">My Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/mei-lun/">Home</a>
+        
+          <a class="main-nav-link" href="/mei-lun/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/mei-lun/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mei-lun.github.io/mei-lun"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Notes/第三方库与框架/C++/brpc框架的学习与使用" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/brpc%E6%A1%86%E6%9E%B6%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%B8%8E%E4%BD%BF%E7%94%A8/" class="article-date">
+  <time class="dt-published" datetime="2025-12-04T02:01:41.000Z" itemprop="datePublished">2025-12-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/mei-lun/categories/Notes/">Notes</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/">第三方库与框架</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <!-- <h1 class="p-name article-title" itemprop="headline name">
+      brpc框架的学习与使用
+    </h1> -->
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="brpc框架的学习与使用"><a href="#brpc框架的学习与使用" class="headerlink" title="brpc框架的学习与使用"></a>brpc框架的学习与使用</h1><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>百度开源的高性能，跨平台的RPC框架，主要目的是简化分布式系统中间服务间通信。brpc提供了一个简单高效的方式来构建和管理微服务架构中的服务调用。支持同步与异步两种RPC调用。</p>
+<ul>
+<li>高性能：零拷贝和高效的序列化方式，高并发，支持多线程和线程池</li>
+<li>异步的支持：支持异步RPC，允许客户端在不阻塞的情况下发起请求，并在后续处理完成时得到回调，极大提升并发性能。</li>
+<li>跨平台：支持Linux，macOS，Windows支持多语言。</li>
+<li>高可用和负载均衡：提供了连接池，自动重试，超时控制等特性来保证高可用性</li>
+<li>服务发现与管理：集成了服务发现系统，支持自动注册与发现服务</li>
+<li>接口定义与协议：支持通过Protobuf来定义服务接口和数据模型，使得服务接口定义清晰与编程语言无关。</li>
+</ul>
+<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><h2 id="接口学习"><a href="#接口学习" class="headerlink" title="接口学习"></a>接口学习</h2><ul>
+<li>brpc::Chanmel 管理着与服务器的通信，负责连接和数据交换</li>
+<li>brpc::Controller 管理RPC的调用状态，记录错误信息和控制调用流程</li>
+<li>example::EchoService_Stub 是客户端与服务端通信的接口，包含RPC请求方法</li>
+<li>example::EchoRequest 和example::EchoResponse 分别定义了请求和响应消息的格式。</li>
+<li>google::protobuf::Closure和NewCallback 用于在异步调用中处理回调</li>
+<li>brpc::Server 是 brpc 框架中最重要的类之一，负责管理服务的注册、启动和监听请求。通过AddService 和 Start 等方法来注册服务和启动服务器</li>
+<li>brpc::ServiceOwnership 控制服务对象的生命周期管理，选择由 brpc 服务器或开发者管理。</li>
+<li>brpc::ClosureGuard 是一个辅助工具，确保在异步 RPC 调用结束时自动调用回调函数</li>
+<li>brpc::ServerOptions 提供了配置 brpc 服务器的一些参数，如空闲超时、线程数等</li>
+</ul>
+<h3 id="brpc-Channel类"><a href="#brpc-Channel类" class="headerlink" title="brpc :: Channel类"></a>brpc :: Channel类</h3><p>主要负责客户端和服务端的通信，管理底层的TCP连接、RPC请求的发送和响应的接收；Channel本身就是“通道”，此处表示的是客户端和服务端之间的连接通道。</p>
+<ul>
+<li>Init(const std::string&amp; server, const ChannelOptions* options)：初始化通道并连接到指定的服务器地址</li>
+<li>CallMethod：发起RPC请求，通常与 Controller 配合使用</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">brpc::Channel channel;</span><br><span class="line">brpc::ChannelOptions options;</span><br><span class="line">options.connect_timeout_ms = <span class="number">1000</span>;  <span class="comment">// 设置连接超时1秒</span></span><br><span class="line">options.timeout_ms = <span class="number">5000</span>;  <span class="comment">// 设置请求超时5秒</span></span><br><span class="line">options.max_retry = <span class="number">3</span>;  <span class="comment">// 设置最大重试次数为3</span></span><br><span class="line">options.protocol = <span class="string">&quot;baidu_std&quot;</span>;  <span class="comment">// 设置通信协议为baidu_std</span></span><br><span class="line"> </span><br><span class="line"><span class="type">int</span> ret = channel.<span class="built_in">Init</span>(<span class="string">&quot;127.0.0.1:8080&quot;</span>, &amp;options);  <span class="comment">// 初始化信道并连接到服务器</span></span><br><span class="line"><span class="keyword">if</span> (ret != <span class="number">0</span>) &#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;初始化信道失败！&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="brpc-Controller类"><a href="#brpc-Controller类" class="headerlink" title="brpc :: Controller类"></a>brpc :: Controller类</h3><p>Controller本身是“控制器”的含义，该类就是控制和管理RPC的调用状态。用于管理RPC调用的状态，包括请求的发送、响应的接收以及错误信息的处理。每个RPC请求都需要一个 Controller 对象，通常在每次请求时创建并传递给服务存根（Stub）进行调用。</p>
+<ul>
+<li>Failed()：返回是否发生了错误。如果RPC调用失败，返回 true</li>
+<li>ErrorText()：获取错误信息（如果 Failed() 返回 true）</li>
+<li>Reset()：重置 Controller 的状态，适用于同一个 Controller 重复使用的情况</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">brpc::Controller cntl;</span><br><span class="line">example::EchoResponse response;</span><br><span class="line"> </span><br><span class="line">cntl.<span class="built_in">Reset</span>();  <span class="comment">// 如果需要重用，重置状态</span></span><br><span class="line">stub.<span class="built_in">Echo</span>(&amp;cntl, &amp;req, &amp;response, <span class="literal">nullptr</span>);</span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> (cntl.<span class="built_in">Failed</span>()) &#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;Rpc调用失败：&quot;</span> &lt;&lt; cntl.<span class="built_in">ErrorText</span>() &lt;&lt; std::endl;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;收到响应: &quot;</span> &lt;&lt; response.<span class="built_in">message</span>() &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="example-EchoService-stub-类"><a href="#example-EchoService-stub-类" class="headerlink" title="example :: EchoService_stub 类"></a>example :: EchoService_stub 类</h3><p>stub本身是代理的意思，在RPC框架中表示客户端的代码，其提供了与远程服务进行交互的接口</p>
+<p>由 Protocol Buffers 自动生成的客户端存根（Stub）类。它提供了与远程 EchoService 服务进行通信的接口。在该类中，定义了 Echo 方法来向服务端发送请求，并接收响应</p>
+<ul>
+<li>Echo(Controller* cntl, const EchoRequest* request, EchoResponse* response, google::protobuf::Closure* done)：执行RPC请求并接收响应，支持同步和异步调用。done 参数用于传入回调函数</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 同步调用</span></span><br><span class="line"><span class="function">example::EchoService_Stub <span class="title">stub</span><span class="params">(&amp;channel)</span></span>;</span><br><span class="line">example::EchoRequest req;</span><br><span class="line">req.<span class="built_in">set_message</span>(<span class="string">&quot;Hello, Echo Server&quot;</span>);</span><br><span class="line"> </span><br><span class="line">example::EchoResponse rsp;</span><br><span class="line">brpc::Controller cntl;</span><br><span class="line">stub.<span class="built_in">Echo</span>(&amp;cntl, &amp;req, &amp;rsp, <span class="literal">nullptr</span>);</span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> (cntl.<span class="built_in">Failed</span>()) &#123;</span><br><span class="line">    std::cerr &lt;&lt; <span class="string">&quot;RPC调用失败：&quot;</span> &lt;&lt; cntl.<span class="built_in">ErrorText</span>() &lt;&lt; std::endl;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;收到响应: &quot;</span> &lt;&lt; rsp.<span class="built_in">message</span>() &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="example-EchoRequest类"><a href="#example-EchoRequest类" class="headerlink" title="example :: EchoRequest类"></a>example :: EchoRequest类</h3><p>Protocol Buffers 自动生成的消息类，用于定义RPC请求的结构。在本例中，它包含一个 message 字段，用于传递请求消息</p>
+<ul>
+<li>set_message(const std::string&amp; msg)：设置请求消息</li>
+<li>message()：获取请求消息</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">example::EchoRequest req;</span><br><span class="line">req.<span class="built_in">set_message</span>(<span class="string">&quot;你好，RPC服务！&quot;</span>);  <span class="comment">// 设置请求消息内容</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="example-EchoResponse类"><a href="#example-EchoResponse类" class="headerlink" title="example :: EchoResponse类"></a>example :: EchoResponse类</h3><p>Protocol Buffers 自动生成的消息类，用于定义RPC响应的结构</p>
+<ul>
+<li>set_message(const std::string&amp; msg)：设置响应消息</li>
+<li>message()：获取响应消息</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">example::EchoResponse rsp;</span><br><span class="line">rsp.<span class="built_in">set_message</span>(<span class="string">&quot;Hello, client!&quot;</span>);  <span class="comment">// 设置响应消息内容</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="brpc-Server"><a href="#brpc-Server" class="headerlink" title="brpc :: Server"></a>brpc :: Server</h3><p>brpc 框架中的核心类，用于管理和启动服务端。它负责注册服务、启动服务器并监听客户端请求，以及处理 RPC 请求。</p>
+<p>参数说明</p>
+<ul>
+<li>AddService(Service* service, ServiceOwnership ownership)<ul>
+<li>service：添加到服务器中的服务对象，通常是继承自 brpc::Service 的自定<strong>义服务类</strong></li>
+<li>ownership：指定 brpc 是否管理服务对象的生命周期（SERVER_OWNS_SERVICE 或 SERVER_DOESNT_OWN_SERVICE）</li>
+</ul>
+</li>
+<li>Start(int port, const ServerOptions* options &#x3D; nullptr)<ul>
+<li>port：服务器监听的端口</li>
+<li>options：配置选项，包含如线程数、超时时间等</li>
+</ul>
+</li>
+<li>RunUntilAskedToQuit()<ul>
+<li>无参数。进入服务器的主事件循环，直到接收到退出请求</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Server</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 向服务器添加服务</span></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">AddService</span><span class="params">(Service* service, ServiceOwnership ownership)</span></span>;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 启动服务器，开始监听指定端口</span></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">Start</span><span class="params">(<span class="type">int</span> port, <span class="type">const</span> ServerOptions* options = <span class="literal">nullptr</span>)</span></span>;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 进入主事件循环，等待请求并处理</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">RunUntilAskedToQuit</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line">brpc::Server server;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 向服务器添加服务</span></span><br><span class="line">server.<span class="built_in">AddService</span>(&amp;echo_service, brpc::ServiceOwnership::SERVER_DOESNT_OWN_SERVICE);</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 启动服务器监听端口8080</span></span><br><span class="line">server.<span class="built_in">Start</span>(<span class="number">8080</span>, <span class="literal">nullptr</span>);</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 进入事件循环，直到收到退出信号</span></span><br><span class="line">server.<span class="built_in">RunUntilAskedToQuit</span>();</span><br></pre></td></tr></table></figure>
+
+<h3 id="brpc-ServiceOwnership"><a href="#brpc-ServiceOwnership" class="headerlink" title="brpc :: ServiceOwnership"></a>brpc :: ServiceOwnership</h3><p> 一个枚举类型，指示服务器是否管理服务对象的生命周期</p>
+<ul>
+<li>SERVER_OWNS_SERVICE：brpc 服务器负责服务对象的生命周期，服务器关闭时自动销毁服务对象</li>
+<li>SERVER_DOESNT_OWN_SERVICE：服务对象的生命周期由用户控制，服务器不会管理服务对象</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum class</span> <span class="title class_">ServiceOwnership</span> &#123;</span><br><span class="line">    SERVER_OWNS_SERVICE,  <span class="comment">// 服务器负责管理服务对象生命周期</span></span><br><span class="line">    SERVER_DOESNT_OWN_SERVICE  <span class="comment">// 服务器不负责管理服务对象生命周期</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="brpc-ClosureGuard"><a href="#brpc-ClosureGuard" class="headerlink" title="brpc :: ClosureGuard"></a>brpc :: ClosureGuard</h3><p> 一个 RAII 类，确保回调函数（通过 Closure 对象传递的）会在作用域结束时自动执行；确保 done-&gt;Run() 会在方法结束时被调用，通常用于处理异步 RPC 回调。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 原型</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ClosureGuard</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">ClosureGuard</span><span class="params">(google::protobuf::Closure* closure)</span></span>;</span><br><span class="line">    ~<span class="built_in">ClosureGuard</span>();</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Echo</span><span class="params">(google::protobuf::RpcController* controller,</span></span></span><br><span class="line"><span class="params"><span class="function">          <span class="type">const</span> ::example::EchoRequest* request,</span></span></span><br><span class="line"><span class="params"><span class="function">          ::example::EchoResponse* response,</span></span></span><br><span class="line"><span class="params"><span class="function">          ::google::protobuf::Closure* done)</span> </span>&#123;</span><br><span class="line">    <span class="function">brpc::ClosureGuard <span class="title">rpc_guard</span><span class="params">(done)</span></span>;  <span class="comment">// 自动调用 done-&gt;Run()</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 处理请求并设置响应</span></span><br><span class="line">    response-&gt;<span class="built_in">set_message</span>(request-&gt;<span class="built_in">message</span>() + <span class="string">&quot;--这是响应！！&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="brpc-ServerOptions"><a href="#brpc-ServerOptions" class="headerlink" title="brpc :: ServerOptions"></a>brpc :: ServerOptions</h3><p>服务器选项 配置 brpc 服务器的一些参数，例如线程数、超时等</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ServerOptions</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> idle_timeout_sec;  <span class="comment">// 连接空闲超时时间，单位为秒</span></span><br><span class="line">    <span class="type">int</span> num_threads;       <span class="comment">// 处理请求的线程数</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="客户端和服务端编写"><a href="#客户端和服务端编写" class="headerlink" title="客户端和服务端编写"></a>客户端和服务端编写</h1><figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">syntax=<span class="string">&quot;proto3&quot;</span>;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">package</span> example;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 通用服务开启，让Protobuf为定义RPC服务自动生成一个通用的C++实现</span></span><br><span class="line"><span class="keyword">option</span> cc_generic_services = <span class="literal">true</span>;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">message </span><span class="title class_">EchoRequest</span> &#123;</span><br><span class="line">    <span class="type">string</span> message = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">message </span><span class="title class_">EchoResponse</span> &#123;</span><br><span class="line">    <span class="type">string</span> message = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 定义一个服务，Echo方法接收一个EchoRequest类型的消息，然后返回EchoResponse类型消息</span></span><br><span class="line"><span class="keyword">service </span><span class="title class_">EchoService</span> &#123;</span><br><span class="line">    <span class="function"><span class="keyword">rpc</span> Echo(EchoRequest) <span class="keyword">returns</span> (EchoResponse)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3><p><strong>实现逻辑总结</strong></p>
+<ul>
+<li>服务定义和实现：通过继承 Protobuf 生成的 EchoService 接口并实现其中的 Echo 方法，提供具体的业务逻辑。Echo 方法接收到客户端的消息后，简单地在消息后面加上“–这是响应！！”并将其返回</li>
+<li>brpc 服务器启动<ul>
+<li>创建并配置 brpc::Server</li>
+<li>将 EchoServiceImpl 服务添加到服务器中</li>
+<li>启动服务器并监听指定端口（8080）</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;brpc/server.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;butil/logging.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;main.pb.h&quot;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="comment">// 1. 继承于EchoService创建一个子类，并实现rpc调用的业务功能</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">EchoServiceImpl</span> : <span class="keyword">public</span> example::EchoService &#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="built_in">EchoServiceImpl</span>()&#123;&#125;</span><br><span class="line">        ~<span class="built_in">EchoServiceImpl</span>()&#123;&#125;</span><br><span class="line"> </span><br><span class="line">        <span class="comment">// 实现Echo方法，处理客户端请求</span></span><br><span class="line">        <span class="function"><span class="type">void</span> <span class="title">Echo</span><span class="params">(google::protobuf::RpcController* controller,</span></span></span><br><span class="line"><span class="params"><span class="function">                  <span class="type">const</span> ::example::EchoRequest* request,</span></span></span><br><span class="line"><span class="params"><span class="function">                  ::example::EchoResponse* response,</span></span></span><br><span class="line"><span class="params"><span class="function">                  ::google::protobuf::Closure* done)</span> </span>&#123;</span><br><span class="line">            <span class="comment">// brpc::ClosureGuard 用来确保响应结束后执行 done-&gt;Run()</span></span><br><span class="line">            <span class="function">brpc::ClosureGuard <span class="title">rpc_guard</span><span class="params">(done)</span></span>;</span><br><span class="line"> </span><br><span class="line">            <span class="comment">// 输出收到的请求消息</span></span><br><span class="line">            std::cout &lt;&lt; <span class="string">&quot;收到消息:&quot;</span> &lt;&lt; request-&gt;<span class="built_in">message</span>() &lt;&lt; std::endl;</span><br><span class="line"> </span><br><span class="line">            <span class="comment">// 处理响应：将请求消息加上后缀作为响应</span></span><br><span class="line">            std::string str = request-&gt;<span class="built_in">message</span>() + <span class="string">&quot;--这是响应！！&quot;</span>;</span><br><span class="line">            response-&gt;<span class="built_in">set_message</span>(str);  <span class="comment">// 设置响应消息</span></span><br><span class="line"> </span><br><span class="line">            <span class="comment">// 注意：done-&gt;Run() 被 brpc::ClosureGuard 自动调用，所以不需要手动调用</span></span><br><span class="line">        &#125;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 2. 关闭brpc的默认日志输出</span></span><br><span class="line">    logging::LoggingSettings settings;</span><br><span class="line">    settings.logging_dest = logging::LoggingDestination::LOG_TO_NONE;  <span class="comment">// 禁止日志输出</span></span><br><span class="line">    logging::<span class="built_in">InitLogging</span>(settings);  <span class="comment">// 初始化日志配置</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 3. 构造服务器对象</span></span><br><span class="line">    brpc::Server server;  <span class="comment">// 创建 brpc 服务器对象</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 4. 向服务器对象中，新增EchoService服务</span></span><br><span class="line">    EchoServiceImpl echo_service;  <span class="comment">// 创建服务实现对象</span></span><br><span class="line">    <span class="type">int</span> ret = server.<span class="built_in">AddService</span>(&amp;echo_service, brpc::ServiceOwnership::SERVER_DOESNT_OWN_SERVICE);</span><br><span class="line">    <span class="comment">// 将服务对象添加到服务器中，告诉 brpc 服务器不负责服务对象的生命周期</span></span><br><span class="line">    <span class="keyword">if</span> (ret == <span class="number">-1</span>) &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;添加Rpc服务失败！\n&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;  <span class="comment">// 如果添加服务失败，返回错误</span></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 5. 启动服务器</span></span><br><span class="line">    brpc::ServerOptions options;  </span><br><span class="line">    options.idle_timeout_sec = <span class="number">-1</span>;  <span class="comment">// 设置连接空闲超时时间为-1，表示永不超时</span></span><br><span class="line">    options.num_threads = <span class="number">1</span>;  <span class="comment">// 设置1个 IO 线程来处理请求</span></span><br><span class="line">    ret = server.<span class="built_in">Start</span>(<span class="number">8080</span>, &amp;options);  <span class="comment">// 启动服务器，监听8080端口</span></span><br><span class="line">    <span class="keyword">if</span> (ret == <span class="number">-1</span>) &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;启动服务器失败！\n&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;  <span class="comment">// 如果启动失败，返回错误</span></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 6. 进入主循环，等待客户端请求</span></span><br><span class="line">    server.<span class="built_in">RunUntilAskedToQuit</span>();  <span class="comment">// 服务器运行，直到接收到退出请求</span></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;  <span class="comment">// 服务器正常退出</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><p>实现逻辑</p>
+<ul>
+<li>通过 EchoService_Stub 向服务器发送一个请求，并在请求完成后通过回调函数处理响应</li>
+<li>实现同步调用和异步调用两种方式</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;brpc/channel.h&gt;</span>         <span class="comment">// brpc框架的Channel头文件，提供与服务器通信的功能</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;thread&gt;</span>                  <span class="comment">// C++标准库中的线程管理头文件，用于模拟异步调用的延迟</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;main.pb.h&quot;</span>               <span class="comment">// 由Protocol Buffers自动生成的头文件，定义了服务和消息的结构</span></span></span><br><span class="line"> </span><br><span class="line"><span class="comment">// 异步RPC调用的回调函数，处理服务器响应</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">callback</span><span class="params">(brpc::Controller* cntl, ::example::EchoResponse* response)</span> </span>&#123;</span><br><span class="line">    <span class="function">std::unique_ptr&lt;brpc::Controller&gt; <span class="title">cntl_guard</span><span class="params">(cntl)</span></span>;   <span class="comment">// 使用unique_ptr管理cntl对象，确保内存自动释放</span></span><br><span class="line">    <span class="function">std::unique_ptr&lt;example::EchoResponse&gt; <span class="title">resp_guard</span><span class="params">(response)</span></span>; <span class="comment">// 同上，管理响应对象</span></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span> (cntl-&gt;<span class="built_in">Failed</span>() == <span class="literal">true</span>) &#123;  <span class="comment">// 检查RPC调用是否失败</span></span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Rpc调用失败：&quot;</span> &lt;&lt; cntl-&gt;<span class="built_in">ErrorText</span>() &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">return</span>;  <span class="comment">// 如果调用失败，直接返回</span></span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;收到响应: &quot;</span> &lt;&lt; response-&gt;<span class="built_in">message</span>() &lt;&lt; std::endl;  <span class="comment">// 输出服务器返回的响应消息</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 1. 创建并初始化RPC通信信道（Channel），用于与服务器进行连接</span></span><br><span class="line">    brpc::ChannelOptions options;        <span class="comment">// 定义Channel配置选项</span></span><br><span class="line">    options.connect_timeout_ms = <span class="number">-1</span>;     <span class="comment">// 设置连接超时为-1，表示一直等待连接</span></span><br><span class="line">    options.timeout_ms = <span class="number">-1</span>;             <span class="comment">// 设置请求超时为-1，表示一直等待响应</span></span><br><span class="line">    options.max_retry = <span class="number">3</span>;               <span class="comment">// 设置最大重试次数为3次</span></span><br><span class="line">    options.protocol = <span class="string">&quot;baidu_std&quot;</span>;      <span class="comment">// 设置通信协议为baidu_std，brpc默认的协议</span></span><br><span class="line"> </span><br><span class="line">    brpc::Channel channel;               <span class="comment">// 创建一个brpc的Channel对象</span></span><br><span class="line">    <span class="type">int</span> ret = channel.<span class="built_in">Init</span>(<span class="string">&quot;127.0.0.1:8080&quot;</span>, &amp;options);  <span class="comment">// 初始化信道，连接到指定的服务器地址（localhost:8080）</span></span><br><span class="line">    <span class="keyword">if</span> (ret == <span class="number">-1</span>) &#123;                     <span class="comment">// 如果信道初始化失败，输出错误信息并退出</span></span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;初始化信道失败！\n&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 2. 创建服务存根（Stub）对象，用于调用远程的Echo服务</span></span><br><span class="line">    <span class="function">example::EchoService_Stub <span class="title">stub</span><span class="params">(&amp;channel)</span></span>;  <span class="comment">// 创建一个EchoService_Stub对象，绑定到Channel</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 3. 创建请求并发送异步RPC调用</span></span><br><span class="line">    example::EchoRequest req;                   <span class="comment">// 创建EchoRequest对象，用于设置请求消息</span></span><br><span class="line">    req.<span class="built_in">set_message</span>(<span class="string">&quot;你好~RPC~！&quot;</span>);             <span class="comment">// 设置请求消息内容</span></span><br><span class="line"> </span><br><span class="line">    brpc::Controller *cntl = <span class="keyword">new</span> brpc::<span class="built_in">Controller</span>();  <span class="comment">// 创建Controller对象，管理RPC调用</span></span><br><span class="line">    example::EchoResponse *rsp = <span class="keyword">new</span> example::<span class="built_in">EchoResponse</span>();  <span class="comment">// 创建EchoResponse对象，用于接收响应</span></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 同步调用方式</span></span><br><span class="line">    <span class="comment">///</span></span><br><span class="line">    stub.<span class="built_in">Echo</span>(cntl, &amp;req, rsp, <span class="literal">nullptr</span>);</span><br><span class="line">    <span class="keyword">if</span> (cntl-&gt;<span class="built_in">Failed</span>() == <span class="literal">true</span>) &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Rpc调用失败：&quot;</span> &lt;&lt; cntl-&gt;<span class="built_in">ErrorText</span>() &lt;&lt; std::endl;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;收到响应: &quot;</span> &lt;&lt; rsp-&gt;<span class="built_in">message</span>() &lt;&lt; std::endl;</span><br><span class="line">    <span class="keyword">delete</span> cntl;</span><br><span class="line">    <span class="keyword">delete</span> rsp;</span><br><span class="line">    <span class="comment">// 使用Google Protobuf提供的回调函数封装工具来创建异步回调</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// auto clusure = google::protobuf::NewCallback(callback, cntl, rsp);  // 创建回调函数closure</span></span><br><span class="line">    <span class="comment">// stub.Echo(cntl, &amp;req, rsp, clusure);  // 发送异步RPC请求，并指定完成后的回调函数</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment">// std::cout &lt;&lt; &quot;异步调用结束！\n&quot;;  // 主线程继续执行，输出异步调用结束的提示</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment">// 为了让异步调用有足够时间完成，主线程休眠3秒</span></span><br><span class="line">    <span class="comment">// std::this_thread::sleep_for(std::chrono::seconds(3));  // 主线程休眠3秒，确保回调能够被执行</span></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/gma999/article/details/143927308">https://blog.csdn.net/gma999/article/details/143927308</a></p>
+<p>官方文档：<a target="_blank" rel="noopener" href="https://brpc.incubator.apache.org/zh/">https://brpc.incubator.apache.org/zh/</a></p>
+<blockquote>
+<p>更新: 2025-12-04 02:01:41<br>原文: <a target="_blank" rel="noopener" href="https://www.yuque.com/malen/mei/tron8p8tvyse97ky">https://www.yuque.com/malen/mei/tron8p8tvyse97ky</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mei-lun.github.io/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/brpc%E6%A1%86%E6%9E%B6%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%B8%8E%E4%BD%BF%E7%94%A8/" data-id="cuid5xn66yVr_3vpE2iUaWv8E" data-title="brpc框架的学习与使用" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          关于这个博客笔记网站的建立
+        
+      </div>
+    </a>
+  
+  
+    <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/Google%EF%BC%8CProtobuff/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Google，Protobuff</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/">Notes</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/">Linux知识</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%91%BD%E4%BB%A4/">Linux命令</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/">Linux工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Linux%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81/">如何监控Linux系统状态</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/">Linux系统基础</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/%E5%AE%B9%E5%99%A8%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF/">容器相关技术</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/">第三方库与框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/">Lua</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">编程基础知识</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/">Mysql</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/">编程工具手册</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/">编程语言应用与工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Go%E8%AF%AD%E8%A8%80/">Go语言</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/">Lua语言</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/">Python语言</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/mei-lun/archives/2025/12/">十二月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mei-lun/archives/2025/03/">三月 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/">关于这个博客笔记网站的建立</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/brpc%E6%A1%86%E6%9E%B6%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%B8%8E%E4%BD%BF%E7%94%A8/">brpc框架的学习与使用</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/Google%EF%BC%8CProtobuff/">Google，Protobuff</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">Git使用教程</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/VScode%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%89%8B%E5%86%8C/">VScode快捷键手册</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 LUN-MEI<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+    <script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?422b9164eef4052a3459283c47afd540";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/mei-lun/" class="mobile-nav-link">Home</a>
+  
+    <a href="/mei-lun/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/mei-lun/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/mei-lun/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/mei-lun/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

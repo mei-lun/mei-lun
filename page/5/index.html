@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>My Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="My Blog">
+<meta property="og:url" content="https://mei-lun.github.io/mei-lun/page/5/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="LUN-MEI">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/mei-lun/atom.xml" title="My Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/mei-lun/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/mei-lun/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/mei-lun/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/mei-lun/" id="logo">My Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/mei-lun/">Home</a>
+        
+          <a class="main-nav-link" href="/mei-lun/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/mei-lun/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mei-lun.github.io/mei-lun"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Notes/编程语言应用与工具/C++/C++性能检查和内存泄漏检查工具" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/C++/C++%E6%80%A7%E8%83%BD%E6%A3%80%E6%9F%A5%E5%92%8C%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%A3%80%E6%9F%A5%E5%B7%A5%E5%85%B7/" class="article-date">
+  <time class="dt-published" datetime="2025-03-12T03:32:34.000Z" itemprop="datePublished">2025-03-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/mei-lun/categories/Notes/">Notes</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/">编程语言应用与工具</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/C++/C++%E6%80%A7%E8%83%BD%E6%A3%80%E6%9F%A5%E5%92%8C%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%A3%80%E6%9F%A5%E5%B7%A5%E5%85%B7/">C++性能检查和内存泄漏检查工具</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>微软的perfmon工具，启动应用程序监视器，一定时间内看内存的变化</p>
+<p>谷歌的性能分析工具gperftools，<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/623443812">https://zhuanlan.zhihu.com/p/623443812</a></p>
+        
+          <p class="article-more-link">
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/C++/C++%E6%80%A7%E8%83%BD%E6%A3%80%E6%9F%A5%E5%92%8C%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%A3%80%E6%9F%A5%E5%B7%A5%E5%85%B7/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/C++/C++%E6%80%A7%E8%83%BD%E6%A3%80%E6%9F%A5%E5%92%8C%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%A3%80%E6%9F%A5%E5%B7%A5%E5%85%B7/" data-id="cuidXZJ2tY_ONLejDICDGAAkd" data-title="C++性能检查和内存泄漏检查工具" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Notes/编程语言应用与工具/C++/cmake使用方法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/C++/cmake%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" class="article-date">
+  <time class="dt-published" datetime="2025-03-12T03:32:34.000Z" itemprop="datePublished">2025-03-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/mei-lun/categories/Notes/">Notes</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/">编程语言应用与工具</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/C++/cmake%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/">cmake使用方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="CMake概述"><a href="#CMake概述" class="headerlink" title="CMake概述"></a>CMake概述</h2><p>CMake是一个项目构建工具，并且跨平台，CMake可以根据编译的平台，自动生成本地化的Makefile和工程文件，最后只需要make编译即可。</p>
+        
+          <p class="article-more-link">
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/C++/cmake%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/C++/cmake%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" data-id="cuidbgOnKF2mY2vgKu-fVca2h" data-title="cmake使用方法" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Notes/编程语言应用与工具/Go语言/Go使用手册" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Go%E8%AF%AD%E8%A8%80/Go%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" class="article-date">
+  <time class="dt-published" datetime="2025-03-12T03:32:34.000Z" itemprop="datePublished">2025-03-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/mei-lun/categories/Notes/">Notes</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/">编程语言应用与工具</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Go%E8%AF%AD%E8%A8%80/">Go语言</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Go%E8%AF%AD%E8%A8%80/Go%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/">Go使用手册</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="1-基础"><a href="#1-基础" class="headerlink" title="1.基础"></a>1.基础</h1><h2 id="1-1-从hello-word开始"><a href="#1-1-从hello-word开始" class="headerlink" title="1.1 从hello word开始"></a>1.1 从hello word开始</h2>
+        
+          <p class="article-more-link">
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Go%E8%AF%AD%E8%A8%80/Go%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Go%E8%AF%AD%E8%A8%80/Go%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" data-id="cuidlW9URa2BrwbFDq_sg4SLk" data-title="Go使用手册" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Notes/编程语言应用与工具/Lua语言/Lua源码赏析" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/Lua%E6%BA%90%E7%A0%81%E8%B5%8F%E6%9E%90/" class="article-date">
+  <time class="dt-published" datetime="2025-03-12T03:32:34.000Z" itemprop="datePublished">2025-03-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/mei-lun/categories/Notes/">Notes</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/">编程语言应用与工具</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/">Lua语言</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/Lua%E6%BA%90%E7%A0%81%E8%B5%8F%E6%9E%90/">Lua源码赏析</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">lapi.c	Lua API，实现大量的lua C API</span><br><span class="line">lctype.c 标准库中ctype相关实现</span><br><span class="line">ldo.c Lua的堆栈和调用结构。处理函数调用（luaD_call / luaD_pcall），扩展堆栈，协程处理，...</span><br><span class="line">lfunc.c 函数原型及闭包管理</span><br><span class="line">lgc.c 垃圾回收</span><br><span class="line">lmem.c 内存管理接口【luaM_realloc / luaM_growaux_】</span><br><span class="line">lobject.c 对象操作的一些函数。包括数据类型&lt;-&gt;字符串转换，原始相等性测试（luaO_rawequalObj）和日志基础<span class="number">2</span>（luaO_log2）</span><br><span class="line">lopcodes.c 虚拟机的字节码定义</span><br><span class="line">lstate.c 全局状态机。包括用于打开和关闭Lua状态（lua_newstate / lua_close）和线程（luaE_newthread / luaE_freethread）的函数。</span><br><span class="line">lstring.c 字符串池</span><br><span class="line">ltable.c 表类型的相关操作。Lua表（哈希）</span><br><span class="line">ltm.c 标记方法。实现从对象访问元方法。</span><br><span class="line">lvm.c 虚拟机。执行字节码（luaV_execute）。还公开了lapi.c使用的一些功能（例如luaV_concat）。</span><br><span class="line">lzio.c 通用的缓冲输入流接口</span><br><span class="line"></span><br><span class="line"><span class="number">2.</span> 源代码解析以及预编译字节码</span><br><span class="line">lcode.c Lua的代码生成器。由lparser.c使用</span><br><span class="line">ldump.c 保存预编译的Lua块。实现luaU_dump，将功能对象转储为预编译的块字符串。</span><br><span class="line">llex.c 词法分析器。由lparser.c使用。</span><br><span class="line">lparser.c 解析器</span><br><span class="line">lundump.c 加载预编译的Lua块</span><br><span class="line"></span><br><span class="line"><span class="number">3.</span> 内嵌库</span><br><span class="line">lauxlib.c 库编写用到的辅助函数库</span><br><span class="line">lbaselib.c 基础库</span><br><span class="line">lbitlib.c 位操作库</span><br><span class="line">lcorolib.c 协程库</span><br><span class="line">ldblib.c Debug库</span><br><span class="line">linit.c 内嵌库的初始化</span><br><span class="line">liolib.c IO 库</span><br><span class="line">lmathlib.c 数学库</span><br><span class="line"><span class="built_in">loadlib</span>.c 动态扩展库管理</span><br><span class="line">loslib.c OS 库</span><br><span class="line">lstrlib.c 字符串库</span><br><span class="line">ltablib.c 表处理库</span><br><span class="line"></span><br><span class="line"><span class="number">4.</span> 可执行的解析器，字节码编译器</span><br><span class="line">lua.c Lua独立解释器</span><br><span class="line">luac.c Lua编译器（将字节码保存到文件中；还列出字节码）</span><br></pre></td></tr></table></figure>
+
+<h3 id="lua中的基础数据类型"><a href="#lua中的基础数据类型" class="headerlink" title="lua中的基础数据类型"></a>lua中的基础数据类型</h3>
+        
+          <p class="article-more-link">
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/Lua%E6%BA%90%E7%A0%81%E8%B5%8F%E6%9E%90/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/Lua%E6%BA%90%E7%A0%81%E8%B5%8F%E6%9E%90/" data-id="cuidkQ8SFxoUxc1YGxT3fqJf_" data-title="Lua源码赏析" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Notes/编程语言应用与工具/Lua语言/Lua语言使用手册" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/Lua%E8%AF%AD%E8%A8%80%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" class="article-date">
+  <time class="dt-published" datetime="2025-03-12T03:32:34.000Z" itemprop="datePublished">2025-03-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/mei-lun/categories/Notes/">Notes</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/">编程语言应用与工具</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/">Lua语言</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/Lua%E8%AF%AD%E8%A8%80%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/">Lua语言使用手册</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>lua的文件加载<code>require, loadfile, dofile, load, loadstring</code>的用法</p>
+<h4 id="load的用法："><a href="#load的用法：" class="headerlink" title="load的用法："></a>load的用法：</h4>
+        
+          <p class="article-more-link">
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/Lua%E8%AF%AD%E8%A8%80%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/Lua%E8%AF%AD%E8%A8%80%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" data-id="cuidEztSfX0m0Lerr0YlUSzNa" data-title="Lua语言使用手册" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Notes/编程语言应用与工具/Lua语言/Lua语言的table实现原理，和hashtable的实现原理" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/Lua%E8%AF%AD%E8%A8%80%E7%9A%84table%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%EF%BC%8C%E5%92%8Chashtable%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" class="article-date">
+  <time class="dt-published" datetime="2025-03-12T03:32:34.000Z" itemprop="datePublished">2025-03-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/mei-lun/categories/Notes/">Notes</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/">编程语言应用与工具</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/">Lua语言</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/Lua%E8%AF%AD%E8%A8%80%E7%9A%84table%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%EF%BC%8C%E5%92%8Chashtable%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">Lua语言的table实现原理，和hashtable的实现原理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>lua语言的table有两个部分，一个是下标为整形的部分，另一个是哈希表的部分。哈希表存储数据有两个部分，一个是散列函数，还有一个是解决冲突的方法。哈希表在解决冲突的时候一般有两种方法：</p>
+<ol>
+<li>开放定址法：比如线性探测（平方探测，双重哈希（步长），再哈希，哈希桶扩容）当前元素冲突那就往后一个位置找，直到找到一个空的位置。</li>
+<li>链地址法：每一个哈希节点上都是一个链表，如果元素发生冲突那么就把该元素插入到链表后面，后续查找的时候就遍历这个链表。</li>
+</ol>
+        
+          <p class="article-more-link">
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/Lua%E8%AF%AD%E8%A8%80%E7%9A%84table%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%EF%BC%8C%E5%92%8Chashtable%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/Lua%E8%AF%AD%E8%A8%80%E7%9A%84table%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%EF%BC%8C%E5%92%8Chashtable%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" data-id="cuidIjOE9hKNqMMY9WomQ5PFV" data-title="Lua语言的table实现原理，和hashtable的实现原理" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Notes/编程语言应用与工具/Python语言/Python-requests模块详解" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/Python-requests%E6%A8%A1%E5%9D%97%E8%AF%A6%E8%A7%A3/" class="article-date">
+  <time class="dt-published" datetime="2025-03-12T03:32:34.000Z" itemprop="datePublished">2025-03-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/mei-lun/categories/Notes/">Notes</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/">编程语言应用与工具</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/">Python语言</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/Python-requests%E6%A8%A1%E5%9D%97%E8%AF%A6%E8%A7%A3/">Python-requests模块详解</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Python-requests模块详解-1"><a href="#Python-requests模块详解-1" class="headerlink" title="Python-requests模块详解"></a>Python-requests模块详解</h1><h3 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1.介绍"></a>1.介绍</h3>
+        
+          <p class="article-more-link">
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/Python-requests%E6%A8%A1%E5%9D%97%E8%AF%A6%E8%A7%A3/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/Python-requests%E6%A8%A1%E5%9D%97%E8%AF%A6%E8%A7%A3/" data-id="cuidjl-EN6jYc9ikG_MdKFapl" data-title="Python-requests模块详解" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Notes/编程语言应用与工具/Python语言/Python包安装网络报错" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/Python%E5%8C%85%E5%AE%89%E8%A3%85%E7%BD%91%E7%BB%9C%E6%8A%A5%E9%94%99/" class="article-date">
+  <time class="dt-published" datetime="2025-03-12T03:32:34.000Z" itemprop="datePublished">2025-03-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/mei-lun/categories/Notes/">Notes</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/">编程语言应用与工具</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/">Python语言</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/Python%E5%8C%85%E5%AE%89%E8%A3%85%E7%BD%91%E7%BB%9C%E6%8A%A5%E9%94%99/">Python包安装网络报错</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="更换国内源"><a href="#更换国内源" class="headerlink" title="更换国内源"></a>更换国内源</h2><p>镜像站：<code>[https://mirrors.tuna.tsinghua.edu.cn/help/pypi/](https://mirrors.tuna.tsinghua.edu.cn/help/pypi/)</code></p>
+        
+          <p class="article-more-link">
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/Python%E5%8C%85%E5%AE%89%E8%A3%85%E7%BD%91%E7%BB%9C%E6%8A%A5%E9%94%99/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/Python%E5%8C%85%E5%AE%89%E8%A3%85%E7%BD%91%E7%BB%9C%E6%8A%A5%E9%94%99/" data-id="cuidCwoDsCwzPs-vYaW0Cuur_" data-title="Python包安装网络报错" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Notes/编程语言应用与工具/Python语言/Python相关资料" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/Python%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99/" class="article-date">
+  <time class="dt-published" datetime="2025-03-12T03:32:34.000Z" itemprop="datePublished">2025-03-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/mei-lun/categories/Notes/">Notes</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/">编程语言应用与工具</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/">Python语言</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/Python%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99/">Python相关资料</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+
+<p>win下更换pip源</p>
+        
+          <p class="article-more-link">
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/Python%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/Python%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99/" data-id="cuidl1RhuNLtVMtj9RmpCcWO3" data-title="Python相关资料" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/mei-lun/page/4/">&laquo; 上一页</a><a class="page-number" href="/mei-lun/">1</a><span class="space">&hellip;</span><a class="page-number" href="/mei-lun/page/3/">3</a><a class="page-number" href="/mei-lun/page/4/">4</a><span class="page-number current">5</span>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/">Notes</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/">Linux知识</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%91%BD%E4%BB%A4/">Linux命令</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/">Linux工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Linux%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81/">如何监控Linux系统状态</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/">Linux系统基础</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/%E5%AE%B9%E5%99%A8%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF/">容器相关技术</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/">第三方库与框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/">Lua</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">编程基础知识</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/">Mysql</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/">编程工具手册</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/">编程语言应用与工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Go%E8%AF%AD%E8%A8%80/">Go语言</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/">Lua语言</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/">Python语言</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/mei-lun/archives/2025/12/">十二月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mei-lun/archives/2025/03/">三月 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/">关于这个博客笔记网站的建立</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/brpc%E6%A1%86%E6%9E%B6%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%B8%8E%E4%BD%BF%E7%94%A8/">brpc框架的学习与使用</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/Google%EF%BC%8CProtobuff/">Google，Protobuff</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">Git使用教程</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/VScode%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%89%8B%E5%86%8C/">VScode快捷键手册</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 LUN-MEI<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+    <script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?422b9164eef4052a3459283c47afd540";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/mei-lun/" class="mobile-nav-link">Home</a>
+  
+    <a href="/mei-lun/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/mei-lun/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/mei-lun/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/mei-lun/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

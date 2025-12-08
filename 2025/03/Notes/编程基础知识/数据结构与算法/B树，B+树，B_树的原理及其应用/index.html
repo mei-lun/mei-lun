@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>B树，B+树，B_树的原理及其应用 | My Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="B树基本概念：每个节点中都保存数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="B树，B+树，B_树的原理及其应用">
+<meta property="og:url" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/B%E6%A0%91%EF%BC%8CB+%E6%A0%91%EF%BC%8CB_%E6%A0%91%E7%9A%84%E5%8E%9F%E7%90%86%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="B树基本概念：每个节点中都保存数据">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-03-12T03:34:45.000Z">
+<meta property="article:modified_time" content="2025-12-08T19:52:55.743Z">
+<meta property="article:author" content="LUN-MEI">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/mei-lun/atom.xml" title="My Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/mei-lun/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/mei-lun/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/mei-lun/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/mei-lun/" id="logo">My Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/mei-lun/">Home</a>
+        
+          <a class="main-nav-link" href="/mei-lun/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/mei-lun/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mei-lun.github.io/mei-lun"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Notes/编程基础知识/数据结构与算法/B树，B+树，B_树的原理及其应用" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/B%E6%A0%91%EF%BC%8CB+%E6%A0%91%EF%BC%8CB_%E6%A0%91%E7%9A%84%E5%8E%9F%E7%90%86%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8/" class="article-date">
+  <time class="dt-published" datetime="2025-03-12T03:34:45.000Z" itemprop="datePublished">2025-03-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/mei-lun/categories/Notes/">Notes</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">编程基础知识</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <!-- <h1 class="p-name article-title" itemprop="headline name">
+      B树，B+树，B_树的原理及其应用
+    </h1> -->
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="B树，B-树，B-树的原理及其应用"><a href="#B树，B-树，B-树的原理及其应用" class="headerlink" title="B树，B+树，B*树的原理及其应用"></a>B树，B+树，B*树的原理及其应用</h1><h4 id="B树"><a href="#B树" class="headerlink" title="B树"></a>B树</h4><p>基本概念：每个节点中都保存数据</p>
+<ul>
+<li><font style="color:rgb(24, 24, 24);">每个节点存储键值和数据（数据可能分布在所有节点）</font></li>
+<li><font style="color:rgb(24, 24, 24);">所有叶子节点在同一层</font></li>
+<li><font style="color:rgb(24, 24, 24);">节点填充因子较高（至少一半满）</font></li>
+</ul>
+<p>应用：</p>
+<ul>
+<li><strong><font style="color:rgb(24, 24, 24);">嵌入式数据库</font></strong><font style="color:rgb(24, 24, 24);">（如SQLite）：数据直接存储在节点中，适合小规模快速查询</font></li>
+<li><strong><font style="color:rgb(24, 24, 24);">文件系统元数据管理</font></strong><font style="color:rgb(24, 24, 24);">（如NTFS、ReiserFS）：目录结构快速定位</font></li>
+<li><strong><font style="color:rgb(24, 24, 24);">内存受限场景</font></strong><font style="color:rgb(24, 24, 24);">：减少磁盘寻道次数，例如早期MongoDB（3.0前）的默认索引结构</font></li>
+<li><strong><font style="color:rgb(24, 24, 24);">实时系统</font></strong><font style="color:rgb(24, 24, 24);">：查询和更新延迟稳定，无叶子节点遍历开销</font></li>
+</ul>
+<h4 id="B-树"><a href="#B-树" class="headerlink" title="B+树"></a>B+树</h4><p>基本概念：子节点中只保存索引，所有的数据都保存在叶子节点中，并且把叶子节点用指针连接起来</p>
+<ul>
+<li><strong><font style="color:rgb(24, 24, 24);">数据仅存在叶子节点</font></strong><font style="color:rgb(24, 24, 24);">，内部节点仅存键值</font></li>
+<li><strong><font style="color:rgb(24, 24, 24);">叶子节点通过指针链表连接</font></strong></li>
+<li><font style="color:rgb(24, 24, 24);">节点填充因子更高（通常2&#x2F;3满）</font></li>
+</ul>
+<p>应用：</p>
+<ul>
+<li><strong><font style="color:rgb(24, 24, 24);">关系型数据库索引</font></strong><font style="color:rgb(24, 24, 24);">（MySQL InnoDB、PostgreSQL）：范围查询高效</font></li>
+<li><strong><font style="color:rgb(24, 24, 24);">日志结构存储系统</font></strong><font style="color:rgb(24, 24, 24);">（LSM-Tree的SSTable索引）</font></li>
+<li><strong><font style="color:rgb(24, 24, 24);">时间序列数据库</font></strong><font style="color:rgb(24, 24, 24);">（如InfluxDB）：按时间戳范围快速检索</font></li>
+<li><strong><font style="color:rgb(24, 24, 24);">文件系统</font></strong><font style="color:rgb(24, 24, 24);">（如Ext4）：大文件连续块地址管理</font></li>
+</ul>
+<h4 id="B-树-1"><a href="#B-树-1" class="headerlink" title="B*树"></a>B*树</h4><p>基本概念：子节点只保存索引，所有数据保存在叶子节点中，把所有子节点还有叶子节点用指针连接起来</p>
+<ul>
+<li><strong><font style="color:rgb(24, 24, 24);">非叶子节点增加兄弟指针</font></strong></li>
+<li><font style="color:rgb(24, 24, 24);">节点填充因子更高（通常2&#x2F;3满）</font></li>
+<li><font style="color:rgb(24, 24, 24);">分裂策略优化：节点满时先尝试向兄弟节点转移数据</font></li>
+</ul>
+<p>应用：</p>
+<ul>
+<li><strong><font style="color:rgb(24, 24, 24);">高并发文件系统</font></strong><font style="color:rgb(24, 24, 24);">（如ZFS、Btrfs）：减少节点分裂频率</font></li>
+<li><strong><font style="color:rgb(24, 24, 24);">分布式存储系统</font></strong><font style="color:rgb(24, 24, 24);">：优化多节点负载均衡</font></li>
+<li><strong><font style="color:rgb(24, 24, 24);">版本控制系统</font></strong><font style="color:rgb(24, 24, 24);">（如Git底层对象存储）：高效处理大量小文件</font></li>
+<li><strong><font style="color:rgb(24, 24, 24);">实时数据分析系统</font></strong><font style="color:rgb(24, 24, 24);">：高写入吞吐场景</font></li>
+</ul>
+<h4 id="特点及其应用场景："><a href="#特点及其应用场景：" class="headerlink" title="特点及其应用场景："></a>特点及其应用场景：</h4><p><font style="color:rgb(24, 24, 24);">1.</font><font style="color:rgb(24, 24, 24);"> </font><strong><font style="color:rgb(24, 24, 24);">需要范围查询</font></strong><font style="color:rgb(24, 24, 24);"> </font><font style="color:rgb(24, 24, 24);">→ 选B+树（如数据库索引）</font></p>
+<p><font style="color:rgb(24, 24, 24);">2.</font><font style="color:rgb(24, 24, 24);"> </font><strong><font style="color:rgb(24, 24, 24);">内存有限+随机访问</font></strong><font style="color:rgb(24, 24, 24);"> </font><font style="color:rgb(24, 24, 24);">→ 选B树（如嵌入式系统）</font></p>
+<p><font style="color:rgb(24, 24, 24);">3.</font><font style="color:rgb(24, 24, 24);"> </font><strong><font style="color:rgb(24, 24, 24);">高并发写入+空间敏感</font></strong><font style="color:rgb(24, 24, 24);"> </font><font style="color:rgb(24, 24, 24);">→ 选B</font><font style="color:rgb(24, 24, 24);">*树（如分布式文件系统）</font></p>
+<p><font style="color:rgb(24, 24, 24);">4.</font><font style="color:rgb(24, 24, 24);"> </font><strong><font style="color:rgb(24, 24, 24);">混合负载场景</font></strong><font style="color:rgb(24, 24, 24);"> </font><font style="color:rgb(24, 24, 24);">→ B+树变种（如Google的Bw-tree）</font></p>
+<p><font style="color:rgb(24, 24, 24);">实际系统中常会结合使用，例如：</font></p>
+<ul>
+<li><strong><font style="color:rgb(24, 24, 24);">MySQL InnoDB</font></strong><font style="color:rgb(24, 24, 24);">：B+树主键索引 + B树辅助索引</font></li>
+<li><strong><font style="color:rgb(24, 24, 24);">MongoDB WiredTiger</font></strong><font style="color:rgb(24, 24, 24);">：B树索引 + LSM-Tree日志结构合并</font></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left"><font style="color:rgb(24, 24, 24);">特性</font></th>
+<th align="left"><font style="color:rgb(24, 24, 24);">B树</font></th>
+<th align="left"><font style="color:rgb(24, 24, 24);">B+树</font></th>
+<th align="left"><font style="color:rgb(24, 24, 24);">B</font><font style="color:rgb(24, 24, 24);">*树</font></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong><font style="color:rgb(24, 24, 24);">数据存储位置</font></strong></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">所有节点</font></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">仅叶子节点</font></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">仅叶子节点</font></td>
+</tr>
+<tr>
+<td align="left"><strong><font style="color:rgb(24, 24, 24);">叶子节点链接</font></strong></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">无</font></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">双向&#x2F;单向链表</font></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">双向&#x2F;单向链表</font></td>
+</tr>
+<tr>
+<td align="left"><strong><font style="color:rgb(24, 24, 24);">节点填充率</font></strong></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">~50%</font></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">~66%</font></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">~75%</font></td>
+</tr>
+<tr>
+<td align="left"><strong><font style="color:rgb(24, 24, 24);">分裂频率</font></strong></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">较高</font></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">中等</font></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">较低</font></td>
+</tr>
+<tr>
+<td align="left"><strong><font style="color:rgb(24, 24, 24);">适用场景</font></strong></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">随机读写</font></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">范围查询</font></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">高并发写入</font></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>更新: 2025-03-12 03:34:45<br>原文: <a target="_blank" rel="noopener" href="https://www.yuque.com/malen/mei/vgno89x6oqx6zfuy">https://www.yuque.com/malen/mei/vgno89x6oqx6zfuy</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/B%E6%A0%91%EF%BC%8CB+%E6%A0%91%EF%BC%8CB_%E6%A0%91%E7%9A%84%E5%8E%9F%E7%90%86%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8/" data-id="cuid7M9ta2WgaFfUQdGujUeYN" data-title="B树，B+树，B_树的原理及其应用" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E8%BF%9B%E7%A8%8B%E7%94%A8%E6%88%B7%E6%80%81%E5%92%8C%E5%86%85%E6%A0%B8%E6%80%81%E5%8F%8A%E5%85%B6%E5%88%87%E6%8D%A2%E8%BF%87%E7%A8%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          进程用户态和内核态及其切换过程
+        
+      </div>
+    </a>
+  
+  
+    <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%9D%82%E8%B0%88/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">数据结构杂谈</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/">Notes</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/">Linux知识</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%91%BD%E4%BB%A4/">Linux命令</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/">Linux工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Linux%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81/">如何监控Linux系统状态</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/">Linux系统基础</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/%E5%AE%B9%E5%99%A8%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF/">容器相关技术</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/">第三方库与框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/">Lua</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">编程基础知识</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/">Mysql</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/">编程工具手册</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/">编程语言应用与工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Go%E8%AF%AD%E8%A8%80/">Go语言</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/">Lua语言</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/">Python语言</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/mei-lun/archives/2025/12/">十二月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mei-lun/archives/2025/03/">三月 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/">关于这个博客笔记网站的建立</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/brpc%E6%A1%86%E6%9E%B6%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%B8%8E%E4%BD%BF%E7%94%A8/">brpc框架的学习与使用</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/Google%EF%BC%8CProtobuff/">Google，Protobuff</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">Git使用教程</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/VScode%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%89%8B%E5%86%8C/">VScode快捷键手册</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 LUN-MEI<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+    <script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?422b9164eef4052a3459283c47afd540";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/mei-lun/" class="mobile-nav-link">Home</a>
+  
+    <a href="/mei-lun/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/mei-lun/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/mei-lun/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/mei-lun/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>skynet源码笔记 | My Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Overviewskynet一共有四种线程，monitor线程用于检测节点内的消息是否堵塞，timer线程运行定时器，socket线程进行网络数据的收发，worker线程负责对消息队列进行调度（worker线程的数量，可以通过配置表指定）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="skynet源码笔记">
+<meta property="og:url" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/skynet%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="Overviewskynet一共有四种线程，monitor线程用于检测节点内的消息是否堵塞，timer线程运行定时器，socket线程进行网络数据的收发，worker线程负责对消息队列进行调度（worker线程的数量，可以通过配置表指定）。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/skynet%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B0/img/rpF6FZWuxcQfxCpy/1681800707757-d4396c1b-acce-49ee-94aa-d8b13e90812f-653450.png">
+<meta property="og:image" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/skynet%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B0/img/rpF6FZWuxcQfxCpy/1681800707627-a4947017-cc5f-4a04-be77-66bdb8f8baa3-591241.png">
+<meta property="og:image" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/skynet%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B0/img/rpF6FZWuxcQfxCpy/1697535798723-cc8db48e-84f0-4bce-93cf-c105b4bb6791-114171.webp">
+<meta property="og:image" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/skynet%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B0/img/rpF6FZWuxcQfxCpy/1697537262560-f2a4de92-c495-4410-ab8a-5b5ad78c18f8-246071.webp">
+<meta property="og:image" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/skynet%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B0/img/rpF6FZWuxcQfxCpy/1697537449875-50d8eb1e-4474-4039-a756-5da42b0f1612-891579.webp">
+<meta property="og:image" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/skynet%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B0/img/rpF6FZWuxcQfxCpy/1697538007139-2f1dda97-a267-4c95-8d65-0aa1b9d4a36d-282847.webp">
+<meta property="article:published_time" content="2025-03-12T03:35:54.000Z">
+<meta property="article:modified_time" content="2025-12-08T19:52:55.736Z">
+<meta property="article:author" content="LUN-MEI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/skynet%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B0/img/rpF6FZWuxcQfxCpy/1681800707757-d4396c1b-acce-49ee-94aa-d8b13e90812f-653450.png">
+  
+    <link rel="alternate" href="/mei-lun/atom.xml" title="My Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/mei-lun/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/mei-lun/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/mei-lun/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/mei-lun/" id="logo">My Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/mei-lun/">Home</a>
+        
+          <a class="main-nav-link" href="/mei-lun/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/mei-lun/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mei-lun.github.io/mei-lun"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Notes/第三方库与框架/Lua/skynet源码笔记" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/mei-lun/2025/03/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/skynet%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time class="dt-published" datetime="2025-03-12T03:35:54.000Z" itemprop="datePublished">2025-03-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/mei-lun/categories/Notes/">Notes</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/">第三方库与框架</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/">Lua</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <!-- <h1 class="p-name article-title" itemprop="headline name">
+      skynet源码笔记
+    </h1> -->
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="skynet源码笔记"><a href="#skynet源码笔记" class="headerlink" title="skynet源码笔记"></a>skynet源码笔记</h1><h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><p>skynet一共有四种线程，monitor线程用于检测节点内的消息是否堵塞，timer线程运行定时器，socket线程进行网络数据的收发，worker线程负责对消息队列进行调度（worker线程的数量，可以通过配置表指定）。</p>
+<p>skynet的消息队列处理方式：每条worker线程，每次从全局消息队列中pop出一个次级消息队列，并从次级消息队列中pop出一条消息，找到该消息队列的服务，将消息传给该服务的callback函数，执行业务，执行完成时，再将消息队列push回全局消息队列中。每个服务只有一个次级消息队列，每当一条worker线程，从全局消息队列中pop出一个次级消息队列时，其他线程时拿不到同一个服务，调用callback函数，因此不担心一个服务同时在多条线程内消费不同的消息，一个服务执行，不存在并发，线程是安全的。</p>
+<p>skynet一共有四种线程，monitor线程用于检测节点内的消息是否堵住。timer线程运行定时器。socket线程进行网络数据收发。worker线程负责对消息队列进行调度。</p>
+<h3 id="skynet源码中的知识点"><a href="#skynet源码中的知识点" class="headerlink" title="skynet源码中的知识点"></a>skynet源码中的知识点</h3><blockquote>
+<p>skynet\skynet-src\skynet_server.c</p>
+<p>skynet_globalinit()</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">问：为什么要有pthread_key_create函数，作用示什么？</span></span><br><span class="line"><span class="comment">	多线程环境下，由于数据空间是共享的，因此全局变量也为所有线程所共有。但有时应用程序设计中有必要提供线程私有的全局变量，仅在某个线程中有效，但却可以跨多个函数访问，比如程序可能需要每个线程维护一个链表，而使用相同的函数操作，最简单的办法就是使用同名而不同变量地址的线程相关数据结构。这样的数据结构可以由Posix线程库维护，称为线程私有数据（Thread-specific Data，或TSD）</span></span><br><span class="line"><span class="comment">问：如果创建和注销？</span></span><br><span class="line"><span class="comment">	pthread_key_create 函数创建</span></span><br><span class="line"><span class="comment">	pthread_key_delete 函数注销</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="线程存储"><a href="#线程存储" class="headerlink" title="线程存储"></a><u>线程存储</u></h4><p><strong><font style="color:rgb(64, 64, 64);">表面上看起来这是一个全局变量，所有线程都可以使用它，而它的值在每一个线程中又是单独存储的。这就是线程存储的意义</font></strong></p>
+<h4 id="用法"><a href="#用法" class="headerlink" title="用法"></a><font style="color:rgb(64, 64, 64);">用法</font></h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">1. 创建一个类型为pthread_key_t类型的变量。</span></span><br><span class="line"><span class="comment">2. pthread_key_create创建该变量。函数的第一个参数是pthread_key_t变量，第二个参数是清理函数，用于线程释放线程存储的时候被调用。如果该函数为NULL则调用默认的函数。函数成功返回0，其他返回值标是出现错误。</span></span><br><span class="line"><span class="comment">3. 线程中需要存储特殊值的时候可以调用pthread_setspcific（）。第一个参数为pthread_key_t变量，第二个参数为void*变量，可以存储任何类型的值。</span></span><br><span class="line"><span class="comment">4. 如果要取出存储的值，则调用pthread_getspecific()。参数是pthread_key_t， 返回值是void*。</span></span><br><span class="line"><span class="comment">*/</span> </span><br><span class="line">-------------------------------函数原型-------------------------</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">pthread_setspecific</span><span class="params">(<span class="type">pthread_key_t</span> key, <span class="type">const</span> <span class="type">void</span> *value)</span></span>;</span><br><span class="line"><span class="function"><span class="type">void</span> *<span class="title">pthread_getspecific</span><span class="params">(<span class="type">pthread_key_t</span> key)</span></span>;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">pthread_key_create</span><span class="params">(<span class="type">pthread_key_t</span> *key, <span class="type">void</span> (*destructor)(<span class="type">void</span>*))</span></span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//待完成</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="pthread-cond-t-条件变量"><a href="#pthread-cond-t-条件变量" class="headerlink" title="pthread_cond_t 条件变量"></a>pthread_cond_t 条件变量</h4><p><font style="color:rgb(77, 77, 77);">首先加锁进入临界区去查看条件是否满足，不满足则解锁离开临界区，睡眠一段时间再继续循环判断。在这种情况下如果刚离开临界区，条件变为满足，那么线程必须还要等一段时间重新进入临界区才能知道条件满足（如果在这段时间内，条件依旧一直保持满足的话），如果这一小段时间条件又变为不满足，那么这个线程还要继续循环判断。不断地加锁解锁（会影响使用同一把锁的其他线程），还不能第一时间收到条件满足。这种模型既费时又开销大。</font></p>
+<p><font style="color:rgb(77, 77, 77);">所以条件变量的产生，正是为了不循环加锁解锁，并且第一时间收到条件满足的通知。</font></p>
+<p><strong>__sync_fetch_and_add系列</strong></p>
+<p>__sync_fetch_and_add系列一共有十二个函数，有加&#x2F;减&#x2F;与&#x2F;或&#x2F;异或&#x2F;等函数的原子性操作函数,__sync_fetch_and_add,顾名思义，先fetch，然后自加，返回的是自加以前的值。以count &#x3D; 4为例，调用__sync_fetch_and_add(&amp;count,1),之后，返回值是4，然后，count变成了5。</p>
+<p><font style="color:rgb(77, 77, 77);"></font></p>
+<p><img src="/mei-lun/2025/03/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/skynet%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B0/img/rpF6FZWuxcQfxCpy/1681800707757-d4396c1b-acce-49ee-94aa-d8b13e90812f-653450.png" alt="1681800707757-d4396c1b-acce-49ee-94aa-d8b13e90812f.png"><img src="/mei-lun/2025/03/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/skynet%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B0/img/rpF6FZWuxcQfxCpy/1681800707627-a4947017-cc5f-4a04-be77-66bdb8f8baa3-591241.png" alt="1681800707627-a4947017-cc5f-4a04-be77-66bdb8f8baa3.png"></p>
+<p><img src="/mei-lun/2025/03/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/skynet%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B0/img/rpF6FZWuxcQfxCpy/1697535798723-cc8db48e-84f0-4bce-93cf-c105b4bb6791-114171.webp" alt="1697535798723-cc8db48e-84f0-4bce-93cf-c105b4bb6791.webp"></p>
+<h3 id="skynet-context"><a href="#skynet-context" class="headerlink" title="skynet_context"></a>skynet_context</h3><figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">struct skynet_context &#123;</span><br><span class="line">	void * instance;			// 服务实例</span><br><span class="line">	struct skynet_module * <span class="built_in">mod</span>;	// 动态库（模块）</span><br><span class="line">	void * cb_ud;				// 用于回调的实例	(这个是回调到lua虚拟机)</span><br><span class="line">	skynet_cb cb;				// 回调函数 （这个是单个服务的回调函数）</span><br><span class="line">	struct message_queue *queue;// 服务的消息队列</span><br><span class="line">	ATOM_POINTER logfile;		// <span class="keyword">for</span>服务日志</span><br><span class="line">	uint64_t cpu_cost;	// <span class="keyword">in</span> microsec// CPU性能指标</span><br><span class="line">	uint64_t cpu_start;	// <span class="keyword">in</span> microsec// cpu 性能指标 &amp; 当前消息处理耗时</span><br><span class="line">	<span class="built_in">char</span> result[<span class="number">32</span>];			// 存放性能指标的查询结果</span><br><span class="line">	uint32_t handle;			// 服务的id</span><br><span class="line">	int session_id;				// 消息的session id</span><br><span class="line">	ATOM_INT ref;				// 服务的引用计数</span><br><span class="line">	int message_count;			// 已经处理过的消息总数</span><br><span class="line">	bool init;					// 初始化成功的标识</span><br><span class="line">	bool endless;				// 死循环标志</span><br><span class="line">	bool profile;				// CPU性能指标开关</span><br><span class="line"></span><br><span class="line">	CHECKCALLING_DECL</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这里需要注意下，在服务实例第一次初始化并设置回调后，cb_ud 与 instance 是同一个东西，即</p>
+<p><code>ctx-&gt;instance = ctx-&gt;cb_ud</code>，但是对于 snlua 服务启动后，会重新设置一次回调，这里就产生了两个区别的：cb_ud 指向由原来的 ctx-&gt;instance 变成了 lua vm（lua 主线程），它们存在这样的一个关系：</p>
+<p><code>ctx-&gt;instance-&gt;L = ctx-&gt;cb_ud = luavm</code>；cb 回调函数变成了一个封装了 lua 调用的函数；</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">static int</span><br><span class="line">lcallback(lua_State *L) &#123;</span><br><span class="line">	struct skynet_context * context = lua_touserdata(L, lua_upvalueindex(<span class="number">1</span>));</span><br><span class="line">	int forward = lua_toboolean(L, <span class="number">2</span>);</span><br><span class="line">	luaL_checktype(L,<span class="number">1</span>,LUA_TFUNCTION);</span><br><span class="line">	lua_settop(L,<span class="number">1</span>);</span><br><span class="line">	lua_rawsetp(L, LUA_REGISTRYINDEX, _cb);</span><br><span class="line"></span><br><span class="line">	lua_rawgeti(L, LUA_REGISTRYINDEX, LUA_RIDX_MAINTHREAD);</span><br><span class="line">	lua_State *gL = lua_tothread(L,<span class="number">-1</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (forward) &#123;</span><br><span class="line">		// cb_ud=gL </span><br><span class="line">		// cb = forward_cb，消息派发后不free掉，用于转发消息</span><br><span class="line">		skynet_callback(context, gL, forward_cb);</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		// cb = _cb，消息派发后free掉</span><br><span class="line">		skynet_callback(context, gL, _cb);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/mei-lun/2025/03/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/skynet%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B0/img/rpF6FZWuxcQfxCpy/1697537262560-f2a4de92-c495-4410-ab8a-5b5ad78c18f8-246071.webp" alt="创建上下文流程"></p>
+<p><code>skynet_context_new</code>此函数一共有三个地方调用，其中有两处是在 skynet 启动过程中（skynet_start）调用，这两个函数调用会创建两个重要的服务：</p>
+<p>logger 服务，用来输出 skynet 的日志信息到文件（由配置字段 logger 指定）或标准输出（stdout），当然，我们可以重载 skynet 自带的 logger 服务，修改配置字段 logservice 即可。</p>
+<p>bootstrap 服务，是一个 lua 服务，它负责引导基础服务，例如 launcher 服务等，它的作用类似于电脑开机时的引导程序一样。</p>
+<p><img src="/mei-lun/2025/03/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/skynet%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B0/img/rpF6FZWuxcQfxCpy/1697537449875-50d8eb1e-4474-4039-a756-5da42b0f1612-891579.webp" alt="1697537449875-50d8eb1e-4474-4039-a756-5da42b0f1612.webp"></p>
+<p><font style="color:rgb(18, 18, 18);">创建好的 context 会被注册到服务仓库 </font><font style="color:rgb(18, 18, 18);background-color:rgb(245, 245, 245);">handle_storage *H</font><font style="color:rgb(18, 18, 18);"> 中，如果注册成功，会给 context 分配一个 handle (即服务上下文的id，类似与文件描述符id)，handle 是一个无符号 32 位整型，高 8 位用来表示 harbor_id，低 24 位则表示 context 的索引号 index，即：</font><font style="color:rgb(18, 18, 18);background-color:rgb(245, 245, 245);">handle&#x3D;(harbor_id&lt;&lt;24)|index</font><font style="color:rgb(18, 18, 18);">。需要注意的是，这两部分值都需要大于 0，即：</font><font style="color:rgb(18, 18, 18);background-color:rgb(245, 245, 245);">harbor_id&gt;0 &amp;&amp; index&gt;0</font><a href="https://link.zhihu.com/?target=https://domicat.me/_posts/2020-05-10-learn-skynet-service/%23fn:footer1">1</a><font style="color:rgb(18, 18, 18);">；然后创建服务的消息队列 </font><font style="color:rgb(18, 18, 18);background-color:rgb(245, 245, 245);">queue</font><font style="color:rgb(18, 18, 18);">，至此，服务已经创建完成，接下来便是服务的初始化过程。</font></p>
+<h3 id="四种服务模板"><a href="#四种服务模板" class="headerlink" title="四种服务模板"></a><font style="color:rgb(18, 18, 18);">四种服务模板</font></h3><ol>
+<li><font style="color:rgb(18, 18, 18);">logger，日志服务模板，在上面已经有提到；</font></li>
+<li><font style="color:rgb(18, 18, 18);">gate，网关服务模板，最新版的 skynet 已经有另外一套 lua gate 实现方案；</font></li>
+<li><font style="color:rgb(18, 18, 18);">harbor，提供 master&#x2F;slave 模式的集群方案；</font></li>
+<li><font style="color:rgb(18, 18, 18);">snlua，所有的 lua 服务都由它负责。</font></li>
+</ol>
+<p><font style="color:rgb(18, 18, 18);">当然，所有的服务模板都需要遵守一些约定，它们需要提供以下 4 个 api:</font></p>
+<ul>
+<li><font style="color:rgb(18, 18, 18);">create，</font><strong><font style="color:rgb(18, 18, 18);">必须</font></strong><font style="color:rgb(18, 18, 18);">，此 api 用来创建对应的服务实例；</font></li>
+<li><font style="color:rgb(18, 18, 18);">init，</font><strong><font style="color:rgb(18, 18, 18);">必须</font></strong><font style="color:rgb(18, 18, 18);">，此 api 用来对服务实例进行初始化，同时还会设置 context 的回调实例和回调函数；</font></li>
+<li><font style="color:rgb(18, 18, 18);">release，</font><strong><font style="color:rgb(18, 18, 18);">必须</font></strong><font style="color:rgb(18, 18, 18);">，用来释放服务实例，做一些清理工作；</font></li>
+<li><font style="color:rgb(18, 18, 18);">signal，</font><em><font style="color:rgb(18, 18, 18);">可选</font></em><font style="color:rgb(18, 18, 18);">，用来跳出 lua 服务的死循环</font><a href="https://link.zhihu.com/?target=https://domicat.me/_posts/2020-05-10-learn-skynet-service/%23fn:footer2"><font style="color:rgb(18, 18, 18);">2</font></a><font style="color:rgb(18, 18, 18);">。</font></li>
+</ul>
+<h3 id="工作线程的流程"><a href="#工作线程的流程" class="headerlink" title="工作线程的流程"></a><font style="color:rgb(18, 18, 18);">工作线程的流程</font></h3><p><img src="/mei-lun/2025/03/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/skynet%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B0/img/rpF6FZWuxcQfxCpy/1697538007139-2f1dda97-a267-4c95-8d65-0aa1b9d4a36d-282847.webp" alt="1697538007139-2f1dda97-a267-4c95-8d65-0aa1b9d4a36d.webp"></p>
+<p><font style="color:rgb(18, 18, 18);">skynet 采取的策略是在全局消息队列为空时，使用条件变量（</font><font style="color:rgb(18, 18, 18);background-color:rgb(245, 245, 245);">pthread_cond_t</font><font style="color:rgb(18, 18, 18);">）来挂起工作线程，而对于线程的唤醒，一共有两处地方：</font></p>
+<ul>
+<li><font style="color:rgb(18, 18, 18);">网络线程唤醒，采用</font><strong><font style="color:rgb(18, 18, 18);">“懒惰唤醒”</font></strong><font style="color:rgb(18, 18, 18);">，即只有在所有工作线程都挂起时，才会唤醒一个。举个栗子，如果有 8 个工作线程，其中 7 个都处于挂起状态，那么在网络线程收到网络消息后，也不会进行唤醒，除非 8 个工作线程都被挂起；</font></li>
+<li><font style="color:rgb(18, 18, 18);">定时器线程唤醒，采用</font><strong><font style="color:rgb(18, 18, 18);">“贪婪唤醒”</font></strong><font style="color:rgb(18, 18, 18);">，即只要有工作线程处于挂起状态，就会唤醒一次；另外在定时器线程结束后，还会广播唤醒所有挂起的工作线程；</font></li>
+</ul>
+<p><font style="color:rgb(18, 18, 18);"></font></p>
+<h3 id="skynet框架如何启动一个lua文件，并且和虚拟机交互"><a href="#skynet框架如何启动一个lua文件，并且和虚拟机交互" class="headerlink" title="skynet框架如何启动一个lua文件，并且和虚拟机交互"></a><font style="color:rgb(18, 18, 18);">skynet框架如何启动一个lua文件，并且和虚拟机交互</font></h3><p>当我们启动一个skynet程序的时候，首先需要加载一个配置文件，配置文件里配置了skynet进程的基础信息以和需要启动的脚本。</p>
+<p>入口是：</p>
+<ol>
+<li><code>skynet/skynet-src/skynet_main.c</code>中的<code>main</code>函数，</li>
+<li>调用<code>skynet_start(&amp;config)</code></li>
+<li>调用<code>bootstrap(ctx, config-&gt;bootstrap)</code></li>
+<li>调用<code>struct skynet_context *ctx = skynet_context_new(name, args)</code></li>
+<li>在<code>struct skynet_module * mod = skynet_module_query(name)</code>中调用<code>void * dl = _try_open(M,name)</code>打开一个C服务的动态库<code>dl = dlopen(tmp, RTLD_NOW | RTLD_GLOBAL)</code>，然后调用<code>open_sym(&amp;M-&gt;m[index])</code>初始化模块的初始函数。</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通过服务的名字来拼接函数名</span></span><br><span class="line"><span class="type">static</span> <span class="type">int</span></span><br><span class="line"><span class="title function_">open_sym</span><span class="params">(<span class="keyword">struct</span> skynet_module *mod)</span> &#123;</span><br><span class="line">    mod-&gt;create = get_api(mod, <span class="string">&quot;_create&quot;</span>);</span><br><span class="line">    mod-&gt;init = get_api(mod, <span class="string">&quot;_init&quot;</span>);</span><br><span class="line">    mod-&gt;release = get_api(mod, <span class="string">&quot;_release&quot;</span>);</span><br><span class="line">    mod-&gt;signal = get_api(mod, <span class="string">&quot;_signal&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> mod-&gt;init == <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">在get_api函数中调用dlsym(mod-&gt;module, ptr)函数，第一个参数是dl动态链接库的句柄，第二个参数是</span></span><br><span class="line"><span class="comment">要返回的函数名，函数返回的是函数指针。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="comment">// 初始化模块</span></span><br><span class="line"><span class="type">void</span> * </span><br><span class="line"><span class="title function_">skynet_module_instance_create</span><span class="params">(<span class="keyword">struct</span> skynet_module *m)</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> (m-&gt;create) &#123;</span><br><span class="line">		<span class="keyword">return</span> m-&gt;create();</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> (<span class="type">void</span> *)(<span class="type">intptr_t</span>)(~<span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当我们在调用create函数的时候，实际上是调用当前这个服务类型加create函数，等于是snlua_create函数</span></span><br><span class="line"><span class="keyword">struct</span> snlua *</span><br><span class="line"><span class="title function_">snlua_create</span><span class="params">(<span class="type">void</span>)</span> &#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">snlua</span> * <span class="title">l</span> =</span> skynet_malloc(<span class="keyword">sizeof</span>(*l));</span><br><span class="line">	<span class="built_in">memset</span>(l,<span class="number">0</span>,<span class="keyword">sizeof</span>(*l));</span><br><span class="line">	l-&gt;mem_report = MEMORY_WARNING_REPORT;</span><br><span class="line">	l-&gt;mem_limit = <span class="number">0</span>;</span><br><span class="line">	l-&gt;L = lua_newstate(lalloc, l);</span><br><span class="line">	l-&gt;activeL = <span class="literal">NULL</span>;</span><br><span class="line">	ATOM_INIT(&amp;l-&gt;trap , <span class="number">0</span>);</span><br><span class="line">	<span class="keyword">return</span> l;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// snlua_create函数中创建了一个新的lua虚拟机， 然后调用snlua_init函数，向消息队列发送一个注册这个服务的消息</span></span><br><span class="line"><span class="type">int</span></span><br><span class="line"><span class="title function_">snlua_init</span><span class="params">(<span class="keyword">struct</span> snlua *l, <span class="keyword">struct</span> skynet_context *ctx, <span class="type">const</span> <span class="type">char</span> * args)</span> &#123;</span><br><span class="line">	<span class="type">int</span> sz = <span class="built_in">strlen</span>(args);</span><br><span class="line">	<span class="type">char</span> * tmp = skynet_malloc(sz);</span><br><span class="line">	<span class="built_in">memcpy</span>(tmp, args, sz);</span><br><span class="line">	skynet_callback(ctx, l , launch_cb);</span><br><span class="line">	<span class="type">const</span> <span class="type">char</span> * self = skynet_command(ctx, <span class="string">&quot;REG&quot;</span>, <span class="literal">NULL</span>);</span><br><span class="line">	<span class="type">uint32_t</span> handle_id = strtoul(self+<span class="number">1</span>, <span class="literal">NULL</span>, <span class="number">16</span>);</span><br><span class="line">	<span class="comment">// it must be first message</span></span><br><span class="line">	skynet_send(ctx, <span class="number">0</span>, handle_id, PTYPE_TAG_DONTCOPY,<span class="number">0</span>, tmp, sz);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 上面的init函数会调用launch_cb()函数。</span></span><br><span class="line"><span class="type">static</span> <span class="type">int</span></span><br><span class="line"><span class="title function_">launch_cb</span><span class="params">(<span class="keyword">struct</span> skynet_context * context, <span class="type">void</span> *ud, <span class="type">int</span> type, <span class="type">int</span> session, <span class="type">uint32_t</span> source , <span class="type">const</span> <span class="type">void</span> * msg, <span class="type">size_t</span> sz)</span> &#123;</span><br><span class="line">	assert(type == <span class="number">0</span> &amp;&amp; session == <span class="number">0</span>);</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">snlua</span> *<span class="title">l</span> =</span> ud;</span><br><span class="line">	skynet_callback(context, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">	<span class="type">int</span> err = init_cb(l, context, msg, sz);</span><br><span class="line">	<span class="keyword">if</span> (err) &#123;</span><br><span class="line">		skynet_command(context, <span class="string">&quot;EXIT&quot;</span>, <span class="literal">NULL</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 然后调用init_cb函数，通过loader文件加载我们的lua文件，第一个参数是服务名</span></span><br><span class="line">local args = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> word in <span class="built_in">string</span>.gmatch(..., <span class="string">&quot;%S+&quot;</span>) <span class="keyword">do</span></span><br><span class="line">	table.insert(args, word)</span><br><span class="line">end</span><br><span class="line"></span><br><span class="line">SERVICE_NAME = args[<span class="number">1</span>]</span><br><span class="line"><span class="comment">///////////////////////////////////////////////////////</span></span><br><span class="line"><span class="type">const</span> <span class="type">char</span> * loader = optstring(ctx, <span class="string">&quot;lualoader&quot;</span>, <span class="string">&quot;./lualib/loader.lua&quot;</span>);</span><br><span class="line"><span class="comment">// 加载lua文件到lua虚拟机</span></span><br><span class="line"><span class="type">int</span> r = luaL_loadfile(L,loader);</span><br><span class="line"><span class="keyword">if</span> (r != LUA_OK) &#123;</span><br><span class="line">    skynet_error(ctx, <span class="string">&quot;Can&#x27;t load %s : %s&quot;</span>, loader, lua_tostring(L, <span class="number">-1</span>));</span><br><span class="line">    report_launcher_error(ctx);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line">lua_pushlstring(L, args, sz);</span><br><span class="line"><span class="comment">// 执行对应的函数</span></span><br><span class="line">r = lua_pcall(L,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>);</span><br><span class="line"><span class="comment">// 在lua源码的lapi.c文件中</span></span><br><span class="line"> c.func = L-&gt;top - (nargs+<span class="number">1</span>);  <span class="comment">/* function to be called */</span></span><br><span class="line"><span class="comment">// 从调用栈顶弹出一个函数执行</span></span><br><span class="line">luaD_call(L, c.func, nresults);  <span class="comment">/* do the call */</span></span><br><span class="line"><span class="comment">// 函数调用时的状态转换</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">luaV_execute</span> <span class="params">(lua_State *L, CallInfo *ci)</span> &#123;</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>然后向消息队列push一个消息，表示这个服务已经创建好了，调用<code>skynet_module_instance_init(mod, inst, ctx, param)</code>函数初始化C服务，此时这个C服务就创建好了。</li>
+</ol>
+<h4 id="skynet全局消息队列和次级消息队列是怎么连接起来的"><a href="#skynet全局消息队列和次级消息队列是怎么连接起来的" class="headerlink" title="skynet全局消息队列和次级消息队列是怎么连接起来的"></a>skynet全局消息队列和次级消息队列是怎么连接起来的</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">void </span><br><span class="line">skynet_mq_push(struct message_queue *q, struct skynet_message *message) &#123;</span><br><span class="line">	assert(message);</span><br><span class="line">	SPIN_LOCK(q)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">	q-&gt;</span><span class="language-bash">queue[q-&gt;<span class="built_in">tail</span>] = *message;</span></span><br><span class="line">	if (++ q-&gt;tail &gt;= q-&gt;cap) &#123;</span><br><span class="line"><span class="meta prompt_">		q-&gt;</span><span class="language-bash"><span class="built_in">tail</span> = 0;</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	if (q-&gt;head == q-&gt;tail) &#123;</span><br><span class="line">		expand_queue(q);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	if (q-&gt;in_global == 0) &#123;// 这个地方</span><br><span class="line"><span class="meta prompt_">		q-&gt;</span><span class="language-bash">in_global = MQ_IN_GLOBAL;</span></span><br><span class="line">		skynet_globalmq_push(q);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	SPIN_UNLOCK(q)</span><br><span class="line">&#125;</span><br><span class="line">当有一条消息被push到某个服务的次级消息队列中时，会检查这个次级消息队列是否in_global在全局消息队列中，如果不在次级消息队列中，那么就把这个次级消息队列push到全局消息队列中去。</span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>更新: 2025-03-12 03:35:54<br>原文: <a target="_blank" rel="noopener" href="https://www.yuque.com/malen/mei/ef1khxfudcpu99s3">https://www.yuque.com/malen/mei/ef1khxfudcpu99s3</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/skynet%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B0/" data-id="cuidJDv9DT3lUIlMv2c5CGZUE" data-title="skynet源码笔记" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/mei-lun/2025/03/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/Luasocket%E5%BA%93%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          Luasocket库的安装和使用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/mei-lun/2025/03/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/Lua%E5%BC%80%E6%BA%90%E5%BA%93cjson/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Lua开源库cjson</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/">Notes</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/">Linux知识</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%91%BD%E4%BB%A4/">Linux命令</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/">Linux工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Linux%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81/">如何监控Linux系统状态</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/">Linux系统基础</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/%E5%AE%B9%E5%99%A8%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF/">容器相关技术</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/">第三方库与框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/">Lua</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">编程基础知识</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/">Mysql</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/">编程工具手册</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/">编程语言应用与工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Go%E8%AF%AD%E8%A8%80/">Go语言</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/">Lua语言</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/">Python语言</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/mei-lun/archives/2025/12/">十二月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mei-lun/archives/2025/03/">三月 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/">关于这个博客笔记网站的建立</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/brpc%E6%A1%86%E6%9E%B6%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%B8%8E%E4%BD%BF%E7%94%A8/">brpc框架的学习与使用</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/Google%EF%BC%8CProtobuff/">Google，Protobuff</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">Git使用教程</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/VScode%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%89%8B%E5%86%8C/">VScode快捷键手册</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 LUN-MEI<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+    <script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?422b9164eef4052a3459283c47afd540";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/mei-lun/" class="mobile-nav-link">Home</a>
+  
+    <a href="/mei-lun/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/mei-lun/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/mei-lun/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/mei-lun/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

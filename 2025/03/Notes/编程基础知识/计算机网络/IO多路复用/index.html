@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>IO多路复用 | My Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="什么是IO多路复用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IO多路复用">
+<meta property="og:url" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="什么是IO多路复用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/img/L4XeT3kSo4BAAxYE/1683454778978-00367f5a-16fb-4db1-ae7b-1f8b829461e7-020488.png">
+<meta property="og:image" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/img/L4XeT3kSo4BAAxYE/1683456236202-4125027b-c81f-4b4b-a4fe-320b4be435d9-406556.png">
+<meta property="article:published_time" content="2025-03-12T03:34:46.000Z">
+<meta property="article:modified_time" content="2025-12-08T19:52:55.747Z">
+<meta property="article:author" content="LUN-MEI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/img/L4XeT3kSo4BAAxYE/1683454778978-00367f5a-16fb-4db1-ae7b-1f8b829461e7-020488.png">
+  
+    <link rel="alternate" href="/mei-lun/atom.xml" title="My Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/mei-lun/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/mei-lun/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/mei-lun/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/mei-lun/" id="logo">My Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/mei-lun/">Home</a>
+        
+          <a class="main-nav-link" href="/mei-lun/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/mei-lun/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mei-lun.github.io/mei-lun"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Notes/编程基础知识/计算机网络/IO多路复用" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/" class="article-date">
+  <time class="dt-published" datetime="2025-03-12T03:34:46.000Z" itemprop="datePublished">2025-03-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/mei-lun/categories/Notes/">Notes</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">编程基础知识</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <!-- <h1 class="p-name article-title" itemprop="headline name">
+      IO多路复用
+    </h1> -->
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="IO多路复用"><a href="#IO多路复用" class="headerlink" title="IO多路复用"></a>IO多路复用</h1><h2 id><a href="#" class="headerlink" title></a><img src="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/img/L4XeT3kSo4BAAxYE/1683454778978-00367f5a-16fb-4db1-ae7b-1f8b829461e7-020488.png" alt="1683454778978-00367f5a-16fb-4db1-ae7b-1f8b829461e7.png"></h2><h2 id="什么是IO多路复用"><a href="#什么是IO多路复用" class="headerlink" title="什么是IO多路复用"></a>什么是IO多路复用</h2><p>IO多路复用是一种同步的IO模型，实现一个线程可以监视多个文件句柄；一旦某个文件句柄就绪，就能够通知应用程序进行相应的读写操作，没有文件句柄就绪时会阻塞应用程序，交出CPU。多路是指网络连接，复用是指同一个线程。</p>
+<h2 id="为什么有IO多路复用机制"><a href="#为什么有IO多路复用机制" class="headerlink" title="为什么有IO多路复用机制"></a>为什么有IO多路复用机制</h2><p>相对于BIO和NIO两种实现方式都有一些问题。</p>
+<h3 id="同步阻塞（BIO）"><a href="#同步阻塞（BIO）" class="headerlink" title="同步阻塞（BIO）"></a>同步阻塞（BIO）</h3><ol>
+<li>服务端采用单线程时，在recv或者send调用阻塞时，将无法accept其他请求，<strong>无法处理并发</strong></li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 伪代码描述</span></span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>) &#123;</span><br><span class="line">  <span class="comment">// accept阻塞</span></span><br><span class="line">  client_fd = <span class="built_in">accept</span>(listen_fd)</span><br><span class="line">  fds.<span class="built_in">append</span>(client_fd)</span><br><span class="line">  <span class="keyword">for</span> (fd in fds) &#123;</span><br><span class="line">    <span class="comment">// recv阻塞（会影响上面的accept）</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">recv</span>(fd)) &#123;</span><br><span class="line">      <span class="comment">// logic</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>服务端采用多线程时，当accept之后开一个线程进行recev，可以并发处理，但是随着请求的增多，大量的线程会占用很大的内存空间，线程切换会带来很大的开销。</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 伪代码描述</span></span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>) &#123;</span><br><span class="line">  <span class="comment">// accept阻塞</span></span><br><span class="line">  client_fd = <span class="built_in">accept</span>(listen_fd)</span><br><span class="line">  <span class="comment">// 开启线程read数据（fd增多导致线程数增多）</span></span><br><span class="line">  <span class="keyword">new</span> Thread <span class="built_in">func</span>() &#123;</span><br><span class="line">    <span class="comment">// recv阻塞（多线程不影响上面的accept）</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">recv</span>(fd)) &#123;</span><br><span class="line">      <span class="comment">// logic</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="同步非阻塞（NIO）"><a href="#同步非阻塞（NIO）" class="headerlink" title="同步非阻塞（NIO）"></a>同步非阻塞（NIO）</h3><ol>
+<li>当服务器accept一个请求后，加入fds集合，每次轮询一遍fds集合recv数据，没有数据则立即返回错误，每次轮询所有fd（包括没有发生读写事件的fd）会很浪费CPU。</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">setNonblocking</span>(listen_fd)</span><br><span class="line"><span class="comment">// 伪代码描述</span></span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>) &#123;</span><br><span class="line">  <span class="comment">// accept非阻塞（cpu一直忙轮询）</span></span><br><span class="line">  client_fd = <span class="built_in">accept</span>(listen_fd)</span><br><span class="line">  <span class="keyword">if</span> (client_fd != null) &#123;</span><br><span class="line">    <span class="comment">// 有人连接</span></span><br><span class="line">    fds.<span class="built_in">append</span>(client_fd)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 无人连接</span></span><br><span class="line">  &#125;  </span><br><span class="line">  <span class="keyword">for</span> (fd in fds) &#123;</span><br><span class="line">    <span class="comment">// recv非阻塞</span></span><br><span class="line">    <span class="built_in">setNonblocking</span>(client_fd)</span><br><span class="line">    <span class="comment">// recv 为非阻塞命令</span></span><br><span class="line">    <span class="keyword">if</span> (len = <span class="built_in">recv</span>(fd) &amp;&amp; len &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="comment">// 有读写数据</span></span><br><span class="line">      <span class="comment">// logic</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">       无读写数据</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="IO多路复用-1"><a href="#IO多路复用-1" class="headerlink" title="IO多路复用"></a>IO多路复用</h3><p>服务器采用单线程通过select&#x2F;epoll等系统调用获取fd列表，遍历有事件的fd进行，accept&#x2F;recv&#x2F;send使其能支持更多的并发连接</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">fds = [listen_fd]</span><br><span class="line"><span class="comment">// 伪代码描述</span></span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>) &#123;</span><br><span class="line">  <span class="comment">// 通过内核获取有读写事件发生的fd，只要有一个则返回，无则阻塞</span></span><br><span class="line">  <span class="comment">// 整个过程只在调用select、poll、epoll这些调用的时候才会阻塞，accept/recv是不会阻塞</span></span><br><span class="line">  <span class="keyword">for</span> (fd in <span class="built_in">select</span>(fds)) &#123;</span><br><span class="line">    <span class="keyword">if</span> (fd == listen_fd) &#123;</span><br><span class="line">        client_fd = <span class="built_in">accept</span>(listen_fd)</span><br><span class="line">        fds.<span class="built_in">append</span>(client_fd)</span><br><span class="line">    &#125; <span class="built_in">elseif</span> (len = <span class="built_in">recv</span>(fd) &amp;&amp; len != <span class="number">-1</span>) &#123; </span><br><span class="line">      <span class="comment">// logic</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="IO多路复用的三中方式-select，poll，epoll"><a href="#IO多路复用的三中方式-select，poll，epoll" class="headerlink" title="IO多路复用的三中方式 select，poll，epoll"></a>IO多路复用的三中方式 select，poll，epoll</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/select.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/time.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FD_SETSIZE 1024</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> NFDBITS (8 * sizeof(unsigned long))</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> __FDSET_LONGS (FD_SETSIZE/NFDBITS)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 数据结构 (bitmap)</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> &#123;</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> fds_bits[__FDSET_LONGS];</span><br><span class="line">&#125; fd_set;</span><br><span class="line"></span><br><span class="line"><span class="comment">// API</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">select</span><span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="type">int</span> max_fd, </span></span></span><br><span class="line"><span class="params"><span class="function">    fd_set *readset, </span></span></span><br><span class="line"><span class="params"><span class="function">    fd_set *writeset, </span></span></span><br><span class="line"><span class="params"><span class="function">    fd_set *exceptset, </span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">struct</span> timeval *timeout</span></span></span><br><span class="line"><span class="params"><span class="function">)</span>                              <span class="comment">// 返回值就绪描述符的数目</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">FD_ZERO</span><span class="params">(<span class="type">int</span> fd, fd_set* fds)</span>   <span class="comment">// 清空集合</span></span></span><br><span class="line"><span class="function"><span class="title">FD_SET</span><span class="params">(<span class="type">int</span> fd, fd_set* fds)</span>    <span class="comment">// 将给定的描述符加入集合</span></span></span><br><span class="line"><span class="function"><span class="title">FD_ISSET</span><span class="params">(<span class="type">int</span> fd, fd_set* fds)</span>  <span class="comment">// 判断指定描述符是否在集合中 </span></span></span><br><span class="line"><span class="function"><span class="title">FD_CLR</span><span class="params">(<span class="type">int</span> fd, fd_set* fds)</span>    <span class="comment">// 将给定的描述符从文件中删除</span></span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">/*</span></span><br><span class="line"><span class="comment">   * 这里进行一些初始化的设置，</span></span><br><span class="line"><span class="comment">   * 包括socket建立，地址的设置等,</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"></span><br><span class="line">  fd_set read_fs, write_fs;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">timeval</span> timeout;</span><br><span class="line">  <span class="type">int</span> max = <span class="number">0</span>;  <span class="comment">// 用于记录最大的fd，在轮询中时刻更新即可</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 初始化比特位</span></span><br><span class="line">  <span class="built_in">FD_ZERO</span>(&amp;read_fs);</span><br><span class="line">  <span class="built_in">FD_ZERO</span>(&amp;write_fs);</span><br><span class="line"></span><br><span class="line">  <span class="type">int</span> nfds = <span class="number">0</span>; <span class="comment">// 记录就绪的事件，可以减少遍历的次数</span></span><br><span class="line">  <span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">    <span class="comment">// 阻塞获取</span></span><br><span class="line">    <span class="comment">// 每次需要把fd从用户态拷贝到内核态</span></span><br><span class="line">    nfds = <span class="built_in">select</span>(max + <span class="number">1</span>, &amp;read_fd, &amp;write_fd, <span class="literal">NULL</span>, &amp;timeout);</span><br><span class="line">    <span class="comment">// 每次需要遍历所有fd，判断有无读写事件发生</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt;= max &amp;&amp; nfds; ++i) &#123;</span><br><span class="line">      <span class="keyword">if</span> (i == listenfd) &#123;</span><br><span class="line">         --nfds;</span><br><span class="line">         <span class="comment">// 这里处理accept事件</span></span><br><span class="line">         <span class="built_in">FD_SET</span>(i, &amp;read_fd);<span class="comment">//将客户端socket加入到集合中</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (<span class="built_in">FD_ISSET</span>(i, &amp;read_fd)) &#123;</span><br><span class="line">        --nfds;</span><br><span class="line">        <span class="comment">// 这里处理read事件</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (<span class="built_in">FD_ISSET</span>(i, &amp;write_fd)) &#123;</span><br><span class="line">         --nfds;</span><br><span class="line">        <span class="comment">// 这里处理write事件</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>select的缺点：</p>
+<ol>
+<li>单个进程所打开的FD是有限的，需要通过FD_SETSIZE设置，默认1024</li>
+<li>每次调用select，都需要把fd集合从用户态拷贝到内核态，这个开销在fd很多时会很大</li>
+<li>对socket扫描时时线性扫描，采用轮询的方法，效率低</li>
+</ol>
+<h5 id="poll函数接口"><a href="#poll函数接口" class="headerlink" title="poll函数接口"></a>poll函数接口</h5><p>与select相比，只是没有fd的限制，其他基本一样</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;poll.h&gt;</span></span></span><br><span class="line"><span class="comment">// 数据结构</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">pollfd</span> &#123;</span><br><span class="line">    <span class="type">int</span> fd;                         <span class="comment">// 需要监视的文件描述符</span></span><br><span class="line">    <span class="type">short</span> events;                   <span class="comment">// 需要内核监视的事件</span></span><br><span class="line">    <span class="type">short</span> revents;                  <span class="comment">// 实际发生的事件</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// API</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">poll</span><span class="params">(<span class="keyword">struct</span> pollfd fds[], <span class="type">nfds_t</span> nfds, <span class="type">int</span> timeout)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 先宏定义长度</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MAX_POLLFD_LEN 4096  </span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">/*</span></span><br><span class="line"><span class="comment">   * 在这里进行一些初始化的操作，</span></span><br><span class="line"><span class="comment">   * 比如初始化数据和socket等。</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"></span><br><span class="line">  <span class="type">int</span> nfds = <span class="number">0</span>;</span><br><span class="line">  pollfd fds[MAX_POLLFD_LEN];</span><br><span class="line">  <span class="built_in">memset</span>(fds, <span class="number">0</span>, <span class="built_in">sizeof</span>(fds));</span><br><span class="line">  fds[<span class="number">0</span>].fd = listenfd;</span><br><span class="line">  fds[<span class="number">0</span>].events = POLLRDNORM;</span><br><span class="line">  <span class="type">int</span> max  = <span class="number">0</span>;  <span class="comment">// 队列的实际长度，是一个随时更新的，也可以自定义其他的</span></span><br><span class="line">  <span class="type">int</span> timeout = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="type">int</span> current_size = max;</span><br><span class="line">  <span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">    <span class="comment">// 阻塞获取</span></span><br><span class="line">    <span class="comment">// 每次需要把fd从用户态拷贝到内核态</span></span><br><span class="line">    nfds = <span class="built_in">poll</span>(fds, max<span class="number">+1</span>, timeout);</span><br><span class="line">    <span class="keyword">if</span> (fds[<span class="number">0</span>].revents &amp; POLLRDNORM) &#123;</span><br><span class="line">        <span class="comment">// 这里处理accept事件</span></span><br><span class="line">        connfd = <span class="built_in">accept</span>(listenfd);</span><br><span class="line">        <span class="comment">//将新的描述符添加到读描述符集合中</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 每次需要遍历所有fd，判断有无读写事件发生</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; max; ++i) &#123;     </span><br><span class="line">      <span class="keyword">if</span> (fds[i].revents &amp; POLLRDNORM) &#123; </span><br><span class="line">         sockfd = fds[i].fd</span><br><span class="line">         <span class="keyword">if</span> ((n = <span class="built_in">read</span>(sockfd, buf, MAXLINE)) &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// 这里处理read事件</span></span><br><span class="line">            <span class="keyword">if</span> (n == <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="built_in">close</span>(sockfd);</span><br><span class="line">                fds[i].fd = <span class="number">-1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">         &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">             <span class="comment">// 这里处理write事件     </span></span><br><span class="line">         &#125;</span><br><span class="line">         <span class="keyword">if</span> (--nfds &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">break</span>;       </span><br><span class="line">         &#125;   </span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>poll缺点</p>
+<ol>
+<li>每次调用poll，都需要把fd集合从用户态拷贝到内核态，这个开销在fd很多的时候会很大</li>
+<li>对socket扫描时是线性扫描，采用轮询的方法，效率低。</li>
+</ol>
+<h4 id="epoll函数接口"><a href="#epoll函数接口" class="headerlink" title="epoll函数接口"></a>epoll函数接口</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/epoll.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 数据结构</span></span><br><span class="line"><span class="comment">// 每一个epoll对象都有一个独立的eventpoll结构体</span></span><br><span class="line"><span class="comment">// 用于存放通过epoll_ctl方法向epoll对象中添加进来的事件</span></span><br><span class="line"><span class="comment">// epoll_wait检查是否有事件发生时，只需要检查eventpoll对象中的rdlist双链表中是否有epitem元素即可</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">eventpoll</span> &#123;</span><br><span class="line">    <span class="comment">/*红黑树的根节点，这颗树中存储着所有添加到epoll中的需要监控的事件*/</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">rb_root</span>  rbr;</span><br><span class="line">    <span class="comment">/*双链表中则存放着将要通过epoll_wait返回给用户的满足条件的事件*/</span></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">list_head</span> rdlist;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// API</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">epoll_create</span><span class="params">(<span class="type">int</span> size)</span></span>; <span class="comment">// 内核中间加一个 ep 对象，把所有需要监听的 socket 都放到 ep 对象中</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">epoll_ctl</span><span class="params">(<span class="type">int</span> epfd, <span class="type">int</span> op, <span class="type">int</span> fd, <span class="keyword">struct</span> epoll_event *event)</span></span>; <span class="comment">// epoll_ctl 负责把 socket 增加、删除到内核红黑树</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">epoll_wait</span><span class="params">(<span class="type">int</span> epfd, <span class="keyword">struct</span> epoll_event * events, <span class="type">int</span> maxevents, <span class="type">int</span> timeout)</span></span>;<span class="comment">// epoll_wait 负责检测可读队列，没有可读 socket 则阻塞进程</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="comment">/*</span></span><br><span class="line"><span class="comment">   * 在这里进行一些初始化的操作，</span></span><br><span class="line"><span class="comment">   * 比如初始化数据和socket等。</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 内核中创建ep对象</span></span><br><span class="line">    epfd=<span class="built_in">epoll_create</span>(<span class="number">256</span>);</span><br><span class="line">    <span class="comment">// 需要监听的socket放到ep中</span></span><br><span class="line">    <span class="built_in">epoll_ctl</span>(epfd,EPOLL_CTL_ADD,listenfd,&amp;ev);</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>) &#123;</span><br><span class="line">      <span class="comment">// 阻塞获取</span></span><br><span class="line">      nfds = <span class="built_in">epoll_wait</span>(epfd,events,<span class="number">20</span>,<span class="number">0</span>);</span><br><span class="line">      <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;nfds;++i) &#123;</span><br><span class="line">          <span class="keyword">if</span>(events[i].data.fd==listenfd) &#123;</span><br><span class="line">              <span class="comment">// 这里处理accept事件</span></span><br><span class="line">              connfd = <span class="built_in">accept</span>(listenfd);</span><br><span class="line">              <span class="comment">// 接收新连接写到内核对象中</span></span><br><span class="line">              <span class="built_in">epoll_ctl</span>(epfd,EPOLL_CTL_ADD,connfd,&amp;ev);</span><br><span class="line">          &#125; <span class="keyword">else</span> <span class="keyword">if</span> (events[i].events&amp;EPOLLIN) &#123;</span><br><span class="line">              <span class="comment">// 这里处理read事件</span></span><br><span class="line">              <span class="built_in">read</span>(sockfd, BUF, MAXLINE);</span><br><span class="line">              <span class="comment">//读完后准备写</span></span><br><span class="line">              <span class="built_in">epoll_ctl</span>(epfd,EPOLL_CTL_MOD,sockfd,&amp;ev);</span><br><span class="line">          &#125; <span class="keyword">else</span> <span class="keyword">if</span>(events[i].events&amp;EPOLLOUT) &#123;</span><br><span class="line">              <span class="comment">// 这里处理write事件</span></span><br><span class="line">              <span class="built_in">write</span>(sockfd, BUF, n);</span><br><span class="line">              <span class="comment">//写完后准备读</span></span><br><span class="line">              <span class="built_in">epoll_ctl</span>(epfd,EPOLL_CTL_MOD,sockfd,&amp;ev);</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>缺点：epoll只能在linux下工作</p>
+<p>epoll的LT与ET模式的区别</p>
+<ul>
+<li>epoll有EPOLLLT和EPOLLET两种触发模式，LT是默认的模式，ET是“高速”模式。</li>
+<li>LT模式下，只要这个fd还有数据可读，每次 epoll_wait都会返回它的事件，提醒用户程序去操作</li>
+<li>ET模式下，它只会提示一次，直到下次再有数据流入之前都不会再提示了，无论fd中是否还有数据可读。所以在ET模式下，read一个fd的时候一定要把它的buffer读完，或者遇到EAGAIN错误</li>
+</ul>
+<p><img src="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/img/L4XeT3kSo4BAAxYE/1683456236202-4125027b-c81f-4b4b-a4fe-320b4be435d9-406556.png" alt="1683456236202-4125027b-c81f-4b4b-a4fe-320b4be435d9.png"></p>
+<p>epoll_create</p>
+<p>epoll_ctl: 1. <font style="color:rgb(18, 18, 18);">EPOLL_CTL_ADD(注册新的fd到epdf中) 2. EPOLL_CTL_MOD(修改已经注册的fd的监听事件) 3. EPOLL_CTL_DEL(从epfd中删除一个fd)。</font></p>
+<p><font style="color:rgb(18, 18, 18);">epoll_wait</font></p>
+<blockquote>
+<p>更新: 2025-03-12 03:34:46<br>原文: <a target="_blank" rel="noopener" href="https://www.yuque.com/malen/mei/gugi9996aox52kgr">https://www.yuque.com/malen/mei/gugi9996aox52kgr</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/" data-id="cuidrxsyNBlBpBUR5MP1-ey9A" data-title="IO多路复用" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/mei-lun/2025/03/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/Lua%E5%BC%80%E6%BA%90%E5%BA%93cjson/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          Lua开源库cjson
+        
+      </div>
+    </a>
+  
+  
+    <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/Mysql%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Mysql使用教程</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/">Notes</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/">Linux知识</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%91%BD%E4%BB%A4/">Linux命令</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/">Linux工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Linux%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81/">如何监控Linux系统状态</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/">Linux系统基础</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/%E5%AE%B9%E5%99%A8%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF/">容器相关技术</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/">第三方库与框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/">Lua</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">编程基础知识</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/">Mysql</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/">编程工具手册</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/">编程语言应用与工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Go%E8%AF%AD%E8%A8%80/">Go语言</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/">Lua语言</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/">Python语言</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/mei-lun/archives/2025/12/">十二月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mei-lun/archives/2025/03/">三月 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/">关于这个博客笔记网站的建立</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/brpc%E6%A1%86%E6%9E%B6%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%B8%8E%E4%BD%BF%E7%94%A8/">brpc框架的学习与使用</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/Google%EF%BC%8CProtobuff/">Google，Protobuff</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">Git使用教程</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/VScode%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%89%8B%E5%86%8C/">VScode快捷键手册</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 LUN-MEI<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+    <script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?422b9164eef4052a3459283c47afd540";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/mei-lun/" class="mobile-nav-link">Home</a>
+  
+    <a href="/mei-lun/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/mei-lun/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/mei-lun/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/mei-lun/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

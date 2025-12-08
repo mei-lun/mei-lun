@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>vim使用手册 | My Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="vim 复制一整行和赋值多行1. 复制">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vim使用手册">
+<meta property="og:url" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/vim%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="vim 复制一整行和赋值多行1. 复制">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-03-12T03:38:03.000Z">
+<meta property="article:modified_time" content="2025-12-08T19:52:55.764Z">
+<meta property="article:author" content="LUN-MEI">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/mei-lun/atom.xml" title="My Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/mei-lun/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/mei-lun/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/mei-lun/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/mei-lun/" id="logo">My Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/mei-lun/">Home</a>
+        
+          <a class="main-nav-link" href="/mei-lun/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/mei-lun/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mei-lun.github.io/mei-lun"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Notes/编程工具手册/vim使用手册" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/vim%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" class="article-date">
+  <time class="dt-published" datetime="2025-03-12T03:38:03.000Z" itemprop="datePublished">2025-03-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/mei-lun/categories/Notes/">Notes</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/">编程工具手册</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <!-- <h1 class="p-name article-title" itemprop="headline name">
+      vim使用手册
+    </h1> -->
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="vim使用手册"><a href="#vim使用手册" class="headerlink" title="vim使用手册"></a>vim使用手册</h1><h1 id="vim-复制一整行和赋值多行"><a href="#vim-复制一整行和赋值多行" class="headerlink" title="vim 复制一整行和赋值多行"></a>vim 复制一整行和赋值多行</h1><h2 id="1-复制"><a href="#1-复制" class="headerlink" title="1. 复制"></a>1. 复制</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1. 单行复制</span><br><span class="line"></span><br><span class="line">  yy: 复制光标所行</span><br><span class="line"></span><br><span class="line">2. 多行复制</span><br><span class="line"></span><br><span class="line">  nyy: 复制光标下n行</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-粘贴"><a href="#2-粘贴" class="headerlink" title="2. 粘贴"></a>2. 粘贴</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">p:粘贴到光标下一行</span><br><span class="line"></span><br><span class="line">P:粘贴到光标上一行</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-删除"><a href="#3-删除" class="headerlink" title="3. 删除"></a>3. 删除</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">dd: 删除一行</span><br><span class="line"></span><br><span class="line">ndd: 删除往下n行</span><br><span class="line"></span><br><span class="line">dw: 删除光标后的一个单词</span><br><span class="line"></span><br><span class="line">ndw: 删除光标后n个单词</span><br><span class="line"></span><br><span class="line">x: 删除光标所在字符</span><br><span class="line"></span><br><span class="line">d$: 删除一个字符</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-查找"><a href="#4-查找" class="headerlink" title="4. 查找"></a>4. 查找</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/word: 向下查找</span><br><span class="line"></span><br><span class="line">？word：向上查找</span><br><span class="line"></span><br><span class="line">在查找模式下 n：下一个目标， N上一个目标</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-设置行号"><a href="#5-设置行号" class="headerlink" title="5. 设置行号"></a>5. 设置行号</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">命令行模式下: set number</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-跳转到指定行"><a href="#6-跳转到指定行" class="headerlink" title="6. 跳转到指定行"></a>6. 跳转到指定行</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">num + G ： （跳转到num行）</span><br><span class="line"></span><br><span class="line">命令行模式下：n （跳转到第n行）</span><br><span class="line"></span><br><span class="line">gg： 跳转到文件的第一行</span><br><span class="line"></span><br><span class="line">G : 跳转到文件的最后一行</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-文件上下翻转"><a href="#7-文件上下翻转" class="headerlink" title="7. 文件上下翻转"></a>7. 文件上下翻转</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">页翻转可以直接用PgUp 和 PgDn</span><br><span class="line"></span><br><span class="line">向前滚动一屏：Ctrl + F</span><br><span class="line"></span><br><span class="line">向前滚动半屏：Ctrl + D</span><br><span class="line"></span><br><span class="line">向上滚动一行： Ctrl + Y</span><br><span class="line"></span><br><span class="line">向后滚动一屏：Ctrl + B</span><br><span class="line"></span><br><span class="line">向后滚动半屏：Ctrl + U</span><br><span class="line"></span><br><span class="line">向下滚动一行: Ctrl + E</span><br><span class="line"></span><br><span class="line">H：移动到当前屏幕的首行</span><br><span class="line"></span><br><span class="line">M: 移动到当前屏幕的中间</span><br><span class="line"></span><br><span class="line">L: 移动到当前屏幕的末尾</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-撤销上一次的操作"><a href="#8-撤销上一次的操作" class="headerlink" title="8. 撤销上一次的操作"></a>8. 撤销上一次的操作</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">u: 撤销上一个操作</span><br><span class="line"></span><br><span class="line">Ctrl + r：多次撤销</span><br><span class="line"></span><br><span class="line">. ： 重复上一个操作</span><br></pre></td></tr></table></figure>
+
+<h2 id="9-vim-编辑操作"><a href="#9-vim-编辑操作" class="headerlink" title="9. vim 编辑操作"></a>9. vim 编辑操作</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">1. 插入模式</span><br><span class="line"></span><br><span class="line">  i : 进入插入模式</span><br><span class="line"></span><br><span class="line">  a : 从当前光标的下一个字符开始插入</span><br><span class="line"></span><br><span class="line">  A：从当前光标的最后一个字符处开始插入</span><br><span class="line"></span><br><span class="line">  o : 从光标的下一行插入</span><br><span class="line"></span><br><span class="line">  O : 从光标的上一行插入</span><br><span class="line"></span><br><span class="line">2. 进入替换模式</span><br><span class="line"></span><br><span class="line">  r : 替换光标所在的字符</span><br><span class="line"></span><br><span class="line">  R : 一直替换光标所在的字符至ESC止</span><br><span class="line"></span><br><span class="line">3. 一般模式切换到命令行模式</span><br><span class="line"></span><br><span class="line">  W: 保存文件</span><br><span class="line"></span><br><span class="line">  w!: 若文件为只读，强制保存文件</span><br><span class="line"></span><br><span class="line">  q: 退出</span><br><span class="line"></span><br><span class="line">  q!: 强制退出</span><br><span class="line"></span><br><span class="line">  wq!: 强制保存退出</span><br><span class="line"></span><br><span class="line">   ! command: 暂时离开vi到命令行下执行一个命令然后显示结果</span><br><span class="line"></span><br><span class="line">  set nu: 显示行号</span><br><span class="line"></span><br><span class="line">  set nonu: 取消显示行号</span><br><span class="line"></span><br><span class="line">  w newfile: 另存为</span><br><span class="line"></span><br><span class="line">  set fileencoding: 查看当前文件的文件编码</span><br><span class="line"></span><br><span class="line">  set fileencoding=utf-8: 设置当前文件文件编码格式为utf-8</span><br><span class="line"></span><br><span class="line">  set fileformat: 查看当前文件的断行格式</span><br><span class="line"></span><br><span class="line">  set fileformat = unix: 将当前文件的断行格式设置为unix格式</span><br></pre></td></tr></table></figure>
+
+<h2 id="10-多窗口功能"><a href="#10-多窗口功能" class="headerlink" title="10. 多窗口功能"></a>10. 多窗口功能</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sp filename 打开一个新窗口，显示新文件， 若只输入sp，则两窗口显示同一个文件</span><br><span class="line"></span><br><span class="line">Ctrl + w : 切换窗口</span><br><span class="line"></span><br><span class="line">Ctrl + w + j : 光标移动到下方窗口</span><br><span class="line"></span><br><span class="line">Ctrl + w + k : 光标移动到上方窗口</span><br><span class="line"></span><br><span class="line">Ctrl+ w + q : 离开当前窗口</span><br></pre></td></tr></table></figure>
+
+<h2 id="11-缩进"><a href="#11-缩进" class="headerlink" title="11. 缩进"></a>11. 缩进</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">批量缩进 &gt; &lt;</span><br><span class="line"></span><br><span class="line">行号1， 行号2&gt;</span><br><span class="line"></span><br><span class="line">例如将1至5行批量缩进一个tab，1,5&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>更新: 2025-03-12 03:38:03<br>原文: <a target="_blank" rel="noopener" href="https://www.yuque.com/malen/mei/bbvt3tvdtcatq3bh">https://www.yuque.com/malen/mei/bbvt3tvdtcatq3bh</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/vim%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/" data-id="cuidlmVQqsgXGsba0ClDLtTE_" data-title="vim使用手册" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/VScode%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%89%8B%E5%86%8C/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          VScode快捷键手册
+        
+      </div>
+    </a>
+  
+  
+    <a href="/mei-lun/2025/03/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%91%BD%E4%BB%A4/awk%E5%91%BD%E4%BB%A4/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">awk命令</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/">Notes</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/">Linux知识</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%91%BD%E4%BB%A4/">Linux命令</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/">Linux工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Linux%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81/">如何监控Linux系统状态</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/">Linux系统基础</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/%E5%AE%B9%E5%99%A8%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF/">容器相关技术</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/">第三方库与框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/">Lua</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">编程基础知识</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/">Mysql</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/">编程工具手册</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/">编程语言应用与工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Go%E8%AF%AD%E8%A8%80/">Go语言</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/">Lua语言</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/">Python语言</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/mei-lun/archives/2025/12/">十二月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mei-lun/archives/2025/03/">三月 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/">关于这个博客笔记网站的建立</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/brpc%E6%A1%86%E6%9E%B6%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%B8%8E%E4%BD%BF%E7%94%A8/">brpc框架的学习与使用</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/Google%EF%BC%8CProtobuff/">Google，Protobuff</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">Git使用教程</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/VScode%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%89%8B%E5%86%8C/">VScode快捷键手册</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 LUN-MEI<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+    <script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?422b9164eef4052a3459283c47afd540";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/mei-lun/" class="mobile-nav-link">Home</a>
+  
+    <a href="/mei-lun/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/mei-lun/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/mei-lun/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/mei-lun/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

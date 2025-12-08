@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>sysstat命令 | My Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="sar 命令在使用sar -u 3命令时，输出这样的信息：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sysstat命令">
+<meta property="og:url" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Linux%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81/sysstat%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="sar 命令在使用sar -u 3命令时，输出这样的信息：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Linux%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81/sysstat%E5%91%BD%E4%BB%A4/img/snAv2dWGoMObET9-/1741716973573-b2323b4d-8b9c-4540-8d68-8e06b3f89c07-727862.png">
+<meta property="og:image" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Linux%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81/sysstat%E5%91%BD%E4%BB%A4/img/snAv2dWGoMObET9-/1741718362372-e1c93d1d-6f79-451f-9c6b-5ead0c5e8b3a-063454.png">
+<meta property="og:image" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Linux%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81/sysstat%E5%91%BD%E4%BB%A4/img/snAv2dWGoMObET9-/1741718291047-01d9b91b-6373-4bf4-8016-d78fd526839a-300120.png">
+<meta property="article:published_time" content="2025-03-12T03:37:19.000Z">
+<meta property="article:modified_time" content="2025-12-08T19:52:55.728Z">
+<meta property="article:author" content="LUN-MEI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Linux%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81/sysstat%E5%91%BD%E4%BB%A4/img/snAv2dWGoMObET9-/1741716973573-b2323b4d-8b9c-4540-8d68-8e06b3f89c07-727862.png">
+  
+    <link rel="alternate" href="/mei-lun/atom.xml" title="My Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/mei-lun/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/mei-lun/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/mei-lun/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/mei-lun/" id="logo">My Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/mei-lun/">Home</a>
+        
+          <a class="main-nav-link" href="/mei-lun/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/mei-lun/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mei-lun.github.io/mei-lun"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Notes/Linux知识/Linux工具/如何监控Linux系统状态/sysstat命令" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/mei-lun/2025/03/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Linux%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81/sysstat%E5%91%BD%E4%BB%A4/" class="article-date">
+  <time class="dt-published" datetime="2025-03-12T03:37:19.000Z" itemprop="datePublished">2025-03-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/mei-lun/categories/Notes/">Notes</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/">Linux知识</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/">Linux工具</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Linux%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81/">如何监控Linux系统状态</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <!-- <h1 class="p-name article-title" itemprop="headline name">
+      sysstat命令
+    </h1> -->
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="sysstat命令"><a href="#sysstat命令" class="headerlink" title="sysstat命令"></a>sysstat命令</h1><h3 id="sar-命令"><a href="#sar-命令" class="headerlink" title="sar 命令"></a><code><strong><font style="color:rgb(64, 64, 64);">sar</font></strong></code><strong><font style="color:rgb(64, 64, 64);"> 命令</font></strong></h3><p>在使用<code>sar -u 3</code>命令时，输出这样的信息：</p>
+<p><img src="/mei-lun/2025/03/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Linux%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81/sysstat%E5%91%BD%E4%BB%A4/img/snAv2dWGoMObET9-/1741716973573-b2323b4d-8b9c-4540-8d68-8e06b3f89c07-727862.png" alt="1741716973573-b2323b4d-8b9c-4540-8d68-8e06b3f89c07.png"></p>
+<p>字段含义：</p>
+<ul>
+<li><strong><font style="color:rgb(64, 64, 64);">CPU</font></strong><font style="color:rgb(64, 64, 64);">：CPU 核心编号。</font><code><font style="color:rgb(64, 64, 64);">all</font></code><font style="color:rgb(64, 64, 64);"> </font><font style="color:rgb(64, 64, 64);">表示所有 CPU 的平均值。</font></li>
+<li><strong><font style="color:rgb(64, 64, 64);">%user</font></strong><font style="color:rgb(64, 64, 64);">：用户态程序占用 CPU 时间的百分比。</font></li>
+<li><strong><font style="color:rgb(64, 64, 64);">%nice</font></strong><font style="color:rgb(64, 64, 64);">：低优先级（nice）用户态程序占用 CPU 时间的百分比。</font></li>
+<li><strong><font style="color:rgb(64, 64, 64);">%system</font></strong><font style="color:rgb(64, 64, 64);">：内核态程序占用 CPU 时间的百分比。</font></li>
+<li><strong><font style="color:rgb(64, 64, 64);">%iowait</font></strong><font style="color:rgb(64, 64, 64);">：CPU 等待 I&#x2F;O 操作完成的时间百分比。</font></li>
+<li><strong><font style="color:rgb(64, 64, 64);">%steal</font></strong><font style="color:rgb(64, 64, 64);">：虚拟机被其他虚拟机占用的 CPU 时间百分比。</font></li>
+<li><strong><font style="color:rgb(64, 64, 64);">%idle</font></strong><font style="color:rgb(64, 64, 64);">：CPU 空闲时间的百分比。</font></li>
+</ul>
+<h4 id="关键指标的含义"><a href="#关键指标的含义" class="headerlink" title="关键指标的含义"></a><strong><font style="color:rgb(64, 64, 64);">关键指标的含义</font></strong></h4><ul>
+<li><strong><font style="color:rgb(64, 64, 64);">%user</font></strong><font style="color:rgb(64, 64, 64);">：用户态程序的 CPU 使用率。如果这个值很高，说明用户态程序（如应用程序）占用了大量 CPU。</font></li>
+<li><strong><font style="color:rgb(64, 64, 64);">%system</font></strong><font style="color:rgb(64, 64, 64);">：内核态程序的 CPU 使用率。如果这个值很高，说明内核态程序（如系统调用、中断处理）占用了大量 CPU。</font></li>
+<li><strong><font style="color:rgb(64, 64, 64);">%iowait</font></strong><font style="color:rgb(64, 64, 64);">：CPU 等待 I&#x2F;O 操作的时间。如果这个值很高，说明系统可能存在 I&#x2F;O 瓶颈。</font></li>
+<li><strong><font style="color:rgb(64, 64, 64);">%idle</font></strong><font style="color:rgb(64, 64, 64);">：CPU 空闲时间。如果这个值很低，说明 CPU 负载较高。</font></li>
+<li><strong><font style="color:rgb(64, 64, 64);">%steal</font></strong><font style="color:rgb(64, 64, 64);">：虚拟机被其他虚拟机占用的 CPU 时间。如果这个值很高，说明虚拟机资源被过度分配。</font></li>
+</ul>
+<p><code><font style="color:rgb(64, 64, 64);">sar</font></code><font style="color:rgb(64, 64, 64);">（System Activity Reporter）用于收集、报告和保存系统活动的信息。</font></p>
+<h4 id="常用参数："><a href="#常用参数：" class="headerlink" title="常用参数："></a><font style="color:rgb(64, 64, 64);">常用参数：</font></h4><ul>
+<li><code><strong><font style="color:rgb(64, 64, 64);">-u</font></strong></code><font style="color:rgb(64, 64, 64);">：显示 CPU 使用情况。</font><ul>
+<li><font style="color:rgb(64, 64, 64);">示例：</font><code><font style="color:rgb(64, 64, 64);">sar -u 1 10</font></code><ul>
+<li><code><font style="color:rgb(64, 64, 64);">1</font></code><font style="color:rgb(64, 64, 64);">：每隔 1 秒收集一次数据。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">10</font></code><font style="color:rgb(64, 64, 64);">：共收集 10 次。</font></li>
+</ul>
+</li>
+<li><font style="color:rgb(64, 64, 64);">输出字段：</font><ul>
+<li><code><font style="color:rgb(64, 64, 64);">%user</font></code><font style="color:rgb(64, 64, 64);">：用户态程序占用 CPU 时间的百分比。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">%nice</font></code><font style="color:rgb(64, 64, 64);">：低优先级用户态程序占用 CPU 时间的百分比。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">%system</font></code><font style="color:rgb(64, 64, 64);">：内核态程序占用 CPU 时间的百分比。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">%iowait</font></code><font style="color:rgb(64, 64, 64);">：CPU 等待 I&#x2F;O 操作的时间百分比。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">%steal</font></code><font style="color:rgb(64, 64, 64);">：虚拟机被其他虚拟机占用的 CPU 时间百分比。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">%idle</font></code><font style="color:rgb(64, 64, 64);">：CPU 空闲时间的百分比。</font></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code><strong><font style="color:rgb(64, 64, 64);">-r</font></strong></code><font style="color:rgb(64, 64, 64);">：显示内存使用情况。</font><ul>
+<li><font style="color:rgb(64, 64, 64);">示例：</font><code><font style="color:rgb(64, 64, 64);">sar -r 1 10</font></code></li>
+<li><font style="color:rgb(64, 64, 64);">输出字段：</font><ul>
+<li><code><font style="color:rgb(64, 64, 64);">kbmemfree</font></code><font style="color:rgb(64, 64, 64);">：空闲内存大小（KB）。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">kbmemused</font></code><font style="color:rgb(64, 64, 64);">：已用内存大小（KB）。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">%memused</font></code><font style="color:rgb(64, 64, 64);">：内存使用率。</font></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code><strong><font style="color:rgb(64, 64, 64);">-b</font></strong></code><font style="color:rgb(64, 64, 64);">：显示 I&#x2F;O 和传输速率。</font><ul>
+<li><font style="color:rgb(64, 64, 64);">示例：</font><code><font style="color:rgb(64, 64, 64);">sar -b 1 10</font></code></li>
+<li><font style="color:rgb(64, 64, 64);">输出字段：</font><ul>
+<li><code><font style="color:rgb(64, 64, 64);">tps</font></code><font style="color:rgb(64, 64, 64);">：每秒的传输次数。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">rtps</font></code><font style="color:rgb(64, 64, 64);">：每秒的读请求数。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">wtps</font></code><font style="color:rgb(64, 64, 64);">：每秒的写请求数。</font></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code><strong><font style="color:rgb(64, 64, 64);">-n DEV</font></strong></code><font style="color:rgb(64, 64, 64);">：显示网络设备的活动。</font><ul>
+<li><font style="color:rgb(64, 64, 64);">示例：</font><code><font style="color:rgb(64, 64, 64);">sar -n DEV 1 10</font></code></li>
+<li><font style="color:rgb(64, 64, 64);">输出字段：</font><ul>
+<li><code><font style="color:rgb(64, 64, 64);">rxkB/s</font></code><font style="color:rgb(64, 64, 64);">：每秒接收的数据量（KB）。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">txkB/s</font></code><font style="color:rgb(64, 64, 64);">：每秒发送的数据量（KB）。</font></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code><strong><font style="color:rgb(64, 64, 64);">-q</font></strong></code><font style="color:rgb(64, 64, 64);">：显示系统负载和任务队列长度。</font><ul>
+<li><font style="color:rgb(64, 64, 64);">示例：</font><code><font style="color:rgb(64, 64, 64);">sar -q 1 10</font></code></li>
+<li><font style="color:rgb(64, 64, 64);">输出字段：</font><ul>
+<li><code><font style="color:rgb(64, 64, 64);">runq-sz</font></code><font style="color:rgb(64, 64, 64);">：运行队列长度。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">plist-sz</font></code><font style="color:rgb(64, 64, 64);">：任务列表长度。</font></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="iostat-命令"><a href="#iostat-命令" class="headerlink" title="iostat 命令"></a><code><strong><font style="color:rgb(64, 64, 64);">iostat</font></strong></code><strong><font style="color:rgb(64, 64, 64);"> 命令</font></strong></h3><p><code><font style="color:rgb(64, 64, 64);">iostat</font></code><font style="color:rgb(64, 64, 64);"> </font><font style="color:rgb(64, 64, 64);">用于监控系统输入、输出设备的负载情况。</font></p>
+<p><img src="/mei-lun/2025/03/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Linux%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81/sysstat%E5%91%BD%E4%BB%A4/img/snAv2dWGoMObET9-/1741718362372-e1c93d1d-6f79-451f-9c6b-5ead0c5e8b3a-063454.png" alt="1741718362372-e1c93d1d-6f79-451f-9c6b-5ead0c5e8b3a.png"></p>
+<h4 id="常用参数：-1"><a href="#常用参数：-1" class="headerlink" title="常用参数："></a><font style="color:rgb(64, 64, 64);">常用参数：</font></h4><ul>
+<li><code><strong><font style="color:rgb(64, 64, 64);">-x</font></strong></code><font style="color:rgb(64, 64, 64);">：显示详细的设备 I&#x2F;O 统计信息。</font><ul>
+<li><font style="color:rgb(64, 64, 64);">示例：</font><code><font style="color:rgb(64, 64, 64);">iostat -x 2 5</font></code><ul>
+<li><code><font style="color:rgb(64, 64, 64);">2</font></code><font style="color:rgb(64, 64, 64);">：每隔 2 秒显示一次数据。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">5</font></code><font style="color:rgb(64, 64, 64);">：共显示 5 次。</font></li>
+</ul>
+</li>
+<li><font style="color:rgb(64, 64, 64);">输出字段：</font><ul>
+<li><code><font style="color:rgb(64, 64, 64);">r/s</font></code><font style="color:rgb(64, 64, 64);">：每秒的读请求数。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">w/s</font></code><font style="color:rgb(64, 64, 64);">：每秒的写请求数。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">rkB/s</font></code><font style="color:rgb(64, 64, 64);">：每秒读取的数据量（KB）。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">wkB/s</font></code><font style="color:rgb(64, 64, 64);">：每秒写入的数据量（KB）。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">%util</font></code><font style="color:rgb(64, 64, 64);">：设备的利用率。</font></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code><strong><font style="color:rgb(64, 64, 64);">-c</font></strong></code><font style="color:rgb(64, 64, 64);">：显示 CPU 使用情况。</font><ul>
+<li><font style="color:rgb(64, 64, 64);">示例：</font><code><font style="color:rgb(64, 64, 64);">iostat -c 2 5</font></code></li>
+<li><font style="color:rgb(64, 64, 64);">输出字段：</font><ul>
+<li><code><font style="color:rgb(64, 64, 64);">%user</font></code><font style="color:rgb(64, 64, 64);">、</font><code><font style="color:rgb(64, 64, 64);">%nice</font></code><font style="color:rgb(64, 64, 64);">、</font><code><font style="color:rgb(64, 64, 64);">%system</font></code><font style="color:rgb(64, 64, 64);">、</font><code><font style="color:rgb(64, 64, 64);">%iowait</font></code><font style="color:rgb(64, 64, 64);">、</font><code><font style="color:rgb(64, 64, 64);">%steal</font></code><font style="color:rgb(64, 64, 64);">、</font><code><font style="color:rgb(64, 64, 64);">%idle</font></code><font style="color:rgb(64, 64, 64);">。</font></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code><strong><font style="color:rgb(64, 64, 64);">-d</font></strong></code><font style="color:rgb(64, 64, 64);">：显示设备 I&#x2F;O 统计信息。</font><ul>
+<li><font style="color:rgb(64, 64, 64);">示例：</font><code><font style="color:rgb(64, 64, 64);">iostat -d 2 5</font></code></li>
+<li><font style="color:rgb(64, 64, 64);">输出字段：</font><ul>
+<li><code><font style="color:rgb(64, 64, 64);">tps</font></code><font style="color:rgb(64, 64, 64);">：每秒的传输次数。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">kB_read/s</font></code><font style="color:rgb(64, 64, 64);">：每秒读取的数据量（KB）。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">kB_wrtn/s</font></code><font style="color:rgb(64, 64, 64);">：每秒写入的数据量（KB）。</font></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code><strong><font style="color:rgb(64, 64, 64);">-m</font></strong></code><font style="color:rgb(64, 64, 64);">：以 MB&#x2F;s 为单位显示数据。</font><ul>
+<li><font style="color:rgb(64, 64, 64);">示例：</font><code><font style="color:rgb(64, 64, 64);">iostat -x -m 2 5</font></code></li>
+</ul>
+</li>
+</ul>
+<h3 id="mpstat-命令"><a href="#mpstat-命令" class="headerlink" title="mpstat 命令"></a><code><strong><font style="color:rgb(64, 64, 64);">mpstat</font></strong></code><strong><font style="color:rgb(64, 64, 64);"> 命令</font></strong></h3><p><code><font style="color:rgb(64, 64, 64);">mpstat</font></code><font style="color:rgb(64, 64, 64);"> </font><font style="color:rgb(64, 64, 64);">用于报告各个处理器的活动。</font></p>
+<p><img src="/mei-lun/2025/03/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Linux%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81/sysstat%E5%91%BD%E4%BB%A4/img/snAv2dWGoMObET9-/1741718291047-01d9b91b-6373-4bf4-8016-d78fd526839a-300120.png" alt="1741718291047-01d9b91b-6373-4bf4-8016-d78fd526839a.png"></p>
+<h4 id="常用参数：-2"><a href="#常用参数：-2" class="headerlink" title="常用参数："></a><font style="color:rgb(64, 64, 64);">常用参数：</font></h4><ul>
+<li><code><strong><font style="color:rgb(64, 64, 64);">-P ALL</font></strong></code><font style="color:rgb(64, 64, 64);">：显示所有 CPU 的详细活动信息。</font><ul>
+<li><font style="color:rgb(64, 64, 64);">示例：</font><code><font style="color:rgb(64, 64, 64);">mpstat -P ALL 2 5</font></code><ul>
+<li><code><font style="color:rgb(64, 64, 64);">2</font></code><font style="color:rgb(64, 64, 64);">：每隔 2 秒显示一次数据。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">5</font></code><font style="color:rgb(64, 64, 64);">：共显示 5 次。</font></li>
+</ul>
+</li>
+<li><font style="color:rgb(64, 64, 64);">输出字段：</font><ul>
+<li><code><font style="color:rgb(64, 64, 64);">CPU</font></code><font style="color:rgb(64, 64, 64);">：CPU 编号（</font><code><font style="color:rgb(64, 64, 64);">ALL</font></code><font style="color:rgb(64, 64, 64);"> </font><font style="color:rgb(64, 64, 64);">表示所有 CPU 的平均值）。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">%usr</font></code><font style="color:rgb(64, 64, 64);">：用户态程序占用 CPU 时间的百分比。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">%nice</font></code><font style="color:rgb(64, 64, 64);">：低优先级用户态程序占用 CPU 时间的百分比。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">%sys</font></code><font style="color:rgb(64, 64, 64);">：内核态程序占用 CPU 时间的百分比。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">%iowait</font></code><font style="color:rgb(64, 64, 64);">：CPU 等待 I&#x2F;O 操作的时间百分比。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">%irq</font></code><font style="color:rgb(64, 64, 64);">：处理硬件中断的时间百分比。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">%soft</font></code><font style="color:rgb(64, 64, 64);">：处理软件中断的时间百分比。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">%steal</font></code><font style="color:rgb(64, 64, 64);">：虚拟机被其他虚拟机占用的 CPU 时间百分比。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">%guest</font></code><font style="color:rgb(64, 64, 64);">：运行虚拟机的时间百分比。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">%idle</font></code><font style="color:rgb(64, 64, 64);">：CPU 空闲时间的百分比。</font></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code><strong><font style="color:rgb(64, 64, 64);">-I SUM</font></strong></code><font style="color:rgb(64, 64, 64);">：显示中断统计信息。</font><ul>
+<li><font style="color:rgb(64, 64, 64);">示例：</font><code><font style="color:rgb(64, 64, 64);">mpstat -I SUM 2 5</font></code></li>
+<li><font style="color:rgb(64, 64, 64);">输出字段：</font><ul>
+<li><code><font style="color:rgb(64, 64, 64);">CPU</font></code><font style="color:rgb(64, 64, 64);">：CPU 编号。</font></li>
+<li><code><font style="color:rgb(64, 64, 64);">intr/s</font></code><font style="color:rgb(64, 64, 64);">：每秒的中断次数。</font></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code><strong><font style="color:rgb(64, 64, 64);">-u</font></strong></code><font style="color:rgb(64, 64, 64);">：显示 CPU 使用情况（默认行为）。</font><ul>
+<li><font style="color:rgb(64, 64, 64);">示例：</font><code><font style="color:rgb(64, 64, 64);">mpstat -u 2 5</font></code></li>
+</ul>
+</li>
+</ul>
+<h3 id="其他常用参数"><a href="#其他常用参数" class="headerlink" title="其他常用参数"></a><strong><font style="color:rgb(64, 64, 64);">其他常用参数</font></strong></h3><h4 id="sar"><a href="#sar" class="headerlink" title="sar"></a><code><strong><font style="color:rgb(64, 64, 64);">sar</font></strong></code></h4><ul>
+<li><code><strong><font style="color:rgb(64, 64, 64);">-A</font></strong></code><font style="color:rgb(64, 64, 64);">：显示所有系统活动信息。</font></li>
+<li><code><strong><font style="color:rgb(64, 64, 64);">-o</font></strong></code><font style="color:rgb(64, 64, 64);">：将输出保存到文件。</font><ul>
+<li><font style="color:rgb(64, 64, 64);">示例：</font><code><font style="color:rgb(64, 64, 64);">sar -o output.sar 1 10</font></code></li>
+</ul>
+</li>
+</ul>
+<h4 id="iostat"><a href="#iostat" class="headerlink" title="iostat"></a><code><strong><font style="color:rgb(64, 64, 64);">iostat</font></strong></code></h4><ul>
+<li><code><strong><font style="color:rgb(64, 64, 64);">-p</font></strong></code><font style="color:rgb(64, 64, 64);">：显示每个分区的 I&#x2F;O 统计信息。</font><ul>
+<li><font style="color:rgb(64, 64, 64);">示例：</font><code><font style="color:rgb(64, 64, 64);">iostat -p sda 2 5</font></code></li>
+</ul>
+</li>
+</ul>
+<h4 id="mpstat"><a href="#mpstat" class="headerlink" title="mpstat"></a><code><strong><font style="color:rgb(64, 64, 64);">mpstat</font></strong></code></h4><ul>
+<li><code><strong><font style="color:rgb(64, 64, 64);">-V</font></strong></code><font style="color:rgb(64, 64, 64);">：显示版本信息。</font></li>
+<li><code><strong><font style="color:rgb(64, 64, 64);">-I ALL</font></strong></code><font style="color:rgb(64, 64, 64);">：显示所有中断的详细信息。</font></li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong><font style="color:rgb(64, 64, 64);">总结</font></strong></h3><ul>
+<li><code><strong><font style="color:rgb(64, 64, 64);">sar</font></strong></code><font style="color:rgb(64, 64, 64);">：用于收集和报告系统活动信息，常用参数包括</font><font style="color:rgb(64, 64, 64);"> </font><code><font style="color:rgb(64, 64, 64);">-u</font></code><font style="color:rgb(64, 64, 64);">（CPU）、</font><code><font style="color:rgb(64, 64, 64);">-r</font></code><font style="color:rgb(64, 64, 64);">（内存）、</font><code><font style="color:rgb(64, 64, 64);">-b</font></code><font style="color:rgb(64, 64, 64);">（I&#x2F;O）、</font><code><font style="color:rgb(64, 64, 64);">-n DEV</font></code><font style="color:rgb(64, 64, 64);">（网络）。</font></li>
+<li><code><strong><font style="color:rgb(64, 64, 64);">iostat</font></strong></code><font style="color:rgb(64, 64, 64);">：用于监控设备 I&#x2F;O 负载，常用参数包括</font><font style="color:rgb(64, 64, 64);"> </font><code><font style="color:rgb(64, 64, 64);">-x</font></code><font style="color:rgb(64, 64, 64);">（详细 I&#x2F;O）、</font><code><font style="color:rgb(64, 64, 64);">-c</font></code><font style="color:rgb(64, 64, 64);">（CPU）、</font><code><font style="color:rgb(64, 64, 64);">-d</font></code><font style="color:rgb(64, 64, 64);">（设备 I&#x2F;O）。</font></li>
+<li><code><strong><font style="color:rgb(64, 64, 64);">mpstat</font></strong></code><font style="color:rgb(64, 64, 64);">：用于报告 CPU 活动，常用参数包括 </font><code><font style="color:rgb(64, 64, 64);">-P ALL</font></code><font style="color:rgb(64, 64, 64);">（所有 CPU）、</font><code><font style="color:rgb(64, 64, 64);">-I SUM</font></code><font style="color:rgb(64, 64, 64);">（中断统计）。</font></li>
+</ul>
+<blockquote>
+<p>更新: 2025-03-12 03:37:19<br>原文: <a target="_blank" rel="noopener" href="https://www.yuque.com/malen/mei/ktt35czbggwfcsg4">https://www.yuque.com/malen/mei/ktt35czbggwfcsg4</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mei-lun.github.io/mei-lun/2025/03/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Linux%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81/sysstat%E5%91%BD%E4%BB%A4/" data-id="cuidlmIbOLGes85939I6RiCzr" data-title="sysstat命令" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/mei-lun/2025/03/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Linux%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81/index/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          index
+        
+      </div>
+    </a>
+  
+  
+    <a href="/mei-lun/2025/03/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/OpenCV3%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">OpenCV3编程入门</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/">Notes</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/">Linux知识</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%91%BD%E4%BB%A4/">Linux命令</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/">Linux工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Linux%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81/">如何监控Linux系统状态</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/">Linux系统基础</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/%E5%AE%B9%E5%99%A8%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF/">容器相关技术</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/">第三方库与框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/">Lua</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">编程基础知识</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/">Mysql</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/">编程工具手册</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/">编程语言应用与工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Go%E8%AF%AD%E8%A8%80/">Go语言</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/">Lua语言</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/">Python语言</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/mei-lun/archives/2025/12/">十二月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mei-lun/archives/2025/03/">三月 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/">关于这个博客笔记网站的建立</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/brpc%E6%A1%86%E6%9E%B6%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%B8%8E%E4%BD%BF%E7%94%A8/">brpc框架的学习与使用</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/Google%EF%BC%8CProtobuff/">Google，Protobuff</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">Git使用教程</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/VScode%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%89%8B%E5%86%8C/">VScode快捷键手册</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 LUN-MEI<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+    <script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?422b9164eef4052a3459283c47afd540";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/mei-lun/" class="mobile-nav-link">Home</a>
+  
+    <a href="/mei-lun/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/mei-lun/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/mei-lun/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/mei-lun/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

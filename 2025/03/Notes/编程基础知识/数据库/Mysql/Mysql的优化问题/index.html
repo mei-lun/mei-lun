@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Mysql的优化问题 | My Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Mysql一张表最多能存多少数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql的优化问题">
+<meta property="og:url" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/Mysql%E7%9A%84%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="Mysql一张表最多能存多少数据">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/Mysql%E7%9A%84%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/img/8Emzj3VqJxz2dk31/1741283827452-13a74c4d-fdf9-47ad-9104-608e1f985235-841990.png">
+<meta property="og:image" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/Mysql%E7%9A%84%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/img/8Emzj3VqJxz2dk31/1741371579431-bfcc2228-ed5a-477f-97e8-1231d0bd598a-506339.png">
+<meta property="og:image" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/Mysql%E7%9A%84%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/img/8Emzj3VqJxz2dk31/1741372503682-32367053-f05c-40a9-9f62-2bd84de1a9d6-697831.png">
+<meta property="og:image" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/Mysql%E7%9A%84%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/img/8Emzj3VqJxz2dk31/1741372641334-147dd55c-0cfc-4108-a21e-424878f2201b-234959.png">
+<meta property="article:published_time" content="2025-03-12T03:34:45.000Z">
+<meta property="article:modified_time" content="2025-12-08T19:52:55.740Z">
+<meta property="article:author" content="LUN-MEI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/Mysql%E7%9A%84%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/img/8Emzj3VqJxz2dk31/1741283827452-13a74c4d-fdf9-47ad-9104-608e1f985235-841990.png">
+  
+    <link rel="alternate" href="/mei-lun/atom.xml" title="My Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/mei-lun/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/mei-lun/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/mei-lun/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/mei-lun/" id="logo">My Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/mei-lun/">Home</a>
+        
+          <a class="main-nav-link" href="/mei-lun/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/mei-lun/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mei-lun.github.io/mei-lun"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Notes/编程基础知识/数据库/Mysql/Mysql的优化问题" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/Mysql%E7%9A%84%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/" class="article-date">
+  <time class="dt-published" datetime="2025-03-12T03:34:45.000Z" itemprop="datePublished">2025-03-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/mei-lun/categories/Notes/">Notes</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">编程基础知识</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/">Mysql</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <!-- <h1 class="p-name article-title" itemprop="headline name">
+      Mysql的优化问题
+    </h1> -->
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Mysql的优化问题"><a href="#Mysql的优化问题" class="headerlink" title="Mysql的优化问题"></a>Mysql的优化问题</h1><p><img src="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/Mysql%E7%9A%84%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/img/8Emzj3VqJxz2dk31/1741283827452-13a74c4d-fdf9-47ad-9104-608e1f985235-841990.png" alt="1741283827452-13a74c4d-fdf9-47ad-9104-608e1f985235.png"></p>
+<h1 id="Mysql一张表最多能存多少数据"><a href="#Mysql一张表最多能存多少数据" class="headerlink" title="Mysql一张表最多能存多少数据"></a>Mysql一张表最多能存多少数据</h1><p>MySQL设计者将一个B+Tree的节点的大小设置为等于一个页（这样做的目的是每个节点只需要一次I&#x2F;O就可以完全载入），InnoDB的一个页的大小是16KB，所以每个节点的大小也是16KB，并且B+Tree的根节点是保存在内存中的，子节点才是存储在磁盘上。</p>
+<p><img src="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/Mysql%E7%9A%84%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/img/8Emzj3VqJxz2dk31/1741371579431-bfcc2228-ed5a-477f-97e8-1231d0bd598a-506339.png" alt="1741371579431-bfcc2228-ed5a-477f-97e8-1231d0bd598a.png"></p>
+<p>假设一个B+树高度为2，即存在一个根节点和若干个叶子节点，那么这棵树的存放总记录数为：</p>
+<p>根节点指针树*单个叶子节点记录行数</p>
+<p>计算根节点指针数：假设表的主键为INT类型，占用的就是4个字节，或者是BIGINT占用8个字节。指针大小为6个字节。一个查询也（B-Tree中的一个节点）16KB，大概可以存储：16384B&#x2F;(4B+6B) &#x3D; 1638,一个节点最多可以存储1638个索引指针。</p>
+<p>计算每个叶子节点的记录数：假如一行记录的数据大小为1k，那么一个页就可以存储16行数据。</p>
+<p>一个高度为2的B+Tree可以存放的记录数为：1638<em>16 &#x3D; 26208条数据记录，同样可以推算出一颗高度为3的B+Tree可以存放1638</em>1638*16 &#x3D; 42928704条这样的记录。</p>
+<p>所以InnoDB中的B+Tree高度一般为1-3层，就可以满足千万级别的数据存储，在查找数据时一次页的查找代表一次IO，通过逐渐索引查询通常只需要1-3次IO操作即可查找到数据。</p>
+<h1 id="Mysql单表数据不能过大的根本原因是什么？"><a href="#Mysql单表数据不能过大的根本原因是什么？" class="headerlink" title="Mysql单表数据不能过大的根本原因是什么？"></a>Mysql单表数据不能过大的根本原因是什么？</h1><h2 id="猜想一：是索引深度吗？"><a href="#猜想一：是索引深度吗？" class="headerlink" title="猜想一：是索引深度吗？"></a>猜想一：是索引深度吗？</h2><p>根据上面所讲的，索引深度没有那么容易增加。</p>
+<p>搜索路径延长导致性能下降的说法，与当时的机械硬盘和内存条件不无关系。之前机械硬盘的IOPS在100左右，而现在普遍使用的SSD的IOPS已经过万，之前的内存最大几十G，现在服务器内存最大可达到TB级。因此，即使深度增加，以目前的硬件资源，IO也不会成为限制MySQL单表数据量的根本性因素。</p>
+<h2 id="猜想二：是SMO无法并发吗？"><a href="#猜想二：是SMO无法并发吗？" class="headerlink" title="猜想二：是SMO无法并发吗？"></a>猜想二：是SMO无法并发吗？</h2><p>我们可以尝试从MySQL所采用的存储引擎InnoDB本身来探究一下。</p>
+<p>大家知道InnoDB引擎使用的是索引组织表，它是通过索引来组织数据的，而它采用B+tree作为索引的数据结构。B+Tree操作非原子，所以当一个线程做结构调整（SMO，Struction-Modification-Operation）时一般会涉及多个节点的改动。SMO动作过程中，此时若有另一个线程进来可能会访问到错误的B+Tree结构，InnoDB为了解决这个问题采用了乐观锁和悲观锁的并发控制协议。</p>
+<p>InnoDB对于叶子节点的修改操作如下：</p>
+<p><strong>方式一，先采用乐观锁的方式尝试进行修改</strong></p>
+<p>对根节点加S锁（shared lock，叫共享锁，也称读锁），依次对非叶子节点加S锁。如果叶子节点的修改不会引起B+Tree结构变动，如分裂、合并等操作，那么只需要对叶子节点进行加X锁（exclusive lock，叫排他锁，也称为写锁）即可完成修改。如下图中所示 ：</p>
+<p><img src="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/Mysql%E7%9A%84%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/img/8Emzj3VqJxz2dk31/1741372503682-32367053-f05c-40a9-9f62-2bd84de1a9d6-697831.png" alt="1741372503682-32367053-f05c-40a9-9f62-2bd84de1a9d6.png"></p>
+<p><strong>方式二，采用悲观锁的方式</strong></p>
+<p>如果对叶子结点的修改会触发SMO，那么会采用悲观锁的方式。采用悲观锁，需要重新遍历B+Tree，对根节点加全局SX锁（SX锁是行锁），然后从根节点到叶子节点可能修改的节点加X锁。在整个SMO过程中，根节点始终持有SX锁（SX锁表示有意向修改这个保护的范围，SX锁与SX锁、X锁冲突，与S锁不冲突），此时其他的SMO则需要等待。</p>
+<p><img src="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/Mysql%E7%9A%84%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/img/8Emzj3VqJxz2dk31/1741372641334-147dd55c-0cfc-4108-a21e-424878f2201b-234959.png" alt="1741372641334-147dd55c-0cfc-4108-a21e-424878f2201b.png"></p>
+<p>因此，InnoDB对于简单的主键查询比较快，因为数据都存储在叶子节点中，但对于数据量大且改操作比较多的TP型业务，并发会有很严重的瓶颈问题。在对叶子节点的修改操作中，InnoDB可以实现较好的1与1、1与2的并发，但是无法解决2的并发。因为在方式2中，根节点始终持有SX锁，必须串行执行，等待上一个SMO操作完成。这样在具有大量的SMO操作时，InnoDB的B+Tree实现就会出现很严重的性能瓶颈。</p>
+<table>
+<thead>
+<tr>
+<th align="left"><font style="color:rgb(24, 24, 24);">特性</font></th>
+<th align="left"><font style="color:rgb(24, 24, 24);">共享锁（S Lock）</font></th>
+<th align="left"><font style="color:rgb(24, 24, 24);">排他锁（X Lock）</font></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong><font style="color:rgb(24, 24, 24);">别称</font></strong></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">读锁</font></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">写锁</font></td>
+</tr>
+<tr>
+<td align="left"><strong><font style="color:rgb(24, 24, 24);">兼容性</font></strong></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">与S锁兼容，与X锁互斥</font></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">与所有锁互斥</font></td>
+</tr>
+<tr>
+<td align="left"><strong><font style="color:rgb(24, 24, 24);">加锁方式</font></strong></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">自动或</font><code>LOCK IN SHARE MODE</code></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">自动或</font><code>FOR UPDATE</code></td>
+</tr>
+<tr>
+<td align="left"><strong><font style="color:rgb(24, 24, 24);">持续时间</font></strong></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">事务结束</font></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">事务结束</font></td>
+</tr>
+<tr>
+<td align="left"><strong><font style="color:rgb(24, 24, 24);">典型操作</font></strong></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">SELECT查询</font></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">UPDATE&#x2F;DELETE&#x2F;INSERT</font></td>
+</tr>
+<tr>
+<td align="left"><strong><font style="color:rgb(24, 24, 24);">阻塞行为</font></strong></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">不阻塞其他S锁，阻塞X锁</font></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">阻塞所有其他锁请求</font></td>
+</tr>
+<tr>
+<td align="left"><strong><font style="color:rgb(24, 24, 24);">锁粒度</font></strong></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">行级或表级</font></td>
+<td align="left"><font style="color:rgb(24, 24, 24);">行级或表级</font></td>
+</tr>
+</tbody></table>
+<h2 id="锁优化策略"><a href="#锁优化策略" class="headerlink" title="锁优化策略"></a><font style="color:rgb(24, 24, 24);">锁优化策略</font></h2><p><font style="color:rgb(24, 24, 24);">1.</font><font style="color:rgb(24, 24, 24);"> </font><strong><font style="color:rgb(24, 24, 24);">缩小锁粒度</font></strong><font style="color:rgb(24, 24, 24);">：使用行锁代替表锁</font></p>
+<p><font style="color:rgb(24, 24, 24);">2.</font><font style="color:rgb(24, 24, 24);"> </font><strong><font style="color:rgb(24, 24, 24);">缩短持有时间</font></strong><font style="color:rgb(24, 24, 24);">：尽快提交事务</font></p>
+<p><font style="color:rgb(24, 24, 24);">3.</font><font style="color:rgb(24, 24, 24);"> </font><strong><font style="color:rgb(24, 24, 24);">降低隔离级别</font></strong><font style="color:rgb(24, 24, 24);">：从RR改为RC（减少间隙锁）</font></p>
+<p><font style="color:rgb(24, 24, 24);">4.</font><font style="color:rgb(24, 24, 24);"> </font><strong><font style="color:rgb(24, 24, 24);">索引优化</font></strong><font style="color:rgb(24, 24, 24);">：精确锁定必要行</font></p>
+<p><font style="color:rgb(24, 24, 24);">5. </font><strong><font style="color:rgb(24, 24, 24);">批量操作分治</font></strong><font style="color:rgb(24, 24, 24);">：减少单次锁定范围</font></p>
+<blockquote>
+<p>更新: 2025-03-12 03:34:45<br>原文: <a target="_blank" rel="noopener" href="https://www.yuque.com/malen/mei/gqane8i80nd5nn5a">https://www.yuque.com/malen/mei/gqane8i80nd5nn5a</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/Mysql%E7%9A%84%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98/" data-id="cuidY3HKp4Kboid0ne3Sz6lHE" data-title="Mysql的优化问题" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          计算机网络基础知识
+        
+      </div>
+    </a>
+  
+  
+    <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/C++/C++11%E6%A0%87%E5%87%86%E7%9A%84POD%E7%B1%BB%E5%9E%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">C++11标准的POD类型</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/">Notes</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/">Linux知识</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%91%BD%E4%BB%A4/">Linux命令</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/">Linux工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Linux%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81/">如何监控Linux系统状态</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/">Linux系统基础</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/%E5%AE%B9%E5%99%A8%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF/">容器相关技术</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/">第三方库与框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/">Lua</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">编程基础知识</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/">Mysql</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/">编程工具手册</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/">编程语言应用与工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Go%E8%AF%AD%E8%A8%80/">Go语言</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/">Lua语言</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/">Python语言</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/mei-lun/archives/2025/12/">十二月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mei-lun/archives/2025/03/">三月 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/">关于这个博客笔记网站的建立</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/brpc%E6%A1%86%E6%9E%B6%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%B8%8E%E4%BD%BF%E7%94%A8/">brpc框架的学习与使用</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/Google%EF%BC%8CProtobuff/">Google，Protobuff</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">Git使用教程</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/VScode%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%89%8B%E5%86%8C/">VScode快捷键手册</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 LUN-MEI<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+    <script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?422b9164eef4052a3459283c47afd540";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/mei-lun/" class="mobile-nav-link">Home</a>
+  
+    <a href="/mei-lun/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/mei-lun/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/mei-lun/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/mei-lun/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Google，Protobuff | My Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="概述：protobuf也叫protocol buffer是google 的一种数据交换的格式，它独立于语言，独立于平台。google 提供了多种语言的实现：java、c#、c++、go 和 python 等，每一种实现都包含了相应语言的编译器以及库文件。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Google，Protobuff">
+<meta property="og:url" content="https://mei-lun.github.io/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/Google%EF%BC%8CProtobuff/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="概述：protobuf也叫protocol buffer是google 的一种数据交换的格式，它独立于语言，独立于平台。google 提供了多种语言的实现：java、c#、c++、go 和 python 等，每一种实现都包含了相应语言的编译器以及库文件。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-12-04T01:59:20.000Z">
+<meta property="article:modified_time" content="2025-12-08T19:52:55.732Z">
+<meta property="article:author" content="LUN-MEI">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/mei-lun/atom.xml" title="My Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/mei-lun/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/mei-lun/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/mei-lun/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/mei-lun/" id="logo">My Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/mei-lun/">Home</a>
+        
+          <a class="main-nav-link" href="/mei-lun/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/mei-lun/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mei-lun.github.io/mei-lun"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Notes/第三方库与框架/C++/Google，Protobuff" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/Google%EF%BC%8CProtobuff/" class="article-date">
+  <time class="dt-published" datetime="2025-12-04T01:59:20.000Z" itemprop="datePublished">2025-12-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/mei-lun/categories/Notes/">Notes</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/">第三方库与框架</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <!-- <h1 class="p-name article-title" itemprop="headline name">
+      Google，Protobuff
+    </h1> -->
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Google，Protobuff"><a href="#Google，Protobuff" class="headerlink" title="Google，Protobuff"></a>Google，Protobuff</h1><h1 id="概述："><a href="#概述：" class="headerlink" title="概述："></a>概述：</h1><p>protobuf也叫protocol buffer是google 的一种数据交换的格式，它独立于语言，独立于平台。google 提供了多种语言的实现：java、c#、c++、go 和 python 等，每一种实现都包含了相应语言的编译器以及库文件。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>源码地址：<code>[https://github.com/protocolbuffers/protobuf/releases](https://github.com/protocolbuffers/protobuf/releases)</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">以 protobuf 3.21.12 为例</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">自行下载源码包, 解压缩</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">tar zxvf protobuf-cpp-3.21.12.tar.gz</span> </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">进入到解压目录</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> protobuf-3.21.12/</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">构建并安装</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">./configure         <span class="comment"># 检查安装环境, 生成 makefile</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">make                <span class="comment"># 编译</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">sudo</span> make install   <span class="comment"># 安装</span></span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">测试：</span></span><br><span class="line">protoc --version</span><br></pre></td></tr></table></figure>
+
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>数据类型对照表</p>
+<table>
+<thead>
+<tr>
+<th>Protobuf 类型</th>
+<th>C++ 类型</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>double</td>
+<td>double</td>
+<td>64位浮点数</td>
+</tr>
+<tr>
+<td>float</td>
+<td>float</td>
+<td>32位浮点数</td>
+</tr>
+<tr>
+<td>int32</td>
+<td>int</td>
+<td>32位整数</td>
+</tr>
+<tr>
+<td>int64</td>
+<td>long</td>
+<td>64位整数</td>
+</tr>
+<tr>
+<td>uint32</td>
+<td>unsigned int</td>
+<td>32位无符号整数</td>
+</tr>
+<tr>
+<td>uint64</td>
+<td>unsigned long</td>
+<td>64位无符号整数</td>
+</tr>
+<tr>
+<td>sint32</td>
+<td>signed int</td>
+<td>32位整数，处理负数效率比int32更高</td>
+</tr>
+<tr>
+<td>sint64</td>
+<td>signed long</td>
+<td>64位整数，处理负数效率比int64更高</td>
+</tr>
+<tr>
+<td>fixed32</td>
+<td>unsigned int (32位)</td>
+<td>总是4个字节。如果数值总是比228大的话，这个类型会比uint32高效。</td>
+</tr>
+<tr>
+<td>fixed64</td>
+<td>unsigned long (64位)</td>
+<td>总是8个字节。如果数值总是比256大的话，这个类型会比uint64高效。</td>
+</tr>
+<tr>
+<td>sfixed32</td>
+<td>int (32位)</td>
+<td>总是4个字节</td>
+</tr>
+<tr>
+<td>sfixed64</td>
+<td>long (64位)</td>
+<td>总是8个字节</td>
+</tr>
+<tr>
+<td>bool</td>
+<td>bool</td>
+<td>布尔类型</td>
+</tr>
+<tr>
+<td>string</td>
+<td>string</td>
+<td>一个字符串必须是UTF-8编码或者7-bit ASCII编码的文本</td>
+</tr>
+<tr>
+<td>bytes</td>
+<td>string</td>
+<td>处理多字节的语言字符、如中文, 建议protobuf中字符型类型使用 bytes</td>
+</tr>
+<tr>
+<td>enum</td>
+<td>enum</td>
+<td>枚举</td>
+</tr>
+<tr>
+<td>message</td>
+<td>object of class</td>
+<td>自定义的消息类型</td>
+</tr>
+</tbody></table>
+<h1 id="ProtoBuf的语法"><a href="#ProtoBuf的语法" class="headerlink" title="ProtoBuf的语法"></a>ProtoBuf的语法</h1><figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Person.proto,版本</span></span><br><span class="line">syntax = <span class="string">&quot;proto3&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在该文件中对要序列化的结构体进行描述</span></span><br><span class="line"><span class="keyword">message </span><span class="title class_">Person</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int32</span> id = <span class="number">1</span>;</span><br><span class="line">    <span class="type">bytes</span> name = <span class="number">2</span>;</span><br><span class="line">    <span class="type">bytes</span> sex = <span class="number">3</span>;	</span><br><span class="line">    <span class="type">int32</span> age = <span class="number">4</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>.proto文件编辑好之后就可以使用protoc工具将其转换为C++文件了。</p>
+<p><code>$ protoc -I path .proto文件 --cpp_out=输出路径(存储生成的c++文件)</code></p>
+<p><code>protoc -I path1 -I path2 或 protoc -I path1:path2 都表示告诉编译器在 path1 和 path2 路径下查找导入的文件或依赖的文件。</code></p>
+<p>我们可以在.proto文件所在目录执行protoc命令，并生成到当前目录：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">protoc ./Person.proto --cpp_out=.</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">或者使用 -I 参数</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">protoc -I ./ Person.proto --cpp_out=.</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="repeated限定修饰符"><a href="#repeated限定修饰符" class="headerlink" title="repeated限定修饰符"></a>repeated限定修饰符</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 要序列化的数据</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Person</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">int</span> id;</span><br><span class="line">    <span class="built_in">string</span> name[<span class="number">10</span>];</span><br><span class="line">    <span class="built_in">string</span> sex;	</span><br><span class="line">    <span class="type">int</span> age;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">message </span><span class="title class_">Person</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int32</span> id = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">repeated</span> <span class="type">bytes</span> name = <span class="number">2</span>;</span><br><span class="line">    <span class="type">bytes</span> sex = <span class="number">3</span>;	</span><br><span class="line">    <span class="type">int32</span> age = <span class="number">4</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用repeated关键字定义的字段在Protobuf序列化和反序列化时会被当作一个集合或数组来处理。这个name可以作为一个动态数组来使用。</p>
+<h2 id="枚举类型"><a href="#枚举类型" class="headerlink" title="枚举类型"></a>枚举类型</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 要序列化的数据</span></span><br><span class="line"><span class="comment">// 枚举</span></span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">Color</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    Red = <span class="number">5</span>,	<span class="comment">// 可以不给初始值, 默认为0</span></span><br><span class="line">    Green,</span><br><span class="line">    Yellow,</span><br><span class="line">    Blue</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 要序列化的数据</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Person</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">int</span> id;</span><br><span class="line">    <span class="built_in">string</span> name[<span class="number">10</span>];</span><br><span class="line">    <span class="built_in">string</span> sex;	</span><br><span class="line">    <span class="type">int</span> age;</span><br><span class="line">    <span class="comment">// 枚举类型</span></span><br><span class="line">    Color color;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>proto3 中的第一个枚举值必须为 0，第一个元素以外的元素值可以随意指定。</p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义枚举类型</span></span><br><span class="line"><span class="keyword">enum </span><span class="title class_">Color</span></span><br><span class="line">&#123;</span><br><span class="line">    Red = <span class="number">0</span>;</span><br><span class="line">    Green = <span class="number">3</span>;		<span class="comment">// 第一个元素以外的元素值可以随意指定</span></span><br><span class="line">    Yellow = <span class="number">6</span>;</span><br><span class="line">    Blue = <span class="number">9</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 在该文件中对要序列化的结构体进行描述</span></span><br><span class="line"><span class="keyword">message </span><span class="title class_">Person</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int32</span> id = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">repeated</span> <span class="type">bytes</span> name = <span class="number">2</span>;</span><br><span class="line">    <span class="type">bytes</span> sex = <span class="number">3</span>;	</span><br><span class="line">    <span class="type">int32</span> age = <span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 枚举类型</span></span><br><span class="line">    Color color = <span class="number">5</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="proto文件的导入"><a href="#proto文件的导入" class="headerlink" title="proto文件的导入"></a>proto文件的导入</h2><figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">syntax = <span class="string">&quot;proto3&quot;</span>;</span><br><span class="line"><span class="comment">// 地址信息</span></span><br><span class="line"><span class="keyword">message </span><span class="title class_">Address</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">bytes</span> addr = <span class="number">1</span>;</span><br><span class="line">    <span class="type">bytes</span> number = <span class="number">2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">syntax = <span class="string">&quot;proto3&quot;</span>;</span><br><span class="line"><span class="comment">// 使用另外一个proto文件中的数类型, 需要导入这个文件</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;Address.proto&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在该文件中对要序列化的结构体进行描述</span></span><br><span class="line"><span class="comment">// 定义枚举类型</span></span><br><span class="line"><span class="keyword">enum </span><span class="title class_">Color</span></span><br><span class="line">&#123;</span><br><span class="line">    Red = <span class="number">0</span>;</span><br><span class="line">    Green = <span class="number">3</span>;		<span class="comment">// 第一个元素以外的元素值可以随意指定</span></span><br><span class="line">    Yellow = <span class="number">6</span>;</span><br><span class="line">    Blue = <span class="number">9</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 在该文件中对要序列化的结构体进行描述</span></span><br><span class="line"><span class="keyword">message </span><span class="title class_">Person</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int32</span> id = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">repeated</span> <span class="type">bytes</span> name = <span class="number">2</span>;</span><br><span class="line">    <span class="type">bytes</span> sex = <span class="number">3</span>;	</span><br><span class="line">    <span class="type">int32</span> age = <span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 枚举类型</span></span><br><span class="line">    Color color = <span class="number">5</span>;</span><br><span class="line">    <span class="comment">// 添加地址信息, 使用的是外部proto文件中定义的数据类型</span></span><br><span class="line">    Address addr = <span class="number">6</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>import语句中指定的文件路径可以是相对路径或绝对路径。如果文件在相同的目录中，只需指定文件名即可。</li>
+<li>导入的文件将会在编译时与当前文件一起被编译。</li>
+<li>导入的文件也可以继续导入其他文件，形成一个文件依赖的层次结构。</li>
+</ul>
+<h2 id="包（package）"><a href="#包（package）" class="headerlink" title="包（package）"></a>包（package）</h2><p>用来标记消息所属的包，类似命名空间</p>
+<h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">syntax = <span class="string">&quot;proto3&quot;</span>;</span><br><span class="line"><span class="comment">// 添加命名空间 MEI1</span></span><br><span class="line"><span class="keyword">package</span> MEI1;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 地址信息, 这个Address类属于命名空间: MEI1</span></span><br><span class="line"><span class="keyword">message </span><span class="title class_">Address</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">bytes</span> addr = <span class="number">1</span>;</span><br><span class="line">    <span class="type">bytes</span> number = <span class="number">2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">syntax = <span class="string">&quot;proto3&quot;</span>;</span><br><span class="line"><span class="comment">// 使用另外一个proto文件中的数类型, 需要导入这个文件</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;Address.proto&quot;</span>;</span><br><span class="line"><span class="comment">// 指定命名空间 MEI2</span></span><br><span class="line"><span class="keyword">package</span> MEI2;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 以下的类 Person 和枚举 Color 都属于命名空间 MEI2</span></span><br><span class="line"><span class="comment">// 在该文件中对要序列化的结构体进行描述</span></span><br><span class="line"><span class="comment">// 定义枚举类型</span></span><br><span class="line"><span class="keyword">enum </span><span class="title class_">Color</span></span><br><span class="line">&#123;</span><br><span class="line">    Red = <span class="number">0</span>;</span><br><span class="line">    Green = <span class="number">3</span>;		<span class="comment">// 第一个元素以外的元素值可以随意指定</span></span><br><span class="line">    Yellow = <span class="number">6</span>;</span><br><span class="line">    Blue = <span class="number">9</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 在该文件中对要序列化的结构体进行描述</span></span><br><span class="line"><span class="keyword">message </span><span class="title class_">Person</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int32</span> id = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">repeated</span> <span class="type">bytes</span> name = <span class="number">2</span>;</span><br><span class="line">    <span class="type">bytes</span> sex = <span class="number">3</span>;	</span><br><span class="line">    <span class="type">int32</span> age = <span class="number">4</span>;</span><br><span class="line">    <span class="comment">// 枚举类型</span></span><br><span class="line">    Color color = <span class="number">5</span>;</span><br><span class="line">    <span class="comment">// 添加地址信息, 使用的是外部proto文件中定义的数据类型</span></span><br><span class="line">    <span class="comment">// 如果这个外边类型属于某个命名空间, 语法格式:</span></span><br><span class="line">    <span class="comment">// 命名空间的名字.类名 变量名=编号;</span></span><br><span class="line">    MEI1.Address addr = <span class="number">6</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="序列化与反序列化"><a href="#序列化与反序列化" class="headerlink" title="序列化与反序列化"></a>序列化与反序列化</h1><h2 id="头文件-pb-h"><a href="#头文件-pb-h" class="headerlink" title="头文件**.pb.h"></a>头文件**.pb.h</h2><p>通过protoc 命令对.proto文件的转换，得到的头文件中有一个类，这个类的名字和 .proto文件中message关键字后边指定的名字相同，.proto文件中message消息体的成员就是生成的类的私有成员。</p>
+<p>那么如何访问生成的类的私有成员呢？ 可以调用生成的类提供的公共成员函数，这些函数有如下规律：</p>
+<ul>
+<li>清空(初始化) 私有成员的值: clear_变量名()</li>
+<li>获取类私有成员的值: 变量名()</li>
+<li>给私有成员进行值的设置: set_变量名(参数)</li>
+<li>得到类私有成员的地址, 通过这块地址读&#x2F;写当前私有成员变量的值: mutable_变量名()</li>
+<li>如果这个变量是数组类型:<ul>
+<li>数组中元素的个数: 变量名_size()</li>
+<li>添加一块内存, 存储新的元素数据: add_变量名() 、add_变量名(参数)</li>
+</ul>
+</li>
+</ul>
+<h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><p>Protobuf 中为我们提供了相关的用于数据序列化的 API，如下所示：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 头文件目录: google\protobuf\message_lite.h</span></span><br><span class="line"><span class="comment">// --- 将序列化的数据 数据保存到内存中</span></span><br><span class="line"><span class="comment">// 将类对象中的数据序列化为字符串, c++ 风格的字符串, 参数是一个传出参数</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">SerializeToString</span><span class="params">(std::string* output)</span> <span class="type">const</span></span>;</span><br><span class="line"><span class="comment">// 将类对象中的数据序列化为字符串, c 风格的字符串, 参数 data 是一个传出参数</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">SerializeToArray</span><span class="params">(<span class="type">void</span>* data, <span class="type">int</span> size)</span> <span class="type">const</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ------ 写磁盘文件, 只需要调用这个函数, 数据自动被写入到磁盘文件中</span></span><br><span class="line"><span class="comment">// -- 需要提供流对象/文件描述符关联一个磁盘文件</span></span><br><span class="line"><span class="comment">// 将数据序列化写入到磁盘文件中, c++ 风格</span></span><br><span class="line"><span class="comment">// ostream 子类 ofstream -&gt; 写文件</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">SerializeToOstream</span><span class="params">(std::ostream* output)</span> <span class="type">const</span></span>;</span><br><span class="line"><span class="comment">// 将数据序列化写入到磁盘文件中, c 风格</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">SerializeToFileDescriptor</span><span class="params">(<span class="type">int</span> file_descriptor)</span> <span class="type">const</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 头文件目录: google\protobuf\message_lite.h</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">ParseFromString</span><span class="params">(<span class="type">const</span> std::string&amp; data)</span> </span>;</span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">ParseFromArray</span><span class="params">(<span class="type">const</span> <span class="type">void</span>* data, <span class="type">int</span> size)</span></span>;</span><br><span class="line"><span class="comment">// istream -&gt; 子类 ifstream -&gt; 读操作</span></span><br><span class="line"><span class="comment">// wo ri</span></span><br><span class="line"><span class="comment">// w-&gt;写 o: ofstream , r-&gt;读 i: ifstream</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">ParseFromIstream</span><span class="params">(std::istream* input)</span></span>;</span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">ParseFromFileDescriptor</span><span class="params">(<span class="type">int</span> file_descriptor)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="程序示例"><a href="#程序示例" class="headerlink" title="程序示例"></a>程序示例</h1><figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">syntax = <span class="string">&quot;proto3&quot;</span>;</span><br><span class="line"><span class="keyword">package</span> MEI1;</span><br><span class="line"><span class="keyword">message </span><span class="title class_">Address</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int32</span> num = <span class="number">1</span>;</span><br><span class="line">  <span class="type">bytes</span> addr = <span class="number">2</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">syntax = <span class="string">&quot;proto3&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;Address.proto&quot;</span>;</span><br><span class="line"><span class="keyword">package</span> MEI2;</span><br><span class="line"><span class="keyword">enum </span><span class="title class_">Color</span></span><br><span class="line">&#123;</span><br><span class="line">    Red = <span class="number">0</span>;</span><br><span class="line">    Green = <span class="number">5</span>;</span><br><span class="line">    Yellow = <span class="number">6</span>;</span><br><span class="line">    Blue = <span class="number">9</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">message </span><span class="title class_">Person</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int32</span> id = <span class="number">1</span>;    </span><br><span class="line">    <span class="keyword">repeated</span> <span class="type">bytes</span> name = <span class="number">2</span>;</span><br><span class="line">    <span class="type">bytes</span> sex = <span class="number">3</span>;</span><br><span class="line">    <span class="type">int32</span> age = <span class="number">4</span>;</span><br><span class="line">    MEI1.Address addr = <span class="number">5</span>;</span><br><span class="line">    Color color = <span class="number">6</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> SERVER_DDZ_MYTEST_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SERVER_DDZ_MYTEST_H</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyTest</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">test</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> <span class="comment">//SERVER_DDZ_MYTEST_H</span></span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;MyTest.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Person.pb.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">MyTest::test</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 序列化</span></span><br><span class="line">    MEI2::Person p;</span><br><span class="line">    p.<span class="built_in">set_id</span>(<span class="number">10</span>);</span><br><span class="line">    p.<span class="built_in">set_age</span>(<span class="number">32</span>);</span><br><span class="line">    p.<span class="built_in">set_sex</span>(<span class="string">&quot;man&quot;</span>);</span><br><span class="line"></span><br><span class="line">    p.<span class="built_in">add_name</span>();</span><br><span class="line">    p.<span class="built_in">set_name</span>(<span class="number">0</span>,<span class="string">&quot;路飞&quot;</span>);</span><br><span class="line">    p.<span class="built_in">add_name</span>(<span class="string">&quot;艾斯&quot;</span>);</span><br><span class="line">    p.<span class="built_in">add_name</span>(<span class="string">&quot;萨博&quot;</span>);</span><br><span class="line">    p.<span class="built_in">mutable_addr</span>()-&gt;<span class="built_in">set_addr</span>(<span class="string">&quot;北京市长安区天安门&quot;</span>);</span><br><span class="line">    p.<span class="built_in">mutable_addr</span>()-&gt;<span class="built_in">set_num</span>(<span class="number">1001</span>);</span><br><span class="line">    p.<span class="built_in">set_color</span>(MEI2::Color::Blue);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 序列化对象 p, 最终得到一个字符串</span></span><br><span class="line">    std::string output;</span><br><span class="line">    p.<span class="built_in">SerializeToString</span>(&amp;output);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 反序列化数据</span></span><br><span class="line">    MEI2::Person pp;</span><br><span class="line">    pp.<span class="built_in">ParseFromString</span>(output);</span><br><span class="line">    std::cout &lt;&lt; pp.<span class="built_in">id</span>()  &lt;&lt; <span class="string">&quot;, &quot;</span> &lt;&lt; pp.<span class="built_in">sex</span>() &lt;&lt; <span class="string">&quot;, &quot;</span> &lt;&lt; pp.<span class="built_in">age</span>() &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; pp.<span class="built_in">addr</span>().<span class="built_in">addr</span>() &lt;&lt; <span class="string">&quot;, &quot;</span> &lt;&lt; pp.<span class="built_in">addr</span>().<span class="built_in">num</span>() &lt;&lt; std::endl;</span><br><span class="line">    <span class="type">int</span> size = pp.<span class="built_in">name_size</span>();</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;size; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        std::cout &lt;&lt; pp.<span class="built_in">name</span>(i) &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    std::cout &lt;&lt; pp.<span class="built_in">color</span>() &lt;&lt; std::endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;MyTest.h&quot;</span></span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span>* argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    MyTest t;</span><br><span class="line">    t.<span class="built_in">test</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>更新: 2025-12-04 01:59:20<br>原文: <a target="_blank" rel="noopener" href="https://www.yuque.com/malen/mei/svspylu2haothcap">https://www.yuque.com/malen/mei/svspylu2haothcap</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mei-lun.github.io/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/Google%EF%BC%8CProtobuff/" data-id="cuidFrMbL_1mfC8kooY7TiEyc" data-title="Google，Protobuff" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/brpc%E6%A1%86%E6%9E%B6%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%B8%8E%E4%BD%BF%E7%94%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          brpc框架的学习与使用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Git使用教程</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/">Notes</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/">Linux知识</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%91%BD%E4%BB%A4/">Linux命令</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/">Linux工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Linux%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81/">如何监控Linux系统状态</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/">Linux系统基础</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/%E5%AE%B9%E5%99%A8%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF/">容器相关技术</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/">第三方库与框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/">Lua</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">编程基础知识</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/">Mysql</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/">编程工具手册</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/">编程语言应用与工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Go%E8%AF%AD%E8%A8%80/">Go语言</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/">Lua语言</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/">Python语言</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/mei-lun/archives/2025/12/">十二月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mei-lun/archives/2025/03/">三月 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/">关于这个博客笔记网站的建立</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/brpc%E6%A1%86%E6%9E%B6%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%B8%8E%E4%BD%BF%E7%94%A8/">brpc框架的学习与使用</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/Google%EF%BC%8CProtobuff/">Google，Protobuff</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">Git使用教程</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/VScode%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%89%8B%E5%86%8C/">VScode快捷键手册</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 LUN-MEI<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+    <script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?422b9164eef4052a3459283c47afd540";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/mei-lun/" class="mobile-nav-link">Home</a>
+  
+    <a href="/mei-lun/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/mei-lun/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/mei-lun/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/mei-lun/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

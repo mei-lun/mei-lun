@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>关于这个博客笔记网站的建立 | My Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="之前笔记都是放在语雀上的，经历了几次语雀崩了之后，然后网上也经常看到说语雀可能会倒闭。确实也是值得担忧的，毕竟语雀的数据全部都是在云端，本地是没有备份的，这样风险系数比较高，所以产生了把笔记搬出来的想法，刚开始的时候只是想直接从语雀备份到GitHub。然后看到有个方案是通过语雀触发webhook，使用云函数拉取语雀文档，通过GitHub Actions自动化部署使用hexo把文档转换成静态网页部署">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于这个博客笔记网站的建立">
+<meta property="og:url" content="https://mei-lun.github.io/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="之前笔记都是放在语雀上的，经历了几次语雀崩了之后，然后网上也经常看到说语雀可能会倒闭。确实也是值得担忧的，毕竟语雀的数据全部都是在云端，本地是没有备份的，这样风险系数比较高，所以产生了把笔记搬出来的想法，刚开始的时候只是想直接从语雀备份到GitHub。然后看到有个方案是通过语雀触发webhook，使用云函数拉取语雀文档，通过GitHub Actions自动化部署使用hexo把文档转换成静态网页部署">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mei-lun.github.io/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/img/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/file-20251205034310209.png">
+<meta property="og:image" content="https://mei-lun.github.io/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/img/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/file-20251205035304063.png">
+<meta property="og:image" content="https://mei-lun.github.io/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/img/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/file-20251205040719603.png">
+<meta property="og:image" content="https://mei-lun.github.io/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/img/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/file-20251205041145383.png">
+<meta property="og:image" content="https://mei-lun.github.io/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/img/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/file-20251205041258108.png">
+<meta property="og:image" content="https://mei-lun.github.io/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/img/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/file-20251205043324166.png">
+<meta property="og:image" content="https://mei-lun.github.io/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/img/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/file-20251205044803465.png">
+<meta property="og:image" content="https://mei-lun.github.io/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/img/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/file-20251205045057534.png">
+<meta property="article:published_time" content="2025-12-05T21:42:19.000Z">
+<meta property="article:modified_time" content="2025-12-08T19:52:56.457Z">
+<meta property="article:author" content="LUN-MEI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mei-lun.github.io/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/img/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/file-20251205034310209.png">
+  
+    <link rel="alternate" href="/mei-lun/atom.xml" title="My Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/mei-lun/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/mei-lun/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/mei-lun/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/mei-lun/" id="logo">My Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/mei-lun/">Home</a>
+        
+          <a class="main-nav-link" href="/mei-lun/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/mei-lun/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mei-lun.github.io/mei-lun"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Notes/关于这个博客笔记网站的建立" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/" class="article-date">
+  <time class="dt-published" datetime="2025-12-05T21:42:19.000Z" itemprop="datePublished">2025-12-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/mei-lun/categories/Notes/">Notes</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <!-- <h1 class="p-name article-title" itemprop="headline name">
+      关于这个博客笔记网站的建立
+    </h1> -->
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>之前笔记都是放在语雀上的，经历了几次语雀崩了之后，然后网上也经常看到说语雀可能会倒闭。确实也是值得担忧的，毕竟语雀的数据全部都是在云端，本地是没有备份的，这样风险系数比较高，所以产生了把笔记搬出来的想法，刚开始的时候只是想直接从语雀备份到GitHub。然后看到有个方案是通过语雀触发webhook，使用云函数拉取语雀文档，通过GitHub Actions自动化部署使用hexo把文档转换成静态网页部署到GitHub上。本地写文档也可以用Obsidian。这让我产生了浓厚的兴趣。说搞就开始搞了，首先把自己的部署流程设计清楚。<br><img src="/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/img/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/file-20251205034310209.png"></p>
+<h1 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h1><h2 id="1-语雀文档的导出"><a href="#1-语雀文档的导出" class="headerlink" title="1. 语雀文档的导出"></a>1. 语雀文档的导出</h2><p>如果使用语雀自己的导出功能这会有个问题，就是文档里面的图片都是在语雀的cdn上的，这个会有防盗链的问题，在GitHub上部署是无法显示出来的，这个问题很麻烦。可以使用yuque-dl工具<code>https://github.com/gxr404/yuque-dl</code>这是项目地址。文档导出到本地之后结构是这样的<br><img src="/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/img/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/file-20251205035304063.png"><br>目录树与语雀上保持一直，资源文件会产生一个单独的img文件夹存放。</p>
+<h2 id="2-hexo的本地部署"><a href="#2-hexo的本地部署" class="headerlink" title="2. hexo的本地部署"></a>2. hexo的本地部署</h2><p>这是hexo的官网<code>[Hexo](https://hexo.io/zh-cn/)</code>，这个部署和文档格式是这里比较坑的一点，这里折腾了好久。首先需要安装node，然后根据官网的命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- npm install hexo-cli -g</span><br><span class="line">- hexo init blog</span><br><span class="line">- cd blog</span><br><span class="line">- npm install</span><br><span class="line">- hexo server</span><br></pre></td></tr></table></figure>
+<p>这样就能看到hexo的基本功能了，首先需要选一个主题。默认的主题还可以，我就是自己fork了一下改了一点直接用的，这个看个人喜好。这里的重点是文档的导入，hexo的文档是放在source目录下的_post目录下面。</p>
+<h2 id="3-语雀的文档导入到hexo"><a href="#3-语雀的文档导入到hexo" class="headerlink" title="3. 语雀的文档导入到hexo"></a>3. 语雀的文档导入到hexo</h2><p>这里就到了非常折腾的点了，首先语雀导出的文档是不符合hexo的文档格式的，首先一个问题就是生成的时候报错<br><img src="/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/img/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/file-20251205040719603.png"><br>为什么会报错呢？因为语雀导出的文档是不符合hexo的文档语法规范的，语法解析的时候报错了，hexo文档需要有</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---  </span></span><br><span class="line"><span class="attr">title:</span> <span class="string">Hello</span> <span class="string">World</span>  </span><br><span class="line"><span class="attr">date:</span> <span class="number">2013</span><span class="string">/7/13</span> <span class="number">20</span><span class="string">:46:25</span>  </span><br><span class="line"><span class="attr">categories:</span>  </span><br><span class="line">  <span class="bullet">-</span> <span class="string">Sports</span>  </span><br><span class="line">  <span class="bullet">-</span> <span class="string">Baseball</span>  </span><br><span class="line"><span class="attr">tags:</span>  </span><br><span class="line">  <span class="bullet">-</span> <span class="string">Injury</span>  </span><br><span class="line">  <span class="bullet">-</span> <span class="string">Fight</span>  </span><br><span class="line">  <span class="bullet">-</span> <span class="string">Shocking</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+<p>最基本的标签，title是最重要的，其他的都可以没有。如果没有title字段那么，我的文章在hexo导出的时候，所有文章都不会有标题，并且显示notitle。<br><img src="/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/img/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/file-20251205041145383.png"><br>也无法显示下面这个正常的侧边栏分类标签<br><img src="/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/img/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/file-20251205041258108.png"><br>然后我的想法就是，使用文档的文件名来赋值文档里面的title，date这些字段。在官网找到<code>[sisyphsu/hexo-enhancer: hexo enhance plugin](https://github.com/sisyphsu/hexo-enhancer)</code>插件，这个插件可以从文档的文件名来读取title与date标签。这样就暂时解决了当前的问题。<br>然后就是上面的报错，会导致我的文章无法解析成功。发现安装了<code>hexo-enhancer</code>也是无法解决这个报错的，原因就是文档里有，代码块的标记被认为是hexo的语法格式。根本原因是因为<code>hexo-front-matter</code>插件解析文档的时候报错了。然后fork了一份下来改了一下语法解析部分，然后没有报错了<code>[mei-lun/hexo-front-matter: Front-matter parser](https://github.com/mei-lun/hexo-front-matter)</code>。由于是hexo引用的这个语法解析模块，所以我又fork了一份hexo <code>[mei-lun/hexo: A fast, simple &amp; powerful blog framework, powered by Node.js.](https://github.com/mei-lun/hexo)</code>的代码，把引用的部分改成我修改过的这个插件。到这里看上去是能运行起来了，但是这才是解决问题的刚刚开始。<br>紧接着能显示导出的网页之后，发现文章是没有时间的，归档功能无法使用。然后由于导出的时候,yuque-dl是有把时间加在文章末尾的。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">更新: 2025-03-12 03:38:03  </span><br><span class="line">原文: [https://www.yuque.com/malen/mei/ghh6ar6sgya3wpha](https://www.yuque.com/malen/mei/ghh6ar6sgya3wpha)</span><br></pre></td></tr></table></figure>
+<p>这个时候，需要修改<code>hexo-enhance</code>插件，本来这个插件是直接读的文件名里面的时间，标题，分类等信息，但是我的文件名里面只有title，只能通过文章里面的更新时间去读取。然后修改插件&#96;&#96;&#96;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">    const dateRegex = /更新:\s*(\d&#123;4&#125;-\d&#123;2&#125;-\d&#123;2&#125;\s*\d&#123;2&#125;:\d&#123;2&#125;:\d&#123;2&#125;)/;</span><br><span class="line"></span><br><span class="line">    const dateMatch = content.match(dateRegex);</span><br></pre></td></tr></table></figure>
+<p>先匹配标题里面的时间，如果没有则匹配文章里面的更新时间。<br>基本的功能在本地都能正常了，但是显示的文章是直接就是超长一篇，没有摘要。但是显示摘要需要在文章合适的位置加上标签<br><img src="/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/img/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/file-20251205043324166.png"><br>此时我本着不修改源文档的原则，继续在官网找插件。相比对之后，发现<code>[mei-lun/hexo-excerpt: Automatic excerpt generator for Hexo](https://github.com/mei-lun/hexo-excerpt/tree/master)</code>自动摘要插件。至于为什么fork一份。因为还需要改，由于语雀导出的文档自带标题。然后用上面的插件又生成了标题，那么文章在显示的页面就有两个标题了，非常奇怪。需要摘要在显示的时候跳过第一行。然后就是我的主题也是，在文章详情页面把主题自带的模板标题屏蔽掉。</p>
+<h2 id="4-部署到GitHub"><a href="#4-部署到GitHub" class="headerlink" title="4. 部署到GitHub"></a>4. 部署到GitHub</h2><p>这个时候显示就基本正常了。然后就是流程问题。首先我把希望的是文章不要出现在hexo里面，在部署的时候，通过submodule子模块的方式加入到hexo的网页中。这个时候就需要到最后一步部署阶段。<br>这里需要贴出GitHub Actions的自动化部署的流程。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">name: Pages</span><br><span class="line">on:</span><br><span class="line">  push:</span><br><span class="line">    branches: [&quot;gh-pages&quot;]  # 触发条件不变</span><br><span class="line">jobs:</span><br><span class="line">  build:</span><br><span class="line">    runs-on: ubuntu-latest</span><br><span class="line">    if: $&#123;&#123; contains(github.event.head_commit.message, &#x27;deploy&#x27;)&#125;&#125;</span><br><span class="line">    steps:</span><br><span class="line">      - uses: actions/checkout@v4</span><br><span class="line">        with:</span><br><span class="line">          #token: $&#123;&#123; secrets.GITHUB_TOKEN &#125;&#125;</span><br><span class="line">          token: $&#123;&#123; secrets.GH_PAGES_DEPLOY_TOKEN &#125;&#125;</span><br><span class="line">          submodules: recursive</span><br><span class="line">      - name: 更新子模块到最新提交</span><br><span class="line">        run: git submodule update --init --remote --recursive</span><br><span class="line">      - name: 显示子模块状态</span><br><span class="line">        run: git submodule status</span><br><span class="line">      - name: Use Node.js 20</span><br><span class="line">        uses: actions/setup-node@v4</span><br><span class="line">        with:</span><br><span class="line">          node-version: &quot;20&quot;</span><br><span class="line">          cache: &quot;npm&quot;  # 简化缓存配置</span><br><span class="line"></span><br><span class="line">      - name: Install Dependencies</span><br><span class="line">        run: npm install</span><br><span class="line">      - name: Clean Hexo</span><br><span class="line">        run: npx hexo clean</span><br><span class="line">      - name: Build</span><br><span class="line">        run: npm run build  # 确保产物输出到 ./public</span><br><span class="line">      - name: Hexo generate</span><br><span class="line">        run: npx hexo generate</span><br><span class="line">  </span><br><span class="line">      - name: Deploy to ghpage repo (GitHub Pages)</span><br><span class="line">        uses: peaceiris/actions-gh-pages@v4</span><br><span class="line">        with:</span><br><span class="line">          # 1. 跨仓库地址：格式「你的GitHub用户名/目标仓库名」（无需 https 前缀）</span><br><span class="line">          external_repository: mei-lun/mei-lun</span><br><span class="line">          # 2. 凭证：直接引用 Secrets 中的 PAT（插件会自动识别）</span><br><span class="line">          personal_token: $&#123;&#123; secrets.GH_PAGES_DEPLOY_TOKEN &#125;&#125;</span><br><span class="line">          # 3. 构建产物目录（和你的 npm run build 输出一致）</span><br><span class="line">          publish_dir: ./public</span><br><span class="line">          # 4. 推送到目标仓库的分支（GitHub Pages 默认读取 gh-pages）</span><br><span class="line">          publish_branch: main</span><br><span class="line">          # 5. 提交信息（可选）</span><br><span class="line">          commit_message: $&#123;&#123; github.event.head_commit.message &#125;&#125;</span><br><span class="line">          # 6. 强制孤儿分支（避免冲突，推荐）</span><br><span class="line">          force_orphan: true</span><br><span class="line">          # 7. 提交者信息（防止提交身份异常）</span><br><span class="line">          user_name: &quot;mei-lun&quot;</span><br><span class="line">          user_email: &quot;848843249@qq.com&quot;</span><br></pre></td></tr></table></figure>
+<p>这个里面需要提到的是，触发时机是分支<code>gh-pages</code>push的时候，但是只有当我们希望被deploy的时候才部署，否则直接跳过这一次。因为是跨仓库部署，我们需要生成GitHub的token，这样才能有权限拉取私有库代码和推送到另一个库。<br>当我加入submodule的时候<br><img src="/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/img/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/file-20251205044803465.png"><br>仓库后面的版本号就是加的时候。此时我们更新Notes里面的文章的时候，当前仓库的自动化部署是拉取不到最新的代码的。这个时候我们需要<code>run: git submodule update --init --remote --recursive</code>执行这个命令，把子模块更新到最新的状态再部署。<br>部署完成之后，把网页的目标仓库的pags网页选项更换成<br><img src="/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/img/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/file-20251205045057534.png"><br>通过分支部署，不要选通过Actions部署。</p>
+<h2 id="还有问题"><a href="#还有问题" class="headerlink" title="还有问题"></a>还有问题</h2><p>这个时候部署好了，我发现，本地部署的时候是有分类栏的。线上部署之后，没有分类栏。折腾了好久，最后发现，我们本地使用的部署hexo的命令是</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+<p>线上部署用的是</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">run: npm run build</span><br></pre></td></tr></table></figure>
+<p>没有调用生成命令导致的问题。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">run: npx hexo generate</span><br></pre></td></tr></table></figure>
+<p>重新生成之后，分类栏就出来了。<br>此时还有最后一个问题就是，图片无法显示出来。hexo有<code>post_asset_folder: true</code>选项，就是把资源打包到发布文件夹一起发布。但是因为我们的文件是通过yuque-dl导出的，并不是hexo的标准目录结构，搜了好久，发现<code>hexo-asset-file-carp</code>这个插件可以自定义资源文件的位置。但是这个时候发现，文件的路径还是有问题，无法正常显示<code>mei-lun/%E5%86%85%E5%AD%98%E7%9A%84%E5%91%BD%E4%B8%AD%E4%B8%8E%E7%BC%BA%E9%A1%B5/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%86%85%E5%AD%98%E7%9A%84%E5%91%BD%E4%B8%AD%E4%B8%8E%E7%BC%BA%E9%A1%B5/mei-lun/img/tcnSh1kmMOS4Erip/1741282503278-96b5196b-2660-43dc-8898-78d0706e8473-458799.png</code>路径里面有两个root目录，这个时候，又需要改一下插件的逻辑，这个插件在GitHub上并没有，只能通过npm下载。这个时候我发现可以直接用<code>npx patch-package hexo-asset-file-carp</code>命令，把本地的包打包生成一个patch提交上去，GitHubActions部署的时候会直接加载我打包的这个包，然后需要在hexo的script里面加上<code>&quot;postinstall&quot;: &quot;npx patch-package&quot;</code>这个包就可以运行。这个时候，目录的路径就正常了。全部都可以正常显示了。</p>
+<blockquote>
+<p>更新: 2025-12-05 21:42:19  </p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mei-lun.github.io/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/" data-id="cuidqviiDFkVUqvXZKBJEzAXG" data-title="关于这个博客笔记网站的建立" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/brpc%E6%A1%86%E6%9E%B6%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%B8%8E%E4%BD%BF%E7%94%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">brpc框架的学习与使用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/">Notes</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/">Linux知识</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%91%BD%E4%BB%A4/">Linux命令</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/">Linux工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Linux%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81/">如何监控Linux系统状态</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/">Linux系统基础</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/%E5%AE%B9%E5%99%A8%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF/">容器相关技术</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/">第三方库与框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/">Lua</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">编程基础知识</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/">Mysql</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/">编程工具手册</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/">编程语言应用与工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Go%E8%AF%AD%E8%A8%80/">Go语言</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/">Lua语言</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/">Python语言</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/mei-lun/archives/2025/12/">十二月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mei-lun/archives/2025/03/">三月 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/">关于这个博客笔记网站的建立</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/brpc%E6%A1%86%E6%9E%B6%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%B8%8E%E4%BD%BF%E7%94%A8/">brpc框架的学习与使用</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/Google%EF%BC%8CProtobuff/">Google，Protobuff</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">Git使用教程</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/VScode%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%89%8B%E5%86%8C/">VScode快捷键手册</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 LUN-MEI<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+    <script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?422b9164eef4052a3459283c47afd540";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/mei-lun/" class="mobile-nav-link">Home</a>
+  
+    <a href="/mei-lun/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/mei-lun/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/mei-lun/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/mei-lun/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

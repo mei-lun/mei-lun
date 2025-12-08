@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Mysql使用教程 | My Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="基本查询 select * from where 条件查询">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql使用教程">
+<meta property="og:url" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/Mysql%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="基本查询 select * from where 条件查询">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-03-12T03:34:46.000Z">
+<meta property="article:modified_time" content="2025-12-08T19:52:55.740Z">
+<meta property="article:author" content="LUN-MEI">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/mei-lun/atom.xml" title="My Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/mei-lun/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/mei-lun/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/mei-lun/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/mei-lun/" id="logo">My Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/mei-lun/">Home</a>
+        
+          <a class="main-nav-link" href="/mei-lun/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/mei-lun/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mei-lun.github.io/mei-lun"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Notes/编程基础知识/数据库/Mysql/Mysql使用教程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/Mysql%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" class="article-date">
+  <time class="dt-published" datetime="2025-03-12T03:34:46.000Z" itemprop="datePublished">2025-03-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/mei-lun/categories/Notes/">Notes</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">编程基础知识</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/">Mysql</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <!-- <h1 class="p-name article-title" itemprop="headline name">
+      Mysql使用教程
+    </h1> -->
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Mysql使用教程"><a href="#Mysql使用教程" class="headerlink" title="Mysql使用教程"></a>Mysql使用教程</h1><p>基本查询 <code>select * from where</code></p>
+<p>条件查询</p>
+<p>投影查询 	<code>select num number from where</code></p>
+<p>排序	<code>order by desc</code></p>
+<p>分页查询	<code>limit xxx offset xxx(页数起点)</code></p>
+<p>聚合查询	<code>聚合函数  COUNT, SUM, AVG, MIN, MAX </code></p>
+<p>多表查询	笛卡儿积</p>
+<p>连接查询	<code>INNOR JOIN(内连接) OUTER JOIN(外连接，不存在的行填空)</code></p>
+<h4 id="数据修改"><a href="#数据修改" class="headerlink" title="数据修改"></a>数据修改</h4><p>UPDATE</p>
+<p><code>UPDATE student SET name = &quot;xxx&quot; WHERE ID = 1</code></p>
+<p>INSERT</p>
+<p><code>INSERT INTO student (name, num) VALUES (&quot;XXX&quot;, 5)</code></p>
+<p>DELETE</p>
+<p><code>DELETE FROM student WHERE ID = 1</code></p>
+<p>游标</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"># 声明一个游标</span><br><span class="line"><span class="keyword">DECLARE</span> cur_hero <span class="keyword">CURSOR</span> <span class="keyword">FOR</span> <span class="keyword">SELECT</span> hp_max <span class="keyword">FROM</span> heros;</span><br><span class="line"># 打开游标</span><br><span class="line"><span class="keyword">OPEN</span> cursor_name</span><br><span class="line"># 访问游标数据</span><br><span class="line"><span class="keyword">FETCH</span> cursor_name <span class="keyword">INTO</span> var_name ...</span><br><span class="line"># 关闭游标</span><br><span class="line"><span class="keyword">CLOSE</span> cursor_name</span><br><span class="line"># 释放游标</span><br><span class="line"><span class="keyword">DEALLOCATE</span> <span class="keyword">PREPARE</span></span><br><span class="line"><span class="comment">------------------------</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> `calc_hp_max`()</span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">       <span class="comment">-- 创建接收游标的变量</span></span><br><span class="line">       <span class="keyword">DECLARE</span> hp <span class="type">INT</span>;  </span><br><span class="line"> </span><br><span class="line">       <span class="comment">-- 创建总数变量 </span></span><br><span class="line">       <span class="keyword">DECLARE</span> hp_sum <span class="type">INT</span> <span class="keyword">DEFAULT</span> <span class="number">0</span>;</span><br><span class="line">       <span class="comment">-- 创建结束标志变量  </span></span><br><span class="line">     <span class="keyword">DECLARE</span> done <span class="type">INT</span> <span class="keyword">DEFAULT</span> <span class="literal">false</span>;</span><br><span class="line">       <span class="comment">-- 定义游标     </span></span><br><span class="line">       <span class="keyword">DECLARE</span> cur_hero <span class="keyword">CURSOR</span> <span class="keyword">FOR</span> <span class="keyword">SELECT</span> hp_max <span class="keyword">FROM</span> heros;</span><br><span class="line">       <span class="comment">-- 指定游标循环结束时的返回值  </span></span><br><span class="line">     <span class="keyword">DECLARE</span> CONTINUE HANDLER <span class="keyword">FOR</span> <span class="keyword">NOT</span> FOUND <span class="keyword">SET</span> done <span class="operator">=</span> <span class="literal">true</span>;  </span><br><span class="line">       </span><br><span class="line">       <span class="keyword">OPEN</span> cur_hero;</span><br><span class="line">       read_loop:LOOP </span><br><span class="line">       <span class="keyword">FETCH</span> cur_hero <span class="keyword">INTO</span> hp;</span><br><span class="line">       <span class="comment">-- 判断游标的循环是否结束  </span></span><br><span class="line">       IF done <span class="keyword">THEN</span>  </span><br><span class="line">                     LEAVE read_loop;</span><br><span class="line">       <span class="keyword">END</span> IF; </span><br><span class="line">              </span><br><span class="line">       <span class="keyword">SET</span> hp_sum <span class="operator">=</span> hp_sum <span class="operator">+</span> hp;</span><br><span class="line">       <span class="keyword">END</span> LOOP;</span><br><span class="line">       <span class="keyword">CLOSE</span> cur_hero;</span><br><span class="line">       <span class="keyword">SELECT</span> hp_sum;</span><br><span class="line">       <span class="keyword">DEALLOCATE</span> <span class="keyword">PREPARE</span> cur_hero;</span><br><span class="line"><span class="keyword">END</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-----------------------------------</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> `alter_attack_growth`()</span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">       <span class="comment">-- 创建接收游标的变量</span></span><br><span class="line">       <span class="keyword">DECLARE</span> temp_id <span class="type">INT</span>;  </span><br><span class="line">       <span class="keyword">DECLARE</span> temp_growth, temp_max, temp_start, temp_diff <span class="type">FLOAT</span>;  </span><br><span class="line"> </span><br><span class="line">       <span class="comment">-- 创建结束标志变量  </span></span><br><span class="line">       <span class="keyword">DECLARE</span> done <span class="type">INT</span> <span class="keyword">DEFAULT</span> <span class="literal">false</span>;</span><br><span class="line">       <span class="comment">-- 定义游标     </span></span><br><span class="line">       <span class="keyword">DECLARE</span> cur_hero <span class="keyword">CURSOR</span> <span class="keyword">FOR</span> <span class="keyword">SELECT</span> id, attack_growth, attack_max, attack_start <span class="keyword">FROM</span> heros;</span><br><span class="line">       <span class="comment">-- 指定游标循环结束时的返回值  </span></span><br><span class="line">       <span class="keyword">DECLARE</span> CONTINUE HANDLER <span class="keyword">FOR</span> <span class="keyword">NOT</span> FOUND <span class="keyword">SET</span> done <span class="operator">=</span> <span class="literal">true</span>;  </span><br><span class="line">       </span><br><span class="line">       <span class="keyword">OPEN</span> cur_hero;  </span><br><span class="line">       <span class="keyword">FETCH</span> cur_hero <span class="keyword">INTO</span> temp_id, temp_growth, temp_max, temp_start;</span><br><span class="line">       REPEAT</span><br><span class="line">                     IF <span class="keyword">NOT</span> done <span class="keyword">THEN</span></span><br><span class="line">                            <span class="keyword">SET</span> temp_diff <span class="operator">=</span> temp_max <span class="operator">-</span> temp_start;</span><br><span class="line">                            IF temp_growth <span class="operator">&lt;</span> <span class="number">5</span> <span class="keyword">THEN</span></span><br><span class="line">                                   IF temp_diff <span class="operator">&gt;</span> <span class="number">200</span> <span class="keyword">THEN</span></span><br><span class="line">                                          <span class="keyword">SET</span> temp_growth <span class="operator">=</span> temp_growth <span class="operator">*</span> <span class="number">1.1</span>;</span><br><span class="line">                                   ELSEIF temp_diff <span class="operator">&gt;=</span> <span class="number">150</span> <span class="keyword">AND</span> temp_diff <span class="operator">&lt;=</span><span class="number">200</span> <span class="keyword">THEN</span></span><br><span class="line">                                          <span class="keyword">SET</span> temp_growth <span class="operator">=</span> temp_growth <span class="operator">*</span> <span class="number">1.08</span>;</span><br><span class="line">                                   ELSEIF temp_diff <span class="operator">&lt;</span> <span class="number">150</span> <span class="keyword">THEN</span></span><br><span class="line">                                          <span class="keyword">SET</span> temp_growth <span class="operator">=</span> temp_growth <span class="operator">*</span> <span class="number">1.07</span>;</span><br><span class="line">                                   <span class="keyword">END</span> IF;                       </span><br><span class="line">                            ELSEIF temp_growth <span class="operator">&gt;=</span><span class="number">5</span> <span class="keyword">AND</span> temp_growth <span class="operator">&lt;=</span><span class="number">10</span> <span class="keyword">THEN</span></span><br><span class="line">                                   <span class="keyword">SET</span> temp_growth <span class="operator">=</span> temp_growth <span class="operator">*</span> <span class="number">1.05</span>;</span><br><span class="line">                            <span class="keyword">END</span> IF;</span><br><span class="line">                            <span class="keyword">UPDATE</span> heros <span class="keyword">SET</span> attack_growth <span class="operator">=</span> ROUND(temp_growth,<span class="number">3</span>) <span class="keyword">WHERE</span> id <span class="operator">=</span> temp_id;</span><br><span class="line">                     <span class="keyword">END</span> IF;</span><br><span class="line">       <span class="keyword">FETCH</span> cur_hero <span class="keyword">INTO</span> temp_id, temp_growth, temp_max, temp_start;</span><br><span class="line">       UNTIL done <span class="operator">=</span> <span class="literal">true</span> <span class="keyword">END</span> REPEAT;</span><br><span class="line">       </span><br><span class="line">       <span class="keyword">CLOSE</span> cur_hero;</span><br><span class="line">       <span class="keyword">DEALLOCATE</span> <span class="keyword">PREPARE</span> cur_hero;</span><br><span class="line"><span class="keyword">END</span></span><br><span class="line"><span class="comment">------------------------------------------------</span></span><br><span class="line">有的时候，我们需要找特定数据，用 <span class="keyword">SQL</span> 查询写起来会比较困难，比如两表或多表之间的嵌套循环查找，如果用 <span class="keyword">JOIN</span> 会非常消耗资源，效率也可能不高，而用游标则会比较高效。</span><br><span class="line">虽然在处理某些复杂的数据情况下，使用游标可以更灵活，但同时也会带来一些性能问题，比如在使用游标的过程中，会对数据行进行加锁，这样在业务并发量大的时候，不仅会影响业务之间的效率，还会消耗系统资源，造成内存不足，这是因为游标是在内存中进行的处理。如果有游标的替代方案，我们可以采用替代方案。</span><br></pre></td></tr></table></figure>
+
+<p>存储过程</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> test(<span class="keyword">IN</span> PARAM <span class="type">INT</span>) # <span class="keyword">IN</span> 对应 <span class="keyword">OUT</span> 输入和输出值 也可以<span class="keyword">INOUT</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">	<span class="keyword">DECLARE</span> CNT <span class="type">INT</span> <span class="keyword">DEFAULT</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">INTO</span> CNT <span class="keyword">FROM</span> DF_TABLE;</span><br><span class="line">	<span class="keyword">SELECT</span> CNT;</span><br><span class="line"><span class="comment">------------------------------------------</span></span><br><span class="line">	<span class="keyword">SET</span> <span class="variable">@CNT</span> <span class="operator">=</span> (<span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">INTO</span> CNT <span class="keyword">FROM</span> DF_TABLE);</span><br><span class="line">	<span class="keyword">SELECT</span> <span class="variable">@CNT</span>;</span><br><span class="line"><span class="comment">------------------------------------------</span></span><br><span class="line">	<span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">INTO</span> <span class="variable">@CNT</span> <span class="keyword">FROM</span> DF_TABLE;</span><br><span class="line">	<span class="keyword">SELECT</span> <span class="variable">@CNT</span>;</span><br><span class="line"><span class="comment">------------------------------------------</span></span><br><span class="line">还有多列的情况</span><br><span class="line"><span class="keyword">END</span></span><br><span class="line"># 调用存储过程</span><br><span class="line"><span class="keyword">call</span> test();</span><br></pre></td></tr></table></figure>
+
+<p>视图</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">or</span> replace <span class="keyword">view</span> view1_emp</span><br><span class="line"><span class="keyword">as</span> </span><br><span class="line"><span class="keyword">select</span> ename,job <span class="keyword">from</span> emp; </span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看表和视图 </span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">full</span> tables;</span><br></pre></td></tr></table></figure>
+
+<p>视图就是封装</p>
+<blockquote>
+<p>更新: 2025-03-12 03:34:46<br>原文: <a target="_blank" rel="noopener" href="https://www.yuque.com/malen/mei/cogdlrgq3f974nug">https://www.yuque.com/malen/mei/cogdlrgq3f974nug</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/Mysql%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" data-id="cuid2DU8wlF5v-IO4HIFCSiIt" data-title="Mysql使用教程" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          IO多路复用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/Mysql%E6%9F%A5%E8%AF%A2%E7%94%A8%E4%BE%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Mysql查询用例</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/">Notes</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/">Linux知识</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%91%BD%E4%BB%A4/">Linux命令</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/">Linux工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Linux%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81/">如何监控Linux系统状态</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/">Linux系统基础</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/%E5%AE%B9%E5%99%A8%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF/">容器相关技术</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/">第三方库与框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/">Lua</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">编程基础知识</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/">Mysql</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/">编程工具手册</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/">编程语言应用与工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Go%E8%AF%AD%E8%A8%80/">Go语言</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/">Lua语言</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/">Python语言</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/mei-lun/archives/2025/12/">十二月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mei-lun/archives/2025/03/">三月 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/">关于这个博客笔记网站的建立</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/brpc%E6%A1%86%E6%9E%B6%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%B8%8E%E4%BD%BF%E7%94%A8/">brpc框架的学习与使用</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/Google%EF%BC%8CProtobuff/">Google，Protobuff</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">Git使用教程</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/VScode%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%89%8B%E5%86%8C/">VScode快捷键手册</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 LUN-MEI<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+    <script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?422b9164eef4052a3459283c47afd540";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/mei-lun/" class="mobile-nav-link">Home</a>
+  
+    <a href="/mei-lun/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/mei-lun/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/mei-lun/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/mei-lun/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

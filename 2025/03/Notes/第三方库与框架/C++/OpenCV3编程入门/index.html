@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>OpenCV3编程入门 | My Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="OpenCV包括图像处理和视频处理。 图像的显示：imread(), imshow(), imwrite();">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenCV3编程入门">
+<meta property="og:url" content="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/OpenCV3%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="OpenCV包括图像处理和视频处理。 图像的显示：imread(), imshow(), imwrite();">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-03-12T03:35:54.000Z">
+<meta property="article:modified_time" content="2025-12-08T19:52:55.732Z">
+<meta property="article:author" content="LUN-MEI">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/mei-lun/atom.xml" title="My Blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/mei-lun/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/mei-lun/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/mei-lun/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/mei-lun/" id="logo">My Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/mei-lun/">Home</a>
+        
+          <a class="main-nav-link" href="/mei-lun/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/mei-lun/atom.xml" title="RSS 订阅"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="搜索"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mei-lun.github.io/mei-lun"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Notes/第三方库与框架/C++/OpenCV3编程入门" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/mei-lun/2025/03/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/OpenCV3%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/" class="article-date">
+  <time class="dt-published" datetime="2025-03-12T03:35:54.000Z" itemprop="datePublished">2025-03-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/mei-lun/categories/Notes/">Notes</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/">第三方库与框架</a>►<a class="article-category-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C/">C++</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <!-- <h1 class="p-name article-title" itemprop="headline name">
+      OpenCV3编程入门
+    </h1> -->
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="OpenCV3编程入门"><a href="#OpenCV3编程入门" class="headerlink" title="OpenCV3编程入门"></a>OpenCV3编程入门</h1><p>OpenCV包括图像处理和视频处理。</p>
+<p>图像的显示：imread(), imshow(), imwrite();</p>
+<p>基础的数据结构Mat</p>
+<p>图像的离散型傅里叶变换</p>
+<h3 id="imgproc组件："><a href="#imgproc组件：" class="headerlink" title="imgproc组件："></a>imgproc组件：</h3><h4 id="关于滤波，线性滤波："><a href="#关于滤波，线性滤波：" class="headerlink" title="关于滤波，线性滤波："></a>关于滤波，线性滤波：</h4><p>方框滤波，均值滤波，高斯滤波。</p>
+<h4 id="非线性滤波："><a href="#非线性滤波：" class="headerlink" title="非线性滤波："></a>非线性滤波：</h4><p>中值滤波，双边滤波。</p>
+<h4 id="形态学滤波："><a href="#形态学滤波：" class="headerlink" title="形态学滤波："></a>形态学滤波：</h4><ul>
+<li>腐蚀，膨胀</li>
+<li>开运算，闭运算，形态学梯度，顶帽，黑帽</li>
+</ul>
+<h4 id="漫水填充："><a href="#漫水填充：" class="headerlink" title="漫水填充："></a>漫水填充：</h4><p>floodFill函数</p>
+<h4 id="图像金字塔与图片尺寸缩放"><a href="#图像金字塔与图片尺寸缩放" class="headerlink" title="图像金字塔与图片尺寸缩放"></a>图像金字塔与图片尺寸缩放</h4><p>高斯金字塔， resize函数</p>
+<h4 id="阈值化"><a href="#阈值化" class="headerlink" title="阈值化"></a>阈值化</h4><ul>
+<li>固定阈值操作</li>
+<li>自适应阈值操作</li>
+</ul>
+<h3 id="图像变换"><a href="#图像变换" class="headerlink" title="图像变换"></a>图像变换</h3><h4 id="边缘检测："><a href="#边缘检测：" class="headerlink" title="边缘检测："></a>边缘检测：</h4><ul>
+<li>canny算子</li>
+<li>sobel算子</li>
+<li>Laplacian算子</li>
+<li>scharr滤波</li>
+</ul>
+<h4 id="霍夫变换"><a href="#霍夫变换" class="headerlink" title="霍夫变换"></a>霍夫变换</h4><p>霍夫变换的意义：在许多应用场合中需要快速准确的检测出直线或者圆。霍夫变换是是从图像中识别几何形状的基本方法之一。最基本的霍夫比那换是从黑白图像中检测直线（线段）。</p>
+<p>标准霍夫变换函数：HoughLines() </p>
+<p>累计概率霍夫变换函数：HoughLinesP()</p>
+<h4 id="重映射"><a href="#重映射" class="headerlink" title="重映射"></a>重映射</h4><p>重映射的意义：把图像中的一个位置的像素移动到另外一个位置 remap()函数</p>
+<h4 id="仿射变换"><a href="#仿射变换" class="headerlink" title="仿射变换"></a>仿射变换</h4><p>仿射变换的内涵和意义：本质上是进行线性变换，把一个向量进行一次线性变换并接上一个平移，变换为另一个向量空间</p>
+<h4 id="直方图均衡化"><a href="#直方图均衡化" class="headerlink" title="直方图均衡化"></a>直方图均衡化</h4><p>本质上是使图像更有层次感，通过统计像素值的分布，使其均匀分布到整个色域中。</p>
+<p>直方图均衡化是通过拉伸像素强度分布范围来增强图像对比度的方法。均衡化处理后的图像只能是近似均匀分布，</p>
+<p>equalizeHist()函数</p>
+<h3 id="图像轮廓与图像分割修复"><a href="#图像轮廓与图像分割修复" class="headerlink" title="图像轮廓与图像分割修复"></a>图像轮廓与图像分割修复</h3><h4 id="查找并绘制轮廓"><a href="#查找并绘制轮廓" class="headerlink" title="查找并绘制轮廓"></a>查找并绘制轮廓</h4><p>首先什么是轮廓，就是在一个多边图形中，能够使用一个最小的矩形把所有目标元素框起来</p>
+<p>寻找轮廓：findContours(), 绘制轮廓：drawContours()</p>
+<h4 id="寻找物体的凸包"><a href="#寻找物体的凸包" class="headerlink" title="寻找物体的凸包"></a>寻找物体的凸包</h4><p>凸包就是将图形最外层的点连接起来，构成的凸多边形，能够包含点集中所有的点。</p>
+<p>寻找凸包的函数：convexHull()函数</p>
+<h4 id="使用多边形将轮廓包围"><a href="#使用多边形将轮廓包围" class="headerlink" title="使用多边形将轮廓包围"></a>使用多边形将轮廓包围</h4><p>返回外部矩形边界：boundingRect(), 寻找最小包围矩形：minAreaRect(), 寻找最小包围圆形：minEnclosingCircle(), 用椭圆拟合二维点集：fitEllipse()函数，逼近多边形曲线：approxPolyDP()</p>
+<h4 id="图像的矩"><a href="#图像的矩" class="headerlink" title="图像的矩"></a>图像的矩</h4><p>矩的计算：moments()</p>
+<p>计算轮廓面积：contourArea()</p>
+<p>计算轮廓长度：arcLength()</p>
+<h4 id="分水岭算法"><a href="#分水岭算法" class="headerlink" title="分水岭算法"></a>分水岭算法</h4><p>watershed()函数</p>
+<h4 id="图像的修补"><a href="#图像的修补" class="headerlink" title="图像的修补"></a>图像的修补</h4><p>inpaint()函数</p>
+<h3 id="直方图与匹配"><a href="#直方图与匹配" class="headerlink" title="直方图与匹配"></a>直方图与匹配</h3><p>本节内容包括：</p>
+<ol>
+<li>直方图的计算与绘制</li>
+<li>直方图对比</li>
+<li>反向投影</li>
+<li>模板匹配</li>
+</ol>
+<h3 id="feature2d组件"><a href="#feature2d组件" class="headerlink" title="feature2d组件"></a>feature2d组件</h3><h4 id="角点检测"><a href="#角点检测" class="headerlink" title="角点检测"></a>角点检测</h4><ol>
+<li>Harris角点检测</li>
+<li>Shi-Tomasi角点检测</li>
+<li>亚像素级角点检测</li>
+</ol>
+<h3 id="特征检测与匹配"><a href="#特征检测与匹配" class="headerlink" title="特征检测与匹配"></a>特征检测与匹配</h3><ol>
+<li>SURF特征点检测<ol>
+<li>绘制关键点函数：drawKeypoints()</li>
+</ol>
+</li>
+<li>SURF特征提取<ol>
+<li>drawMatches()绘制匹配点</li>
+</ol>
+</li>
+<li>FLANN特征点匹配<ol>
+<li>找到最佳匹配 DescriptorMatcher::match方法</li>
+</ol>
+</li>
+<li>寻找已知物体<ol>
+<li>寻找透视变换：findHomography()</li>
+<li>进行透视矩阵变换：perspectiveTransform()</li>
+</ol>
+</li>
+<li>ORB特征提取</li>
+</ol>
+<blockquote>
+<p>更新: 2025-03-12 03:35:54<br>原文: <a target="_blank" rel="noopener" href="https://www.yuque.com/malen/mei/ttosqery1ysb4ypp">https://www.yuque.com/malen/mei/ttosqery1ysb4ypp</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mei-lun.github.io/mei-lun/2025/03/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/OpenCV3%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/" data-id="cuidvjG0IqDSCQyB9-MSIAt5h" data-title="OpenCV3编程入门" class="article-share-link"><span class="fa fa-share">分享</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/mei-lun/2025/03/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Linux%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81/sysstat%E5%91%BD%E4%BB%A4/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          sysstat命令
+        
+      </div>
+    </a>
+  
+  
+    <a href="/mei-lun/2025/03/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/Luasocket%E5%BA%93%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">Luasocket库的安装和使用</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/">Notes</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/">Linux知识</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%91%BD%E4%BB%A4/">Linux命令</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/">Linux工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E5%B7%A5%E5%85%B7/%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7Linux%E7%B3%BB%E7%BB%9F%E7%8A%B6%E6%80%81/">如何监控Linux系统状态</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/Linux%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80/">Linux系统基础</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/Linux%E7%9F%A5%E8%AF%86/%E5%AE%B9%E5%99%A8%E7%9B%B8%E5%85%B3%E6%8A%80%E6%9C%AF/">容器相关技术</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/">第三方库与框架</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/Lua/">Lua</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">编程基础知识</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E5%BA%93/Mysql/">Mysql</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/">编程工具手册</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/">编程语言应用与工具</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Go%E8%AF%AD%E8%A8%80/">Go语言</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Lua%E8%AF%AD%E8%A8%80/">Lua语言</a></li><li class="category-list-item"><a class="category-list-link" href="/mei-lun/categories/Notes/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E5%BA%94%E7%94%A8%E4%B8%8E%E5%B7%A5%E5%85%B7/Python%E8%AF%AD%E8%A8%80/">Python语言</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/mei-lun/archives/2025/12/">十二月 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/mei-lun/archives/2025/03/">三月 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E5%85%B3%E4%BA%8E%E8%BF%99%E4%B8%AA%E5%8D%9A%E5%AE%A2%E7%AC%94%E8%AE%B0%E7%BD%91%E7%AB%99%E7%9A%84%E5%BB%BA%E7%AB%8B/">关于这个博客笔记网站的建立</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/brpc%E6%A1%86%E6%9E%B6%E7%9A%84%E5%AD%A6%E4%B9%A0%E4%B8%8E%E4%BD%BF%E7%94%A8/">brpc框架的学习与使用</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/12/Notes/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E4%B8%8E%E6%A1%86%E6%9E%B6/C++/Google%EF%BC%8CProtobuff/">Google，Protobuff</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/Git%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">Git使用教程</a>
+          </li>
+        
+          <li>
+            <a href="/mei-lun/2025/03/Notes/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7%E6%89%8B%E5%86%8C/VScode%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%89%8B%E5%86%8C/">VScode快捷键手册</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 LUN-MEI<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+    <script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?422b9164eef4052a3459283c47afd540";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/mei-lun/" class="mobile-nav-link">Home</a>
+  
+    <a href="/mei-lun/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/mei-lun/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/mei-lun/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/mei-lun/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
